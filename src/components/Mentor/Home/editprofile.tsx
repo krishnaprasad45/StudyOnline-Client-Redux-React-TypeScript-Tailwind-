@@ -7,7 +7,13 @@ import { ProfileInterface } from "../../../Interfaces/mentorInterfaces";
 import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
 import MentorApis from "../../../Constraints/apis/MentorApis";
 
-function Profile() {
+
+interface EditProfileProps {
+  onEdit: () => void;
+}
+
+
+function Profile({ onEdit }: EditProfileProps) {
   const navigate = useNavigate();
 
   const [data, setData] = useState<ProfileInterface>();
@@ -98,9 +104,7 @@ function Profile() {
 
               <div className="profile-card-ctr">
                 <button
-                  onClick={() => {
-                    navigate("/mentor/profile-update");
-                  }}
+                 onClick={onEdit}
                   className="profile-card__button button--blue js-message-btn"
                 >
                   EDIT

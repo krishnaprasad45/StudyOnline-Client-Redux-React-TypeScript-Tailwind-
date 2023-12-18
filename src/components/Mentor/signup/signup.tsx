@@ -24,6 +24,7 @@ function Signup() {
       const image = imageFileList[0];
       setImage(image);
       setViewImage(URL.createObjectURL(image));
+    
     }
   };
   const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {

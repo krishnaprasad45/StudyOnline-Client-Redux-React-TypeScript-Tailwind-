@@ -17,7 +17,7 @@ const  SignupSchema = yup.object().shape({
     .required("Confirm password is required.")
     .oneOf([yup.ref("password")], "Passwords must match."),
     image: yup
-    .mixed()
+    .object()
     .required("Profile picture is required")
     
    

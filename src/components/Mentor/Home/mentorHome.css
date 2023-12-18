@@ -1,11 +1,11 @@
-.buttonStyle2 {
+.buttonStyle {
   background-color: rgb(255, 255, 255);
   color: bg-gray-300;
   border: 1px solid rgb(255, 255, 255);
 
 }
 
-.buttonStyle2:hover {
-  background-color: rgb(0, 45, 116);
+.buttonStyle:hover {
+  background-color:#4C3869;
   color: rgb(255, 255, 255);
 }

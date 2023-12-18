@@ -70,7 +70,7 @@ function Login() {
     <section className="bg-gray-50 min-h-screen flex items-center justify-center">
       <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">
         <div className="md:w-1/2 px-8 md:px-16">
-          <h2 className="font-bold text-2xl text-[#002D74]">Mentor Login</h2>
+          <h2 className="font-bold text-2xl text-[#38241a]">Mentor Login</h2>
           <ToastContainer />
           <p className="text-xs mt-4 text-[#002D74]">
             If you are already a member, easily log in
@@ -107,7 +107,7 @@ function Login() {
                 <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
               </svg>
             </div>
-            <button className="bg-[#002D74] rounded-xl text-white py-2 hover:scale-105 duration-300">
+            <button className="bg-[#593E31] rounded-xl text-white py-2 hover:scale-105 duration-300">
               Login
             </button>
             {/* <button className="bg-[#1c57b4] rounded-xl text-white py-2 hover:scale-105 duration-300">
@@ -119,10 +119,11 @@ function Login() {
             <p>Don't have an account?</p>
           </div>
 
-          <div className="mt-3 text-xs flex justify-between items-center text-[#002D74]">
+          <div className="mt-3 text-xs flex justify-between items-center text-[#ffffff]">
             <button
               className="py-2 px-5 border rounded-xl hover:scale-110 duration-300"
-              style={{ backgroundColor: "skyblue" }}
+              style={{ backgroundColor: "#4C3869" }}
+
               onClick={() => {
                 navigate(MentorApis.signup);
               }}

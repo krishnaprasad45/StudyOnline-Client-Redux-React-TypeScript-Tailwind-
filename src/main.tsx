@@ -5,6 +5,11 @@ import "./index.css";
 import store from "./services/redux/store/store";
 import { Provider } from "react-redux";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import * as process from 'process';
+
+window.global = window;
+window.process = process;
+
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
