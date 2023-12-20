@@ -1,7 +1,7 @@
 import Home from '../../components/Mentor/Home/home'
   
 
-function HomePage() {
+function MentorHomePage() {
   return (
     <div>
         <Home/>
@@ -9,4 +9,4 @@ function HomePage() {
   )
 }
 
-export default HomePage
+export default MentorHomePage

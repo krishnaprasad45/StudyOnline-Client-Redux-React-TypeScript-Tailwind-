@@ -1,7 +1,7 @@
   
 import ProfileUpdate from '../../components/Mentor/profileUpdate/profileUpdate'
 
-function profileUpdate() {
+function MentorProfileUpdate() {
   return (
     <div>
         <ProfileUpdate/>
@@ -9,4 +9,4 @@ function profileUpdate() {
   )
 }
 
-export default profileUpdate
+export default MentorProfileUpdate

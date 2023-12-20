@@ -1,7 +1,7 @@
 import Login from '../../components/User/login/login'
   
 
-function LoginPage() {
+function UserLoginPage() {
   return (
     <div>
         <Login/>
@@ -9,4 +9,4 @@ function LoginPage() {
   )
 }
 
-export default LoginPage
+export default UserLoginPage

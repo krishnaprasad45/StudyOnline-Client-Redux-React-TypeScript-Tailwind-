@@ -1,7 +1,7 @@
   
 import Profile from '../../components/User/profile/profile'
 
-function profilePage() {
+function UserProfilePage() {
   return (
     <div>
         <Profile/>
@@ -9,4 +9,4 @@ function profilePage() {
   )
 }
 
-export default profilePage
+export default UserProfilePage

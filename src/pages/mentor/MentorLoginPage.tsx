@@ -1,7 +1,7 @@
 import Login from '../../components/Mentor/login/login'
   
 
-function LoginPage() {
+function MentorLoginPage() {
   return (
     <div>
         <Login/>
@@ -9,4 +9,4 @@ function LoginPage() {
   )
 }
 
-export default LoginPage
+export default MentorLoginPage

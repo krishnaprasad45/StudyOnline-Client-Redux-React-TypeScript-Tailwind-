@@ -1,11 +1,13 @@
+/* Your other styles */
+
 .buttonStyle {
   background-color: rgb(255, 255, 255);
   color: bg-gray-300;
   border: 1px solid rgb(255, 255, 255);
-
+  text-align: center; /* Add this line to center the text */
 }
 
 .buttonStyle:hover {
-  background-color:#4C3869;
+  background-color: #4C3869;
   color: rgb(255, 255, 255);
 }

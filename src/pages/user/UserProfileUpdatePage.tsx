@@ -2,7 +2,7 @@
 
 import Profile from '../../components/User/profileUpdate/profileUpdate'
 
-function profileUpdate() {
+function UserProfileUpdatePage() {
   return (
     <div>
         <Profile/>
@@ -10,4 +10,4 @@ function profileUpdate() {
   )
 }
 
-export default profileUpdate
+export default UserProfileUpdatePage

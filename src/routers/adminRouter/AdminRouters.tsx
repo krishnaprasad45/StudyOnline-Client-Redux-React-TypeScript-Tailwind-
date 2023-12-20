@@ -1,7 +1,11 @@
   
 import {Routes,Route} from 'react-router-dom'
-import adminLoginPage from '../../pages/admin/login';
-import adminHomePage from '../../pages/admin/home';
+import AdminLoginPage from '../../pages/admin/AdminLoginPage';
+import AdminHomePage from '../../pages/admin/AdminHomePage';
+import AdminMentorManagementPage from '../../pages/admin/AdminMentorManagementPage';
+import AdminUserManagementPage from '../../pages/admin/AdminUserManagementPage';
+import AdminStatisticsPage from '../../pages/admin/AdminStatisticsPage';
+import AdminSalesReportPage from '../../pages/admin/AdminSalesReportPage';
 
 
 
@@ -12,8 +16,13 @@ const AdminRouters:React.FC = ()=> {
     <Routes>
      
         
-       <Route Component={adminLoginPage} path='/login' />
-       <Route Component={adminHomePage} path='/dashboard' />
+       <Route Component={AdminLoginPage} path='/login' />
+       <Route Component={AdminHomePage} path='/dashboard' />
+       <Route Component={AdminHomePage} path='/statistics' />
+       <Route Component={AdminMentorManagementPage} path='/mentor-management' />
+       <Route Component={AdminUserManagementPage} path='/user-management' />
+       <Route Component={AdminSalesReportPage} path='/sales-report' />
+       <Route Component={AdminStatisticsPage} path='/statitics' />
      
     </Routes>
   )

@@ -2,7 +2,7 @@
 import Signup from '../../components/Mentor/signup/signup'
 
 
-function signupPage() {
+function MentorSignupPage() {
   return (
     <div>
         <Signup/>
@@ -10,4 +10,4 @@ function signupPage() {
   )
 }
 
-export default signupPage
+export default MentorSignupPage

@@ -1,10 +1,10 @@
   
 import {Routes,Route} from 'react-router-dom'
-import signupPage from '../../pages/user/signup';
-import Home from '../../pages/user/home';
-import profilePage from '../../pages/user/profile';
-import LoginPage from '../../pages/user/login';
-import profileUpdate from '../../pages/user/profileUpdate';
+import signupPage from '../../pages/user/UserSignupPage';
+import Home from '../../pages/user/UserHomePage';
+import profilePage from '../../pages/user/UserProfilePage';
+import LoginPage from '../../pages/user/UserLoginPage';
+import profileUpdate from '../../pages/user/UserProfileUpdatePage';
 
 const  UserRouters: React.FC=()=> {
   return (
