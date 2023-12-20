@@ -9,6 +9,7 @@ export interface SignupInterface {
     image:string
 }
 export interface ProfileInterface {
+    id?:string,
     firstname:string,
     lastname:string,
     email:string,

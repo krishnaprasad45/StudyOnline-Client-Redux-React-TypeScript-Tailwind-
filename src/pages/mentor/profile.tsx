@@ -3,8 +3,11 @@ import Profile from '../../components/Mentor/profile/profile'
 
 function profilePage() {
   return (
-    <div>
+    <div  >
+     
         <Profile/>
+
+        
     </div>
   )
 }
