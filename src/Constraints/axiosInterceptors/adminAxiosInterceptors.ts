@@ -1,7 +1,5 @@
 import axios from "axios";
-
 const authURL = import.meta.env.VITE_APIURL;
-
 export const adminAxios = axios.create({
     baseURL: authURL,
     headers: {
@@ -11,7 +9,6 @@ export const adminAxios = axios.create({
 
 adminAxios.interceptors.request.use((config) => {
     const token = localStorage.getItem('token');
-    console.log("admintoken",token)
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }

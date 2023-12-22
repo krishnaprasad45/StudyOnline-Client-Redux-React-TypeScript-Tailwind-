@@ -1,15 +1,14 @@
-import AdminHome from "../../components/admin/home/AdminHome"
-import Statistics from "../../components/admin/home/Statistics"
-
-  
+import AdminHome from "../../components/admin/home/AdminHome";
+import Statistics from "../../components/admin/home/Statistics";
 
 function AdminHomePage() {
   return (
-    <div>
-        <AdminHome/>
-        <Statistics/>
+    <div >
+     
+      <AdminHome />
+      <Statistics />
     </div>
-  )
+  );
 }
 
-export default AdminHomePage
+export default AdminHomePage;

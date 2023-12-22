@@ -8,8 +8,8 @@ export interface SignupInterface {
     confirm_password:string,
     image:string
 }
-export interface ProfileInterface {
-    id?:string,
+export default interface ProfileInterface {
+    _id?:string | undefined,
     firstname:string,
     lastname:string,
     email:string,
@@ -18,5 +18,6 @@ export interface ProfileInterface {
     image:string,
     aadhar_image:string,
     experience_image:string,
-    date:string
+    date:string,
+    isBlock:boolean
 }

@@ -9,3 +9,13 @@
 	background-color:#06000e;
 	color: rgb(255, 255, 255);
   }
+  .blocked {
+	color: red;
+	
+  }
+  
+  .unblocked {
+	color: green;
+	
+  }
+  

@@ -8,12 +8,14 @@ export interface userSignup {
     image:string
 }
 export interface userProfile {
+    _id?:string | undefined
     firstname:string,
     lastname:string,
     email:string,
     mobile:string,
     password:string,
-    image:string
+    image:string,
+    isBlock:boolean
 }
 export interface userProfileUpdate {
     firstname:string,

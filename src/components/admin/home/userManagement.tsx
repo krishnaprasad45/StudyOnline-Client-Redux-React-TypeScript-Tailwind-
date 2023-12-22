@@ -1,26 +1,43 @@
 import { useEffect, useState } from "react";
 import { adminAxios } from "../../../Constraints/axiosInterceptors/adminAxiosInterceptors";
 import AdminApis from "../../../Constraints/apis/AdminApis";
-import { ProfileInterface } from "../../../Interfaces/mentorInterfaces";
+import { userProfile } from "../../../Interfaces/userInterfaces";
+
 
 function MentorManagement() {
-  const [mentors, setMentors] = useState<ProfileInterface[]>([]);
+  const [users, setUsers] = useState<userProfile[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [blockedStatus, setBlockedStatus] = useState(false);
+  
   useEffect(() => {
     adminAxios.get(AdminApis.getUsersList).then((response) => {
-      console.log("response.data..", response.data);
-      setMentors(response.data);
+      console.log("response.data..chk", response.data);
+      setUsers(response.data);
     });
-  }, []);
+  }, [blockedStatus]);
+  
+  const handleBlock = async (id: string | undefined) => {
+    try {
+      const response = await adminAxios.patch(
+        `${AdminApis.blockUser}?id=${id}`
+      );
+      const userData: userProfile = response.data; 
+      console.log("userblock**", userData);
 
-  const filteredUsers = mentors.filter(
-    (mentor) =>
-      mentor.firstname &&
-      mentor.firstname.toLowerCase().includes(searchTerm.toLowerCase())
+      setBlockedStatus(!blockedStatus); 
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const filteredUsers = users.filter(
+    (user) =>
+      user.firstname &&
+      user.firstname.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <div className="overflow-x-auto">
+    <div className="ml-60">
       {/* Navbar */}
       <div className="bg-gray-200 p-4">
         <div className="flex justify-between">
@@ -48,33 +65,48 @@ function MentorManagement() {
                   <th className="py-3 px-6 text-left">Name</th>
                   <th className="py-3 px-6 text-left">Email</th>
                   <th className="py-3 px-6 text-center">Mobile</th>
+                  <th className="py-3 px-6 text-center">Action</th>
                 </tr>
               </thead>
               <tbody className="text-gray-600 text-sm font-light">
-                {filteredUsers.map((mentors) => (
+                {filteredUsers.map((user) => (
                   <tr
-                    key={mentors.id}
+                    key={user._id}
                     className="border-b border-gray-200 bg-gray-50 hover:bg-gray-100"
                   >
                     <td className="py-3 px-6 text-left">
                       <div className="flex items-center">
                         <div className="mr-2"></div>
                         <span className="font-medium">
-                          {mentors.firstname} {mentors.lastname}
+                          {user.firstname} {user.lastname}
                         </span>
                       </div>
                     </td>
                     <td className="py-3 px-6 text-left">
                       <div className="flex items-center">
                         <div className="mr-2"></div>
-                        <span>{mentors.email}</span>
+                        <span>{user.email }</span>
                       </div>
                     </td>
                     <td className="py-3 px-6 text-center">
                       <div className="flex items-center justify-center">
-                        <span className="font-medium">{mentors.mobile}</span>
+                        <span className="font-medium">{user.mobile}</span>
                       </div>
                     </td>
+                    <td className="py-3 px-6 text-center">
+                      <div className="flex items-center justify-center">
+                        <span className="font-medium">
+                          
+                          <button
+                           onClick={()=>handleBlock(user._id)}
+                          
+                          >
+                           {user.isBlock? <p className="unblocked">Unblock</p> : <p className="blocked">Block</p>}
+                          </button>
+                      </span>
+                      </div>
+                    </td>
+                  
                   </tr>
                 ))}
               </tbody>
