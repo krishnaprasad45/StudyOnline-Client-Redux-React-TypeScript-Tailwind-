@@ -15,7 +15,7 @@ const Homepage = () => {
         </Link>
 
         <Link
-          className="mb-12 p-2 rounded adminbuttonStyle"
+          className="mb-12 p-2 rounded buttonStyle"
           to="/mentor/assignments"
         >
           <button>Assignments</button>

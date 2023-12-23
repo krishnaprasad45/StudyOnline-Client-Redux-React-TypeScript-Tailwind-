@@ -4,7 +4,7 @@ import AdminApis from "../../../Constraints/apis/AdminApis";
 import { userProfile } from "../../../Interfaces/userInterfaces";
 
 
-function MentorManagement() {
+function UserManagement() {
   const [users, setUsers] = useState<userProfile[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [blockedStatus, setBlockedStatus] = useState(false);
@@ -118,4 +118,4 @@ function MentorManagement() {
   );
 }
 
-export default MentorManagement;
+export default UserManagement;
