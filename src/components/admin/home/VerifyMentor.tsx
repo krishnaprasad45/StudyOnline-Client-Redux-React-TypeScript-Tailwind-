@@ -3,16 +3,10 @@ import { adminAxios } from "../../../Constraints/axiosInterceptors/adminAxiosInt
 import AdminApis from "../../../Constraints/apis/AdminApis";
 import  mentorProfile  from "../../../Interfaces/mentorInterfaces";
 import { FaEye } from "react-icons/fa";
-import { MdVerified } from "react-icons/md";
-import { FaClockRotateLeft } from "react-icons/fa6";
-
-// import { IoCloseCircle } from "react-icons/io5";
-// <IoCloseCircle style={{ color: 'red', fontSize: '2em' }}/>
 
 
 
-
-function MentorManagement() {
+function VerifyMentor() {
   const [mentors, setMentors] = useState<mentorProfile[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [blockedStatus, setBlockedStatus] = useState(false);
@@ -72,7 +66,6 @@ function MentorManagement() {
                   <th className="py-3 px-6 text-left">Email</th>
                   <th className="py-3 px-6 text-center">Mobile</th>
                   <th className="py-3 px-6 text-center">Action</th>
-                  <th className="py-3 px-6 text-center">Verification</th>
                   <th className="py-3 px-6 text-center">View</th>
                 </tr>
               </thead>
@@ -113,21 +106,13 @@ function MentorManagement() {
                       </span>
                       </div>
                     </td>
-                    <td className="py-3 px-6 text-center">
-                      <div className="flex items-center justify-center">
-                      
-                          {mentor.isBlock?   <MdVerified style={{ color: 'blue', fontSize: '2em' }} /> : <FaClockRotateLeft style={{ color: 'orange',fontSize: '1.5em' }} /> }
-                          
-                     
-                      </div>
-                    </td>
                   
                     <td className="py-3 px-6 text-center">
                       <div className="flex items-center justify-center">
                         <span className="font-medium">
                           {
                            <button >
-                           <FaEye  style={{ color: 'grey', fontSize: '1.5em' }} />
+                           <FaEye />
                          </button>
                         
                           }
@@ -145,4 +130,4 @@ function MentorManagement() {
   );
 }
 
-export default MentorManagement;
+export default VerifyMentor;

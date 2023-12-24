@@ -1,5 +1,5 @@
   
-import Home from '../../components/Mentor/Home/home'
+import Home from '../../components/Mentor/Home/mentorHome'
 import Profile from '../../components/Mentor/profile/profile'
 
 function MentorProfilePage() {

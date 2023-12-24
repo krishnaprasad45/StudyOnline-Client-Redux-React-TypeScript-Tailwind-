@@ -1,4 +1,4 @@
-import Homepage from "../../components/Mentor/Home/home"
+import Homepage from "../../components/Mentor/Home/mentorHome"
 import Assignment from '../../components/Mentor/Home/assignments';
 
 

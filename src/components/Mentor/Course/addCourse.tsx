@@ -10,7 +10,7 @@ import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosI
 import MentorApis from "../../../Constraints/apis/MentorApis";
 import uploadFile from "../../../services/cloudinary/uploadCourseFile";
 
-const MyCourse: React.FC = () => {
+const AddCourse: React.FC = () => {
   const [bannerImage, setBannerImage] = useState<File>();
   const [introVideo, setIntroVideo] = useState<File>();
   const [previewBanner, setPreviewBanner] = useState<string>();
@@ -43,7 +43,7 @@ const MyCourse: React.FC = () => {
         if (response.status === 201) {
           showSuccessToast("Account Created");
           setTimeout(() => {
-            navigate("/mentor/login");
+            navigate('mentor/list-allcourses');
           }, 2300);
         } else {
           showErrorToast(response?.data?.message);
@@ -55,14 +55,14 @@ const MyCourse: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#2233] h-screen">
+    <div className="bg-[#2233] ">
       <Formik
         initialValues={initialValues}
         onSubmit={handleSubmit}
         validationSchema={courseAddSchema}
       >
-        <Form className="max-w-sm mx-auto">
-          <h1 className="text-xl mb-5 ">Add Course</h1>
+        <Form className="max-w-sm mx-auto ">
+          <h1 className="text-xl mb-5">Add Course</h1>
           <div>
             <label htmlFor="title">Course Title:</label>
             <Field
@@ -190,14 +190,18 @@ const MyCourse: React.FC = () => {
             )}
             <ErrorMessage name="introvideo" component="div" className="error" />
           </div>
-
-          <button type="submit" className="success">
-            Submit
-          </button>
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              className="bg-green-500 text-white py-2 px-4 rounded mt-4 mb-4"
+            >
+              Submit
+            </button>
+          </div>
         </Form>
       </Formik>
     </div>
   );
 };
 
-export default MyCourse;
+export default AddCourse;
