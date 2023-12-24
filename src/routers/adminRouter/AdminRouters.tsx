@@ -6,7 +6,7 @@ import AdminMentorManagementPage from '../../pages/admin/AdminMentorManagementPa
 import AdminUserManagementPage from '../../pages/admin/AdminUserManagementPage';
 import AdminStatisticsPage from '../../pages/admin/AdminStatisticsPage';
 import AdminSalesReportPage from '../../pages/admin/AdminSalesReportPage';
-import AdminVerifyMentorPage from '../../pages/admin/AdminVerifyMentorPage';
+import AdminMentorDetailsPage from '../../pages/admin/AdminMentorDetailsPage';
 
 
 
@@ -24,7 +24,7 @@ const AdminRouters:React.FC = ()=> {
        <Route Component={AdminUserManagementPage} path='/user-management' />
        <Route Component={AdminSalesReportPage} path='/sales-report' />
        <Route Component={AdminStatisticsPage} path='/statitics' />
-       <Route Component={AdminVerifyMentorPage} path='/verify-mentor' />
+       <Route Component={AdminMentorDetailsPage} path='/mentor-details' />
      
     </Routes>
   )

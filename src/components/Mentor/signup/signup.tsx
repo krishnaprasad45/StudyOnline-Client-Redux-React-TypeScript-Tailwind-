@@ -8,25 +8,17 @@ import { showErrorToast, showSuccessToast } from "../../../services/popups/popup
 import { ToastContainer } from "react-toastify";
 import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
 import MentorApis from "../../../Constraints/apis/MentorApis";
-
+import uploadImage from "../../../services/cloudinary/cutomeImageUpload";
 function Signup() {
 
-  const [image, setImage] = useState<File | string>('');
-  const [viewImage, setViewImage] = useState<string>('');
+  const [image, setImage] = useState<File>();
+  const [viewImage, setViewImage] = useState<string>();
   const signup = useSelector((state: RootState) => state.MentorSignup);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const imageFileList = e.target.files;
-  
-    if (imageFileList && imageFileList.length > 0) {
-      const image = imageFileList[0];
-      setImage(image);
-      setViewImage(URL.createObjectURL(image));
-    
-    }
-  };
+ 
+ 
   const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     dispatch(MentorSignupAction(e.target.name, e.target.value));
   };
@@ -42,7 +34,7 @@ function Signup() {
       formData.append("mobile", signup.mobile);
       formData.append("password", signup.password);
       formData.append("confirm_password", signup.confirm_password);
-      if(image) formData.append("image", image);
+      if(viewImage) formData.append("image", viewImage);
       const response = await mentorAxios.post(MentorApis.signup_post, formData);
       if (response.status === 201) {
         showSuccessToast("Account Created");
@@ -203,7 +195,15 @@ function Signup() {
                   name="image"
                   id="fileInput"
                   required
-                  onChange={handleImageChange}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    const imageFileList = e.target.files;
+                    if (imageFileList && imageFileList.length > 0) {
+                      const image = imageFileList[0];
+                      const foldername = 'Mentor Image'
+                      setImage(image);
+                      uploadImage(image,foldername).then((url) => setViewImage(url));
+                    }
+                  }}
                   style={{ display: "none" }}
                 />
               </div>

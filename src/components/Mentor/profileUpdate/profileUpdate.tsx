@@ -4,31 +4,33 @@ import "./profile.css";
 import { RootState } from "../../../Interfaces/common";
 import { useNavigate } from "react-router-dom";
 import { MentorUpdateAction } from "../../../services/redux/action/mentorUpdate";
-import { showErrorToast, showSuccessToast } from "../../../services/popups/popups";
+import {
+  showErrorToast,
+  showSuccessToast,
+} from "../../../services/popups/popups";
 import { ToastContainer } from "react-toastify";
 import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
 import MentorApis from "../../../Constraints/apis/MentorApis";
+import uploadImage from "../../../services/cloudinary/cutomeImageUpload";
 
 function Profile() {
-  
   const mentor = useSelector((state: RootState) => state.MentorUpdate);
   const APIURL = useSelector((state: RootState) => state.APIURL.url);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [selectedImage1, setSelectedImage1] = useState<File>();
-  const [previewImage1, setPreviewImage1] = useState<string>();
-  const [selectedImage2, setSelectedImage2] = useState<File>();
-  const [previewImage2, setPreviewImage2] = useState<string>();
-  const [selectedImage3, setSelectedImage3] = useState<File>();
-  const [previewImage3, setPreviewImage3] = useState<string>();
- 
+  const [mentorImage, setMentorImage] = useState<File>();
+  const [previewMentorImage, setPreviewMentorImage] = useState<string>();
+  const [adhaarImage, setAdhaarImage] = useState<File>();
+  const [previewAdhaarImage, setPreviewAdhaarImage] = useState<string>();
+  const [experienceImage, setExperienceImage] = useState<File>();
+  const [previewExperienceImage, setPreviewExperienceImage] = useState<string>();
+
   useEffect(() => {
     const mentorEmail = localStorage.getItem("mentorEmail");
-    console.log("mentorProfileUpdate");
-    console.log("mentorEmail...", mentorEmail);
-  mentorAxios
+    
+    mentorAxios
       .get(MentorApis.profile, {
-        params: { email: mentorEmail }
+        params: { email: mentorEmail },
       })
       .then((response) => {
         dispatch(MentorUpdateAction("firstname", response.data.firstname));
@@ -36,42 +38,19 @@ function Profile() {
         dispatch(MentorUpdateAction("email", response.data.email));
         dispatch(MentorUpdateAction("mobile", response.data.mobile));
         dispatch(MentorUpdateAction("image", response.data.image));
-        dispatch(MentorUpdateAction("aadhar_image", response.data.aadhar_image));
-        dispatch(MentorUpdateAction("experience_image", response.data.experience_image));
+        dispatch(
+          MentorUpdateAction("aadhar_image", response.data.aadhar_image)
+        );
+        dispatch(
+          MentorUpdateAction("experience_image", response.data.experience_image)
+        );
       })
       .catch((error) => {
         alert(error.response.data.message);
       });
   }, [APIURL, dispatch]);
 
-  const handleImageChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const imageFileList = e.target.files;
-
-    if (imageFileList && imageFileList.length > 0) {
-      const image = imageFileList[0];
-      setSelectedImage1(image);
-      setPreviewImage1(URL.createObjectURL(image));
-    }
-  };
-  const handleImageChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const imageFileList = e.target.files;
-
-    if (imageFileList && imageFileList.length > 0) {
-      const image = imageFileList[0];
-      setSelectedImage2(image);
-      setPreviewImage2(URL.createObjectURL(image));
-    }
-  };
-  const handleImageChange3 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const imageFileList = e.target.files;
-
-    if (imageFileList && imageFileList.length > 0) {
-      const image = imageFileList[0];
-
-      setSelectedImage3(image);
-      setPreviewImage3(URL.createObjectURL(image));
-    }
-  };
+ 
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(MentorUpdateAction(e.target.name, e.target.value));
@@ -80,11 +59,10 @@ function Profile() {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
-    
       const formData = new FormData();
-      if (selectedImage1)formData.append("images[]", selectedImage1);
-      if(selectedImage2)formData.append("images[]", selectedImage2);
-      if(selectedImage3) formData.append("images[]", selectedImage3);
+      if (previewMentorImage) formData.append("images[]", previewMentorImage);
+      if (previewAdhaarImage) formData.append("images[]", previewAdhaarImage);
+      if (previewExperienceImage) formData.append("images[]", previewExperienceImage);
 
       if (mentor) {
         formData.append("firstname", mentor.firstname);
@@ -94,12 +72,11 @@ function Profile() {
       }
 
       const oldEmail = localStorage.getItem("mentorEmail");
-    
+
       const response = await mentorAxios.patch(
         MentorApis.profile_update,
         formData,
         {
-       
           params: { mentorEmail: oldEmail },
         }
       );
@@ -108,7 +85,6 @@ function Profile() {
         setTimeout(() => {
           navigate(MentorApis.profile);
         }, 2300);
-       
       } else {
         showErrorToast("Update failed");
         alert(response.data.message);
@@ -136,7 +112,7 @@ function Profile() {
               <div className="flex flex-row items-center justify-center lg:justify-start">
                 <p className="mb-0 mr-4 text-lg">
                   <strong>Update Mentor Details</strong>
-                  <ToastContainer/>
+                  <ToastContainer />
                 </p>
               </div>
 
@@ -154,14 +130,11 @@ function Profile() {
                     required
                     value={mentor.firstname}
                     onChange={onChange}
-                   
                   />
                   <label
                     htmlFor="exampleFormControlInput2"
                     className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                  >
-                 
-                  </label>
+                  ></label>
                 </div>
                 <div className="relative mb-6" data-te-input-wrapper-init>
                   <input
@@ -176,9 +149,7 @@ function Profile() {
                   <label
                     htmlFor="exampleFormControlInput2"
                     className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                  >
-                   
-                  </label>
+                  ></label>
                 </div>
               </div>
 
@@ -196,9 +167,7 @@ function Profile() {
                   <label
                     htmlFor="exampleFormControlInput2"
                     className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                  >
-                   
-                  </label>
+                  ></label>
                 </div>
                 <div className="relative mb-6" data-te-input-wrapper-init>
                   <input
@@ -213,15 +182,13 @@ function Profile() {
                   <label
                     htmlFor="exampleFormControlInput22"
                     className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                  >
-                  
-                  </label>
+                  ></label>
                 </div>
               </div>
 
               <div className="image-selection">
                 <label htmlFor="fileInput" className="custom-file-upload">
-                  {mentor.image || previewImage1
+                  {mentorImage || previewMentorImage
                     ? "\u00a0  \u00a0  Choose another profile photo"
                     : "Select a profile Photo"}
                 </label>
@@ -230,19 +197,27 @@ function Profile() {
                   type="file"
                   name="images[]"
                   id="fileInput"
-                  onChange={handleImageChange1}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    const imageFileList = e.target.files;
+                    if (imageFileList && imageFileList.length > 0) {
+                      const image = imageFileList[0];
+                      const foldername = 'Mentor Image'
+                      setMentorImage(image);
+                      uploadImage(image,foldername).then((url) => setPreviewMentorImage(url));
+                    }
+                  }}
                   style={{ display: "none" }}
                 />
               </div>
               <div>
-                {previewImage1 ? (
+                {previewMentorImage ? (
                   <img
                     style={{
                       width: "auto",
                       height: "50px",
                       margin: "5px 0 15px 0",
                     }}
-                    src={previewImage1}
+                    src={previewMentorImage}
                     alt="profile-image"
                     className="profile-image"
                   />
@@ -275,7 +250,7 @@ function Profile() {
 
               <div className="image-selection">
                 <label htmlFor="fileInput2" className="custom-file-upload">
-                  {mentor?.aadhar_image || previewImage2
+                  {adhaarImage || previewAdhaarImage
                     ? "\u00a0  \u00a0  Choose another aadhar photo"
                     : "Select a aadhar Photo"}
                 </label>
@@ -284,19 +259,27 @@ function Profile() {
                   type="file"
                   name="images[]"
                   id="fileInput2"
-                  onChange={handleImageChange2}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    const imageFileList = e.target.files;
+                    if (imageFileList && imageFileList.length > 0) {
+                      const image = imageFileList[0];
+                      const foldername = 'Mentor Adhaar Image'
+                      setAdhaarImage(image);
+                      uploadImage(image,foldername).then((url) => setPreviewAdhaarImage(url));
+                    }
+                  }}
                   style={{ display: "none" }}
                 />
               </div>
               <div>
-                {previewImage2 ? (
+                {previewAdhaarImage ? (
                   <img
                     style={{
                       width: "auto",
                       height: "50px",
                       margin: "5px 0 15px 0",
                     }}
-                    src={previewImage2}
+                    src={previewAdhaarImage}
                     alt="aadhar-image"
                     className="profile-image"
                   />
@@ -329,7 +312,7 @@ function Profile() {
 
               <div className="image-selection">
                 <label htmlFor="fileInput3" className="custom-file-upload">
-                  {mentor?.experience_image || previewImage3
+                  {experienceImage || previewExperienceImage
                     ? "\u00a0  \u00a0  Choose another experience photo"
                     : "Select a experience_image"}
                 </label>
@@ -338,19 +321,27 @@ function Profile() {
                   type="file"
                   name="images[]"
                   id="fileInput3"
-                  onChange={handleImageChange3}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    const imageFileList = e.target.files;
+                    if (imageFileList && imageFileList.length > 0) {
+                      const image = imageFileList[0];
+                      const foldername = 'Mentor Exerience Image'
+                      setExperienceImage(image);
+                      uploadImage(image,foldername).then((url) => setPreviewExperienceImage(url));
+                    }
+                  }}
                   style={{ display: "none" }}
                 />
               </div>
               <div>
-                {previewImage3 ? (
+                {previewExperienceImage ? (
                   <img
                     style={{
                       width: "auto",
                       height: "50px",
                       margin: "5px 0 15px 0",
                     }}
-                    src={previewImage3}
+                    src={previewExperienceImage}
                     alt="experience_image"
                     className="profile-image"
                   />

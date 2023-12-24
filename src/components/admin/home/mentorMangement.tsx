@@ -5,6 +5,8 @@ import  mentorProfile  from "../../../Interfaces/mentorInterfaces";
 import { FaEye } from "react-icons/fa";
 import { MdVerified } from "react-icons/md";
 import { FaClockRotateLeft } from "react-icons/fa6";
+import { useNavigate   } from "react-router-dom";
+
 
 // import { IoCloseCircle } from "react-icons/io5";
 // <IoCloseCircle style={{ color: 'red', fontSize: '2em' }}/>
@@ -14,14 +16,25 @@ import { FaClockRotateLeft } from "react-icons/fa6";
 
 function MentorManagement() {
   const [mentors, setMentors] = useState<mentorProfile[]>([]);
+  
   const [searchTerm, setSearchTerm] = useState("");
   const [blockedStatus, setBlockedStatus] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
     adminAxios.get(AdminApis.getMentorsList).then((response) => {
       console.log("response.data..", response.data);
       setMentors(response.data);
     });
   }, [blockedStatus]);
+
+
+  const handleMentorDetails = (mentorId: string | undefined) => {
+   
+    const selectedMentor = mentors.filter(mentor => mentor._id === mentorId)[0];
+   
+    navigate('/admin/mentor-details', { state: { selectedMentor } });
+    console.log(selectedMentor);
+  };
 
   const handleBlock = async (id: string | undefined) => {
     try {
@@ -126,7 +139,7 @@ function MentorManagement() {
                       <div className="flex items-center justify-center">
                         <span className="font-medium">
                           {
-                           <button >
+                           <button key={mentor._id} onClick={()=>handleMentorDetails(mentor._id)} >
                            <FaEye  style={{ color: 'grey', fontSize: '1.5em' }} />
                          </button>
                         
