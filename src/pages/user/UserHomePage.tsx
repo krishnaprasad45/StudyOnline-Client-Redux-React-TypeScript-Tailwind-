@@ -1,4 +1,4 @@
-import Home from '../../components/User/Home/home'
+import Home from '../../components/User/Home/userHome'
   
 
 function UserHomePage() {

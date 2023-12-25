@@ -23,13 +23,13 @@ const MentorRouters: React.FC = () => {
       <Route Component={mentorProfilePage} path="/profile" />
       <Route Component={mentorProfileUpdate} path="/profile-update" />
       <Route Component={mentorHome} path="/home" />
-      <Route Component={MentorCoursePage} path="/mycourse" />
       <Route Component={MentorAssignmentPage} path="/assignments" />
+      <Route Component={MentorAddCoursePage} path="/add-course-page"/>
       <Route Component={MentorMarksPage} path="/marks" />
-      <Route Component={MentorVideoMeetPage} path="/videomeet" />
+      <Route Component={MentorCoursePage} path="/mycourse" />
       <Route Component={MentorChatPage} path="/chat"/>
       <Route Component={MentorPaymentsPage} path="/payments"/>
-      <Route Component={MentorAddCoursePage} path="/add-course-page"/>
+      <Route Component={MentorVideoMeetPage} path="/videomeet" />
       <Route Component={MentorListCoursePage} path="/list-allcourses"/>
       <Route Component={MentorCourseDetailsPage} path="/course-details"/>
     </Routes>

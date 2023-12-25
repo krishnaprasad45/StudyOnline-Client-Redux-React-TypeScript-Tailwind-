@@ -47,7 +47,7 @@ function ListCourses() {
   );
 
   return (
-    <div className="ml-60  ">
+    <div className="ml-60   ">
       {/* Navbar */}
       <div className="bg-gray-200 ">
         <div className="flex justify-between pl-6 ">

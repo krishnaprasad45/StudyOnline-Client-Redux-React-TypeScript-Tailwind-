@@ -1,5 +1,5 @@
-import Homepage from '../../components/Mentor/Home/mentorHome';
-import Chat from '../../components/Mentor/Home/chat';
+import Homepage from "../../components/User/Home/userHome"
+import Chat from "../../components/User/Home/chat"
 
 function MentorCoursePage(){
 

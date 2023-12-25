@@ -50,7 +50,7 @@ function CourseDetails() {
           </p>
           <div className="flex items-center justify-center"></div>
         </div>
-        <div className="py-4 leading-6 border-b text-lg border-gray-200 flex items-center font-semibold justify-between">
+        <div className="py-4 leading-6 border-b text-lg border-gray-200 flex items-center  justify-between">
           <p className="text-base leading-4 text-gray-800">
             Course Duration : {selectedCourse.duration}
           </p>

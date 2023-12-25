@@ -3,8 +3,8 @@
 function Payments(){
 
     return (
-        <div>
-            <h2 className='flex justify-center'>  Payments Meet Page</h2>
+        <div className="bg-[#8481BA] h-screen">
+            <h2 className='flex justify-center '>  Payments Meet Page</h2>
         </div>
     )
 }
