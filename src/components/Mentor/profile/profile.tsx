@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./profile.css";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../Interfaces/common";
-import { ProfileInterface } from "../../../Interfaces/mentorInterfaces";
+import ProfileInterface from "../../../Interfaces/mentorInterfaces";
 import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
 import MentorApis from "../../../Constraints/apis/MentorApis";
+import { MdVerified } from "react-icons/md";
+import { FaClockRotateLeft } from "react-icons/fa6";
+import { IoCloseCircle } from "react-icons/io5";
+import { FaCheck } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
 
 function Profile() {
   const navigate = useNavigate();
 
   const [data, setData] = useState<ProfileInterface>();
-  const APIURL: string = useSelector((state: RootState) => state.APIURL.url);
 
   const Logout = () => {
     localStorage.removeItem("mentorEmail");
@@ -24,15 +26,14 @@ function Profile() {
     if (!mentorEmail) {
       navigate("/mentor/login");
     } else {
-      
       const token = localStorage.getItem("mentorToken");
-     
-    mentorAxios.get(MentorApis.profile, {
+
+      mentorAxios
+        .get(MentorApis.profile, {
           params: { email: mentorEmail },
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
-        
           setData(response.data);
         })
         .catch((error) => {
@@ -47,15 +48,14 @@ function Profile() {
         {data?.email && (
           <div className="profile-card js-profile-card">
             <div className="profile-card__img">
-              <img
-                src={`${APIURL}/public/images/${data.image}`}
-                alt={data.image}
-              />
+              <img src={data.image} alt={data.image} />
             </div>
 
             <div className="profile-card__cnt js-profile-cnt">
-              <div className="profile-card__name">{data.firstname} {data.lastname}</div>
-             
+              <div className="profile-card__name">
+                {data.firstname} {data.lastname}
+              </div>
+
               <div className="profile-card__txt">
                 Email ID: <strong>{data.email}</strong>
               </div>
@@ -64,36 +64,53 @@ function Profile() {
                 Joining Date: <strong>{data.date}</strong>
               </div>
 
-              <div className="profile-card-loc">
+              <div
+                className="profile-card-loc"
+                style={{ display: "flex", alignItems: "center" }}
+              >
                 <span className="profile-card-loc__icon">
                   <svg className="icon">
                     <use xlinkHref="#icon-location"></use>
                   </svg>
                 </span>
+                <div>
+                  <span className="profile-card-loc__txt mr-2">
+                    PHONE: {data.mobile}
+                  </span>
+                </div>
 
-                <span className="profile-card-loc__txt mr-2">
-                  PHONE: {data.mobile}
+                <span className="profile-card-loc__txt">
+                  Adhaar{" "}
+                  {data.aadhar_image ? (
+                  <FaCheck style={{ color: "green" }} />
+                  ) : (
+                    <IoClose style={{ color: "red" }} />
+                  )}
                 </span>
 
-                <span
-                  className="profile-card-loc__txt"
-                  style={{ color: data.aadhar_image ? "green" : "red" }}
-                >
-                  Adhaar: {data.aadhar_image ? " Updated " : " Not Updated "}
-                </span>
-
-                <div
-                  className="profile-card-loc__txt ml-2"
-                  style={{ color: data.experience_image ? "green" : "red" }}
-                >
-                   Experience:{" "}
-                  {data.experience_image ? " Updated " : " Not Updated "}
+                <div className="profile-card-loc__txt ml-2">
+                  Experience{" "}
+                  {data.experience_image ? (
+                    <FaCheck style={{ color: "green" }} />
+                  ) : (
+                    <IoClose style={{ color: "red" }} />
+                  )}
                 </div>
               </div>
 
               <div className="profile-card__txt">
-                Account Verification: <p style={{color: "orange"}}> pending</p>
-
+                Account Verification:{" "}
+                <div className="flex items-center justify-center">
+                  {data.verification === "Pending" ? (
+                    <FaClockRotateLeft
+                      style={{ color: "orange", fontSize: "1.5em" }}
+                    />
+                  ) : data.verification == "Verify" ? (
+                    <MdVerified style={{ color: "blue", fontSize: "2em" }} />
+                  ) : (
+                    <IoCloseCircle style={{ color: "red", fontSize: "2em" }} />
+                  )}
+                </div>
               </div>
 
               <div className="profile-card-ctr">
@@ -113,8 +130,6 @@ function Profile() {
                 </button>
               </div>
             </div>
-
-         
           </div>
         )}
       </div>

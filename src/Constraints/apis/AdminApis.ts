@@ -5,5 +5,6 @@ export default{
     getUsersList:"/admin/getUsersList",
     blockUser: "/admin/block/user",
     blockMentor: "/admin/block/mentor",
-    mentorDetails:"/admin/mentor-details"
+    mentorDetails:"/admin/mentor-details",
+    verifyMentor:'/admin/mentor-verify'
 }

@@ -19,5 +19,6 @@ export default interface ProfileInterface {
     aadhar_image:string,
     experience_image:string,
     date:string,
-    isBlock:boolean
+    isBlock:boolean,
+    verification?:string
 }
