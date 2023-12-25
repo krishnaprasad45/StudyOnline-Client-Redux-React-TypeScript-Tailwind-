@@ -41,10 +41,10 @@ const AddCourse: React.FC = () => {
           Data
         );
         if (response.status === 201) {
-          showSuccessToast("Account Created");
+          showSuccessToast("Course Created");
           setTimeout(() => {
-            navigate('mentor/list-allcourses');
-          }, 2300);
+            navigate(MentorApis.list_allcourses);
+          }, 1000);
         } else {
           showErrorToast(response?.data?.message);
         }
@@ -183,10 +183,10 @@ const AddCourse: React.FC = () => {
             />
 
             {previewVideo && (
-              <video controls width="400" height="200">
-                <source src={previewVideo} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+              <video autoPlay muted loop controls={false} width="400" height="200">
+              <source src={previewVideo} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
             )}
             <ErrorMessage name="introvideo" component="div" className="error" />
           </div>

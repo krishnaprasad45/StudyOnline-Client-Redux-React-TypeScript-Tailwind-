@@ -9,13 +9,22 @@ function ListCourses() {
   const [courses, setCourses] = useState<CourseInterface[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [unlistedStatus, setUnlistedStatus] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
     mentorAxios.get(MentorApis.list_allcourses).then((response) => {
       console.log("response.data..", response);
       setCourses(response.data);
     });
   }, [unlistedStatus]);
+
+  const handleCourseDetails = (CourseId: string | undefined) => {
+    const selectedCourse = courses.filter(
+      (course) => course._id === CourseId
+    )[0];
+
+    navigate("/mentor/course-details", { state: { selectedCourse } });
+    console.log(selectedCourse);
+  };
 
   const handleUnlist = async (id: string | undefined) => {
     try {
@@ -36,33 +45,31 @@ function ListCourses() {
   const filteredCourses = courses.filter((course) =>
     course.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  
 
   return (
     <div className="ml-60  ">
       {/* Navbar */}
       <div className="bg-gray-200 ">
-  <div className="flex justify-between pl-6 ">
-    <div className="flex mt-2 ml-2 mb-2">
-      <input
-        type="search"
-        placeholder="Search Course"
-        className="border rounded-l py-2 px-4"
-        name=""
-        id=""
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-    </div>
-    <button
-      className="bg-[#4C3869] text-white py-2 px-4 flex mt-2 mx-2 mb-2  rounded-r"
-      onClick={()=> navigate(MentorApis.add_course_page)} 
-    >
-      Add Course
-    </button>
-  </div>
-</div>
-
+        <div className="flex justify-between pl-6 ">
+          <div className="flex mt-2 ml-2 mb-2">
+            <input
+              type="search"
+              placeholder="Search Course"
+              className="border rounded-l py-2 px-4"
+              name=""
+              id=""
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <button
+            className="bg-[#4C3869] text-white py-2 px-4 flex mt-2 mx-2 mb-2  rounded-r"
+            onClick={() => navigate(MentorApis.add_course_page)}
+          >
+            Add Course
+          </button>
+        </div>
+      </div>
 
       {/* Main Content */}
       <div className="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center  font-sans overflow-hidden">
@@ -104,9 +111,12 @@ function ListCourses() {
                     <td className="py-3 px-6 text-center">
                       <div className="flex items-center justify-center">
                         <span className="font-medium">
-                          <button onClick={() => handleUnlist(course._id)}>
+                          <button
+                            onClick={() => handleUnlist(course._id)}
+                            className="rounded-full px-4 py-2 bg-blue-500 text-white focus:outline-none"
+                          >
                             {course.isUnlisted ? (
-                              <p className="unblocked">list</p>
+                              <p className="unblocked">List</p>
                             ) : (
                               <p className="blocked">Unlist</p>
                             )}
@@ -119,9 +129,14 @@ function ListCourses() {
                       <div className="flex items-center justify-center">
                         <span className="font-medium">
                           {
-                            <button>
-                              <FaEye />
-                            </button>
+                                <button
+                                key={course._id}
+                                onClick={() => handleCourseDetails(course._id)}
+                              >
+                                <FaEye
+                                  style={{ color: "grey", fontSize: "1.5em" }}
+                                />
+                              </button>
                           }
                         </span>
                       </div>

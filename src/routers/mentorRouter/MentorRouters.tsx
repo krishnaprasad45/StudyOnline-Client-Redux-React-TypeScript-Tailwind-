@@ -13,6 +13,7 @@ import MentorChatPage from "../../pages/mentor/MentorChatPage";
 import MentorPaymentsPage from "../../pages/mentor/MentorPaymentsPage";
 import MentorAddCoursePage from "../../pages/mentor/CoursePages/MentorAddCoursePage";
 import MentorListCoursePage from "../../pages/mentor/CoursePages/MentorListCoursePage";
+import MentorCourseDetailsPage from "../../pages/mentor/CoursePages/MentorCourseDetailsPage";
 
 const MentorRouters: React.FC = () => {
   return (
@@ -30,6 +31,7 @@ const MentorRouters: React.FC = () => {
       <Route Component={MentorPaymentsPage} path="/payments"/>
       <Route Component={MentorAddCoursePage} path="/add-course-page"/>
       <Route Component={MentorListCoursePage} path="/list-allcourses"/>
+      <Route Component={MentorCourseDetailsPage} path="/course-details"/>
     </Routes>
   );
 };

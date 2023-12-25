@@ -13,5 +13,6 @@ export default {
     view_course:"/mentor/view-course",
     list_allcourses:"/mentor/list-allcourses",
     unlist_course:"/mentor/unlist-course",
+    course_details:"/mentor/course-details"
 
 }
