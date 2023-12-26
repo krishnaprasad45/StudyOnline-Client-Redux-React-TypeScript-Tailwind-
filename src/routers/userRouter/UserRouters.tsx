@@ -11,6 +11,7 @@ import UserChatPage from '../../pages/user/UserChatPage';
 import UserMarksPage from '../../pages/user/UserMarksPage';
 import UserPaymentsPage from '../../pages/user/UserPaymentsPage';
 import UserVideoMeetPage from '../../pages/user/UserVideoMeetPage';
+import LandingPage from '../../pages/Common/LandingPage';
 
 const  UserRouters: React.FC=()=> {
   return (
@@ -20,6 +21,7 @@ const  UserRouters: React.FC=()=> {
        <Route Component={profilePage} path='/profile'/>
        <Route Component={profileUpdate} path='/profile-update' />
        <Route Component={Home} path='/home' />
+       <Route Component={LandingPage} path='/home-page' />
        <Route Component={UserMarksPage} path="/marks" />
       {/* <Route Component={UserCoursePage} path="/mycourse" /> */}
       <Route Component={UserChatPage} path="/chat"/>

@@ -11,8 +11,8 @@ export default {
     update_course:"/mentor/update-course",
     delete_course:"/mentor/delete-course",
     view_course:"/mentor/view-course",
-    list_allcourses:"/mentor/list-allcourses",
     unlist_course:"/mentor/unlist-course",
+    list_allcourses:"/mentor/list-allcourses",
     course_details:"/mentor/course-details"
 
 }

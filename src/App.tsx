@@ -6,7 +6,7 @@ import { Toaster } from "react-hot-toast";
 import AdminRouters from "./routers/adminRouter/AdminRouters";
 import UserRouters from "./routers/userRouter/UserRouters";
 import MentorRouters from "./routers/mentorRouter/MentorRouters";
-import HomePage from "./pages/Common/HomePage";
+import HomePage from "./pages/Common/LandingPage";
 
 function App() {
   // const token = localStorage.getItem('token')

@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
-
 import { CourseInterface } from "../../../Interfaces/courseInterface";
-import MentorApis from "../../../Constraints/apis/MentorApis";
-import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
 import { useNavigate } from "react-router-dom";
+import UserApis from "../../../Constraints/apis/UserApis";
+import { userAxios } from "../../../Constraints/axiosInterceptors/userAxiosInterceptors";
 
 function ListCourses() {
   const [courses, setCourses] = useState<CourseInterface[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
-    mentorAxios.get(MentorApis.list_allcourses).then((response) => {
+    userAxios.get(UserApis.list_allcourses).then((response) => {
       console.log("response.data..", response);
       setCourses(response.data);
     });
@@ -49,7 +48,7 @@ function ListCourses() {
           </div>
           <button
             className="bg-[#4C3869] text-white py-2 px-4 flex mt-2 mx-2 mb-2  rounded-r"
-            onClick={() => navigate(MentorApis.add_course_page)}
+            // onClick={() => navigate(MentorApis.add_course_page)}
           >
            My Course
           </button>

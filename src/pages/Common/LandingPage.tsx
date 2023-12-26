@@ -2,7 +2,7 @@ import Banner from "../../components/Common/HomePage/Banner";
 import Footer from "../../components/Common/HomePage/Footer";
 import Navbar from "../../components/Common/HomePage/NavBar";
 
-function HomePage() {
+function LandingPage() {
     return (
         <>
             <Navbar />
@@ -14,4 +14,4 @@ function HomePage() {
     )
 }
 
-export default HomePage;
+export default LandingPage;
