@@ -6,9 +6,9 @@ import { TbLockSquareRoundedFilled } from "react-icons/tb";
 import { MdVerified } from "react-icons/md";
 import { FaClockRotateLeft } from "react-icons/fa6";
 import { IoCloseCircle } from "react-icons/io5";
-import AdminApis from "../../../Constraints/apis/AdminApis";
 import {  useEffect, useState } from "react";
 import { adminAxios } from "../../../Constraints/axiosInterceptors/adminAxiosInterceptors";
+import adminEndpoints from "../../../Constraints/endpoints/adminEndpoints";
 
 function MentorDetails() {
   const { state } = useLocation();
@@ -32,7 +32,7 @@ function MentorDetails() {
     try {
       const id = selectedMentor._id;
       const response = await adminAxios.post(
-        `${AdminApis.verifyMentor}?id=${id}&status=${status}`
+        `${adminEndpoints.verifyMentor}?id=${id}&status=${status}`
       );
       const mentorData: ProfileInterface = response.data;
       console.log("mentorblock**", mentorData);

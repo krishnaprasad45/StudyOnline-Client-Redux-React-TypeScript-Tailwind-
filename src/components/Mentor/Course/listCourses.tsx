@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { CourseInterface } from "../../../Interfaces/courseInterface";
-import MentorApis from "../../../Constraints/apis/MentorApis";
 import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
 import { useNavigate } from "react-router-dom";
-
+import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
+// .
 function ListCourses() {
   const [courses, setCourses] = useState<CourseInterface[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [unlistedStatus, setUnlistedStatus] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
-    mentorAxios.get(MentorApis.list_allcourses).then((response) => {
+    mentorAxios.get(mentorEndpoints.courses).then((response) => {
       console.log("response.data..", response);
       setCourses(response.data);
     });
@@ -22,7 +22,7 @@ function ListCourses() {
       (course) => course._id === CourseId
     )[0];
 
-    navigate("/mentor/course-details", { state: { selectedCourse } });
+    navigate(mentorEndpoints.courseDetails, { state: { selectedCourse } });
     console.log(selectedCourse);
   };
 
@@ -31,7 +31,7 @@ function ListCourses() {
       console.log("handleUnlist fun..");
       console.log("course_id", id);
       const response = await mentorAxios.post(
-        `${MentorApis.unlist_course}?id=${id}`
+        `${mentorEndpoints.unlistCourse}?id=${id}`
       );
       const courseData: CourseInterface = response.data;
       console.log("mentorblock**", courseData);
@@ -64,7 +64,7 @@ function ListCourses() {
           </div>
           <button
             className="bg-[#4C3869] text-white py-2 px-4 flex mt-2 mx-2 mb-2  rounded-r"
-            onClick={() => navigate(MentorApis.add_course_page)}
+            onClick={() => navigate(mentorEndpoints.addCourse)}
           >
             Add Course
           </button>

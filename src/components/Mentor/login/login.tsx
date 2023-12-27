@@ -8,10 +8,11 @@ import {
   showSuccessToast,
 } from "../../../services/popups/popups";
 import { ToastContainer } from "react-toastify";
-import MentorApis from "../../../Constraints/apis/MentorApis";
 import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
+import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
 
 function Login() {
+  console.log("hello..")
 //state's
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -25,7 +26,7 @@ function Login() {
   useEffect(() => {
     const token = localStorage.getItem("mentorToken");
     if (token) {
-      navigate(MentorApis.home);
+      navigate(mentorEndpoints.login);
     } else {
       console.log("nothing");
     }
@@ -46,7 +47,7 @@ function Login() {
   const handleLogin = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
-      const response = await mentorAxios.get(MentorApis.login, {
+      const response = await mentorAxios.get(mentorEndpoints.login, {
         params: queryParams,
       });
       if (response.data.mentorData && response.data.mentorData.email) {
@@ -54,7 +55,7 @@ function Login() {
         localStorage.setItem("mentorEmail", response.data.mentorData.email);
         showSuccessToast("Login Successfull");
         setTimeout(() => {
-          navigate(MentorApis.profile);
+          navigate(mentorEndpoints.profile);
         }, 2300);
       } else {
        
@@ -125,7 +126,7 @@ function Login() {
               style={{ backgroundColor: "#4C3869" }}
 
               onClick={() => {
-                navigate(MentorApis.signup);
+                navigate(mentorEndpoints.signup);
               }}
             >
               Register

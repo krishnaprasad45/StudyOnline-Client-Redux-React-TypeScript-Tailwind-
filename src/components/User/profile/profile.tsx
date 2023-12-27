@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../../Interfaces/common'
 import { userProfile } from '../../../Interfaces/userInterfaces'
 import { userAxios } from '../../../Constraints/axiosInterceptors/userAxiosInterceptors'
-import UserApis from '../../../Constraints/apis/UserApis'
+import userEndpoints from '../../../Constraints/endpoints/userEndpoints'
 
 
 function Profile() {
@@ -16,15 +16,15 @@ function Profile() {
   const Logout = (() => {
     localStorage.removeItem("userEmail");
     localStorage.removeItem("usertoken");
-    navigate('/') //loginpage
+    navigate(userEndpoints.login)
   })
 
   useEffect(() => {
     const userEmail = localStorage.getItem('userEmail');
     if (!userEmail) {
-      navigate('/');  
+      navigate(userEndpoints.login);  
   } else{
-    userAxios.get(UserApis.profile, {
+    userAxios.get(userEndpoints.profile, {
       params: { email: userEmail },
     
     }).then(response => {
@@ -65,7 +65,7 @@ function Profile() {
       
 
           <div className="profile-card-ctr">
-            <button onClick={(() => { navigate(UserApis.profile_update) })} className="profile-card__button button--blue js-message-btn">EDIT</button>
+            <button onClick={(() => { navigate(userEndpoints.profileUpdate) })} className="profile-card__button button--blue js-message-btn">EDIT</button>
             <button onClick={Logout} className="profile-card__button button--orange">LOGOUT</button>
           </div>
         </div>

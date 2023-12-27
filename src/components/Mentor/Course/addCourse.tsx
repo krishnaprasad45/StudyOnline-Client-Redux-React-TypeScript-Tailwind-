@@ -7,14 +7,16 @@ import {
 } from "../../../services/popups/popups";
 import { useNavigate } from "react-router-dom";
 import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
-import MentorApis from "../../../Constraints/apis/MentorApis";
 import uploadFile from "../../../services/cloudinary/uploadCourseFile";
+import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
+
 
 const AddCourse: React.FC = () => {
   const [bannerImage, setBannerImage] = useState<File>();
   const [introVideo, setIntroVideo] = useState<File>();
   const [previewBanner, setPreviewBanner] = useState<string>();
   const [previewVideo, setPreviewVideo] = useState<string>();
+
 
   const navigate = useNavigate();
   const initialValues = {
@@ -37,14 +39,14 @@ const AddCourse: React.FC = () => {
         const Data = { ...values, banner, introvideo };
         console.log("Datas", Data);
         const response = await mentorAxios.post(
-          MentorApis.add_course_post,
+          mentorEndpoints.addCoursePost,
           Data
         );
         if (response.status === 201) {
           showSuccessToast("Course Created");
           setTimeout(() => {
-            navigate(MentorApis.list_allcourses);
-          }, 1000);
+            navigate(mentorEndpoints.courses);
+          }, 2500);
         } else {
           showErrorToast(response?.data?.message);
         }
@@ -109,6 +111,7 @@ const AddCourse: React.FC = () => {
               type="text"
               id="createdby"
               name="createdby"
+               
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
             <ErrorMessage name="createdby" component="div" className="error" />

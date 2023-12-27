@@ -21,17 +21,17 @@ const MentorRouters: React.FC = () => {
       <Route Component={mentorLoginPage} path="/login" />
       <Route Component={mentorSignupPage} path="/signup" />
       <Route Component={mentorProfilePage} path="/profile" />
-      <Route Component={mentorProfileUpdate} path="/profile-update" />
+      <Route Component={mentorProfileUpdate} path="/profile/update" />
       <Route Component={mentorHome} path="/home" />
       <Route Component={MentorAssignmentPage} path="/assignments" />
-      <Route Component={MentorAddCoursePage} path="/add-course-page"/>
+      <Route Component={MentorAddCoursePage} path="/add/course"/>
       <Route Component={MentorMarksPage} path="/marks" />
       <Route Component={MentorCoursePage} path="/mycourse" />
       <Route Component={MentorChatPage} path="/chat"/>
       <Route Component={MentorPaymentsPage} path="/payments"/>
       <Route Component={MentorVideoMeetPage} path="/videomeet" />
-      <Route Component={MentorListCoursePage} path="/list-allcourses"/>
-      <Route Component={MentorCourseDetailsPage} path="/course-details"/>
+      <Route Component={MentorListCoursePage} path="/courses"/>
+      <Route Component={MentorCourseDetailsPage} path="/course/details"/>
     </Routes>
   );
 };

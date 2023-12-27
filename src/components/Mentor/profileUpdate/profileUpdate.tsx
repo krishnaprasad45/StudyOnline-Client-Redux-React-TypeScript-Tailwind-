@@ -10,8 +10,8 @@ import {
 } from "../../../services/popups/popups";
 import { ToastContainer } from "react-toastify";
 import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
-import MentorApis from "../../../Constraints/apis/MentorApis";
 import uploadImage from "../../../services/cloudinary/cutomeImageUpload";
+import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
 
 function Profile() {
   const mentor = useSelector((state: RootState) => state.MentorUpdate);
@@ -29,7 +29,7 @@ function Profile() {
     const mentorEmail = localStorage.getItem("mentorEmail");
     
     mentorAxios
-      .get(MentorApis.profile, {
+      .get(mentorEndpoints.profile, {
         params: { email: mentorEmail },
       })
       .then((response) => {
@@ -74,7 +74,7 @@ function Profile() {
       const oldEmail = localStorage.getItem("mentorEmail");
 
       const response = await mentorAxios.patch(
-        MentorApis.profile_update,
+        mentorEndpoints.profileUpdate,
         formData,
         {
           params: { mentorEmail: oldEmail },
@@ -83,7 +83,7 @@ function Profile() {
       if (response.status === 200) {
         showSuccessToast("Update Successfull");
         setTimeout(() => {
-          navigate(MentorApis.profile);
+          navigate(mentorEndpoints.profile);
         }, 2300);
       } else {
         showErrorToast("Update failed");

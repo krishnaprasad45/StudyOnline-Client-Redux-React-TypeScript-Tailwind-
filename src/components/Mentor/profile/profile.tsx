@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import "./profile.css";
 import ProfileInterface from "../../../Interfaces/mentorInterfaces";
 import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
-import MentorApis from "../../../Constraints/apis/MentorApis";
 import { MdVerified } from "react-icons/md";
 import { FaClockRotateLeft } from "react-icons/fa6";
 import { IoCloseCircle } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
+import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
 
 function Profile() {
   const navigate = useNavigate();
@@ -18,18 +18,18 @@ function Profile() {
   const Logout = () => {
     localStorage.removeItem("mentorEmail");
     localStorage.removeItem("mentorToken");
-    navigate("/mentor/login");
+    navigate(mentorEndpoints.login);
   };
 
   useEffect(() => {
     const mentorEmail: string | null = localStorage.getItem("mentorEmail");
     if (!mentorEmail) {
-      navigate("/mentor/login");
+      navigate(mentorEndpoints.login);
     } else {
       const token = localStorage.getItem("mentorToken");
 
       mentorAxios
-        .get(MentorApis.profile, {
+        .get(mentorEndpoints.profile, {
           params: { email: mentorEmail },
           headers: { Authorization: `Bearer ${token}` },
         })
@@ -116,7 +116,7 @@ function Profile() {
               <div className="profile-card-ctr">
                 <button
                   onClick={() => {
-                    navigate("/mentor/profile-update");
+                    navigate(mentorEndpoints.profileUpdate);
                   }}
                   className="profile-card__button button--blue js-message-btn"
                 >

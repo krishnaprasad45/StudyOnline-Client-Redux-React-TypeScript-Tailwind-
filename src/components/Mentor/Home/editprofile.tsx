@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import "./profile.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Interfaces/common";
-import { ProfileInterface } from "../../../Interfaces/mentorInterfaces";
+import  ProfileInterface  from "../../../Interfaces/mentorInterfaces";
 import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
-import MentorApis from "../../../Constraints/apis/MentorApis";
+import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
 
 
 interface EditProfileProps {
@@ -22,18 +22,18 @@ function Profile({ onEdit }: EditProfileProps) {
   const Logout = () => {
     localStorage.removeItem("mentorEmail");
     localStorage.removeItem("mentorToken");
-    navigate("/mentor/login");
+    navigate(mentorEndpoints.login);
   };
 
   useEffect(() => {
     const mentorEmail: string | null = localStorage.getItem("mentorEmail");
     if (!mentorEmail) {
-      navigate("/mentor/login");
+      navigate(mentorEndpoints.login);
     } else {
       
       const token = localStorage.getItem("mentorToken");
      
-    mentorAxios.get(MentorApis.profile, {
+    mentorAxios.get(mentorEndpoints.profile, {
           params: { email: mentorEmail },
           headers: { Authorization: `Bearer ${token}` },
         })

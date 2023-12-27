@@ -6,8 +6,8 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import {showErrorToast,showSuccessToast,
 } from "../../../services/popups/popups";
 import { ToastContainer } from "react-toastify";
-import AdminApis from "../../../Constraints/apis/AdminApis";
 import { adminAxios } from "../../../Constraints/axiosInterceptors/adminAxiosInterceptors";
+import adminEndpoints from "../../../Constraints/endpoints/adminEndpoints";
 
 function Login() {
 
@@ -32,7 +32,7 @@ function Login() {
     e.preventDefault();
     try {
       
-      const response = await adminAxios.post(AdminApis.login, {
+      const response = await adminAxios.post(adminEndpoints.login, {
         email,
         password,
       });
@@ -41,7 +41,7 @@ function Login() {
         
         showSuccessToast("Login Successfull");
         setTimeout(() => {
-          navigate(AdminApis.dashboard);
+          navigate(adminEndpoints.dashboard);
         }, 2300);
       } else {
        showErrorToast("error")

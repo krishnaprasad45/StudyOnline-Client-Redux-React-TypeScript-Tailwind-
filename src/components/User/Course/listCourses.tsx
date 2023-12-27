@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { CourseInterface } from "../../../Interfaces/courseInterface";
 import { useNavigate } from "react-router-dom";
-import UserApis from "../../../Constraints/apis/UserApis";
 import { userAxios } from "../../../Constraints/axiosInterceptors/userAxiosInterceptors";
+import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
 
 function ListCourses() {
   const [courses, setCourses] = useState<CourseInterface[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
-    userAxios.get(UserApis.list_allcourses).then((response) => {
+    userAxios.get(userEndpoints.courses).then((response) => {
       console.log("response.data..", response);
       setCourses(response.data);
     });
@@ -20,7 +20,7 @@ function ListCourses() {
       (course) => course._id === CourseId
     )[0];
 
-    navigate("/course-details", { state: { selectedCourse } });
+    navigate(userEndpoints.courseDetails, { state: { selectedCourse } });
     console.log(selectedCourse);
   };
 
@@ -48,7 +48,7 @@ function ListCourses() {
           </div>
           <button
             className="bg-[#4C3869] text-white py-2 px-4 flex mt-2 mx-2 mb-2  rounded-r"
-            // onClick={() => navigate(MentorApis.add_course_page)}
+            // onClick={() => navigate(MentorEndpoints.add_course_page)}
           >
            My Course
           </button>

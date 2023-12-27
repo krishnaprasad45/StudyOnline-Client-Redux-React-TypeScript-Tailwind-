@@ -10,10 +10,10 @@ import {
 } from "../../../services/popups/popups";
 import { ToastContainer } from "react-toastify";
 import { userAxios } from "../../../Constraints/axiosInterceptors/userAxiosInterceptors";
-import UserApis from "../../../Constraints/apis/UserApis";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import SignupSchema from "../../../utils/validationSchema";
 import { userSignup } from "../../../Interfaces/userInterfaces";
+import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
 
 function Signup() {
   const [image, setImage] = useState<File>();
@@ -44,7 +44,7 @@ function Signup() {
       formData.append("password", values.password);
       formData.append("confirm_password", values.confirm_password);
       if (image) formData.append("image", image);
-      const response = await userAxios.post(UserApis.signup, formData);
+      const response = await userAxios.post(userEndpoints.signup, formData);
       if (response.status === 201) {
         showSuccessToast("Account Created");
         setTimeout(() => {

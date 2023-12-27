@@ -12,7 +12,7 @@ import {
   showSuccessToast,
 } from "../../../services/popups/popups";
 import { ToastContainer } from "react-toastify";
-import UserApis from "../../../Constraints/apis/UserApis";
+import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
 
 function Login() {
   //state's
@@ -32,7 +32,7 @@ function Login() {
     console.log("usertoken", token);
 
     if (token) {
-      navigate(UserApis.home);
+      navigate(userEndpoints.dashboard);
     }
   },[]);
 
@@ -50,7 +50,7 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await userAxios.get(UserApis.login, {
+      const response = await userAxios.get(userEndpoints.login, {
         params: queryParams,
       });
       if (response.data.userData && response.data.userData.email) {
@@ -58,7 +58,7 @@ function Login() {
         localStorage.setItem("userEmail", response.data.userData.email);
         showSuccessToast("Login Successfull");
         setTimeout(() => {
-          navigate("/home");
+          navigate(userEndpoints.dashboard);
         }, 2300);
       } else {
         showErrorToast("Please check email & password");
@@ -93,14 +93,14 @@ function Login() {
   const submitSignInWithGoogle = async (displayName: string, email: string) => {
     try {
       const value = { displayName, email };
-      const response = await userAxios.post(UserApis.gsignin, value);
+      const response = await userAxios.post(userEndpoints.gsignin, value);
       localStorage.setItem("usertoken", response.data.token);
       console.log("response :", response);
 
       if (response) {
         showSuccessToast("Login Successfull");
         setTimeout(() => {
-          navigate("/home");
+          navigate(userEndpoints.dashboard);
         }, 2300);
         
       }
@@ -170,7 +170,7 @@ function Login() {
               className="py-2 px-5 border rounded-xl hover:scale-110 duration-300"
               style={{ backgroundColor: "skyblue" }}
               onClick={() => {
-                navigate("/signup");
+                navigate(userEndpoints.dashboard);
               }}
             >
               Register

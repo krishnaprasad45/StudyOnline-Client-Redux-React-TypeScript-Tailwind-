@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { adminAxios } from "../../../Constraints/axiosInterceptors/adminAxiosInterceptors";
-import AdminApis from "../../../Constraints/apis/AdminApis";
 import mentorProfile from "../../../Interfaces/mentorInterfaces";
 import { FaEye } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { MdVerified } from "react-icons/md";
 import { FaClockRotateLeft } from "react-icons/fa6";
 import { IoCloseCircle } from "react-icons/io5";
+import adminEndpoints from "../../../Constraints/endpoints/adminEndpoints";
 
 function MentorManagement() {
   const [mentors, setMentors] = useState<mentorProfile[]>([]);
@@ -15,7 +15,7 @@ function MentorManagement() {
   const [blockedStatus, setBlockedStatus] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
-    adminAxios.get(AdminApis.getMentorsList).then((response) => {
+    adminAxios.get(adminEndpoints.getMentorsList).then((response) => {
       console.log("response.data..", response.data);
       setMentors(response.data);
     });
@@ -34,7 +34,7 @@ function MentorManagement() {
     try {
      
       const response = await adminAxios.post(
-        `${AdminApis.blockMentor}?id=${id}`
+        `${adminEndpoints.blockMentor}?id=${id}`
       );
       const mentorData: mentorProfile = response.data;
       console.log("mentorblock**", mentorData);
@@ -135,10 +135,10 @@ function MentorManagement() {
                               padding: "8px 12px",
                               backgroundColor: mentor.isBlock
                                 ? "#ff6347"
-                                : "#4caf50", // Red for blocked, green for unblocked
+                                : "#4caf50",
                               color: "#fff",
                               border: "#fff",
-                              borderRadius: "30px", // Adjust the border-radius for pill shape
+                              borderRadius: "30px", 
                               cursor: "pointer",
                             }}
                           >

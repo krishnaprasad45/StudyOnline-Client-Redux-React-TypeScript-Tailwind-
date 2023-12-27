@@ -48,7 +48,7 @@ const AdminHome = () => {
           </button>
         </Link>
 
-        <Link className="mb-12 p-2 rounded buttonStyleAdmin" to={""}>
+        <Link className="mb-12 p-2 rounded buttonStyleAdmin" to={"/admin/login"}>
           <button className="flex items-center gap-2">
             <IoLogOut className="ml-2" style={{ color: "black" }} />
             Logout

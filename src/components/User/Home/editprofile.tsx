@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../../Interfaces/common'
 import { userProfile } from '../../../Interfaces/userInterfaces'
 import { userAxios } from '../../../Constraints/axiosInterceptors/userAxiosInterceptors'
-import UserApis from '../../../Constraints/apis/UserApis'
+import userEndpoints from '../../../Constraints/endpoints/userEndpoints'
 
 interface EditProfileProps {
     onEdit: () => void;
@@ -20,15 +20,15 @@ function EditProfile({ onEdit }: EditProfileProps) {
   const Logout = (() => {
     localStorage.removeItem("userEmail");
     localStorage.removeItem("usertoken");
-    navigate('/') //loginpage
+    navigate(userEndpoints.login) 
   })
 
   useEffect(() => {
     const userEmail = localStorage.getItem('userEmail');
     if (!userEmail) {
-      navigate('/');  
+      navigate(userEndpoints.login);  
   } else{
-    userAxios.get(UserApis.profile, {
+    userAxios.get(userEndpoints.profile, {
       params: { email: userEmail },
     
     }).then(response => {

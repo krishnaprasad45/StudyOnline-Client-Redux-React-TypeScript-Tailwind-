@@ -9,8 +9,8 @@ import {
   showSuccessToast,
 } from "../../../services/popups/popups";
 import { ToastContainer } from "react-toastify";
-import UserApis from "../../../Constraints/apis/UserApis";
 import { userAxios } from "../../../Constraints/axiosInterceptors/userAxiosInterceptors";
+import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
 
 function Profile() {
   const user = useSelector((state: RootState) => state.UserUpdate);
@@ -23,7 +23,7 @@ function Profile() {
   useEffect(() => {
     const userEmail = localStorage.getItem("userEmail");
     userAxios
-      .get(UserApis.profile, {
+      .get(userEndpoints.profile, {
         params: { email: userEmail },
         headers: {
           Authorization: `Bearer ${localStorage.getItem("usertoken")}`,
@@ -75,14 +75,14 @@ function Profile() {
         Authorization: `Bearer ${localStorage.getItem("usertoken")}`,
         "Content-Type": "multipart/form-data",
       };
-      const response = await userAxios.post(UserApis.profile_update, formData, {
+      const response = await userAxios.post(userEndpoints.profileUpdate, formData, {
         headers,
         params: { userEmail: oldEmail },
       });
       if (response.status === 200) {
         showSuccessToast("Update Successfull");
         setTimeout(() => {
-          navigate(UserApis.profile);
+          navigate(userEndpoints.profile);
         }, 2300);
       } else {
         showErrorToast("Update failed");

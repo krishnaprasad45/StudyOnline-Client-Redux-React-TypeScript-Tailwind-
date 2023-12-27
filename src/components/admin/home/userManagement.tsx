@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { adminAxios } from "../../../Constraints/axiosInterceptors/adminAxiosInterceptors";
-import AdminApis from "../../../Constraints/apis/AdminApis";
 import { userProfile } from "../../../Interfaces/userInterfaces";
+import adminEndpoints from "../../../Constraints/endpoints/adminEndpoints";
 
 
 function UserManagement() {
@@ -10,7 +10,7 @@ function UserManagement() {
   const [blockedStatus, setBlockedStatus] = useState(false);
   
   useEffect(() => {
-    adminAxios.get(AdminApis.getUsersList).then((response) => {
+    adminAxios.get(adminEndpoints.getUsersList).then((response) => {
       console.log("response.data..chk", response.data);
       setUsers(response.data);
     });
@@ -19,7 +19,7 @@ function UserManagement() {
   const handleBlock = async (id: string | undefined) => {
     try {
       const response = await adminAxios.patch(
-        `${AdminApis.blockUser}?id=${id}`
+        `${adminEndpoints.blockUser}?id=${id}`
       );
       const userData: userProfile = response.data; 
       console.log("userblock**", userData);

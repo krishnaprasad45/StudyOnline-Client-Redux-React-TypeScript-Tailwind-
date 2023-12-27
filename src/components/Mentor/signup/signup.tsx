@@ -7,8 +7,8 @@ import { MentorSignupAction } from "../../../services/redux/action/mentorSignup"
 import { showErrorToast, showSuccessToast } from "../../../services/popups/popups";
 import { ToastContainer } from "react-toastify";
 import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
-import MentorApis from "../../../Constraints/apis/MentorApis";
 import uploadImage from "../../../services/cloudinary/cutomeImageUpload";
+import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
 function Signup() {
 
   const [image, setImage] = useState<File>();
@@ -35,11 +35,11 @@ function Signup() {
       formData.append("password", signup.password);
       formData.append("confirm_password", signup.confirm_password);
       if(viewImage) formData.append("image", viewImage);
-      const response = await mentorAxios.post(MentorApis.signup_post, formData);
+      const response = await mentorAxios.post(mentorEndpoints.signupPost, formData);
       if (response.status === 201) {
         showSuccessToast("Account Created");
         setTimeout(() => {
-          navigate("/mentor/login");
+          navigate(mentorEndpoints.login);
         }, 2300);
         
       } else {
