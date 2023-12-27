@@ -1,8 +1,6 @@
 import './profile.css'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../Interfaces/common'
 import { userProfile } from '../../../Interfaces/userInterfaces'
 import { userAxios } from '../../../Constraints/axiosInterceptors/userAxiosInterceptors'
 import userEndpoints from '../../../Constraints/endpoints/userEndpoints'
@@ -10,7 +8,6 @@ import userEndpoints from '../../../Constraints/endpoints/userEndpoints'
 
 function Profile() {
   const [data, setData] = useState<userProfile>();
-  const APIURL = useSelector((state:RootState) => state.APIURL.url)
   const navigate = useNavigate()
 
   const Logout = (() => {
@@ -42,7 +39,7 @@ function Profile() {
     <div className="wrapper">
       { data?.email && <div className="profile-card js-profile-card">
         <div className="profile-card__img">
-        <img src={`${APIURL}/public/images/${data.image}`} alt={data.image} />
+        <img src={data.image} alt={data.image} />
         </div>
         <div className="profile-card-inf">
             <div className="profile-card-inf__item">

@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import "./signup.css";
-import { UserSignupAction } from "../../../services/redux/action/userSignup";
 import { RootState } from "../../../Interfaces/common";
 import {
   showErrorToast,
@@ -11,44 +10,37 @@ import {
 import { ToastContainer } from "react-toastify";
 import { userAxios } from "../../../Constraints/axiosInterceptors/userAxiosInterceptors";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import SignupSchema from "../../../utils/validationSchema";
-import { userSignup } from "../../../Interfaces/userInterfaces";
+import { SignupSchema } from "../../../utils/validationSchema";
 import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
+import uploadImage from "../../../services/cloudinary/customeImageUpload";
 
 function Signup() {
   const [image, setImage] = useState<File>();
   const [viewImage, setViewImage] = useState<string>();
   const signup = useSelector((state: RootState) => state.UserSignup);
-  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const imageFileList = e.target.files;
-    if (imageFileList && imageFileList.length > 0) {
-      const image = imageFileList[0];
-      setImage(image);
-      setViewImage(URL.createObjectURL(image));
-    }
+  const initialValues = {
+    firstname: "",
+    lastname: "",
+    email: "",
+    mobile: "",
+    password: "",
+    confirm_password: "",
+    image: "",
   };
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(UserSignupAction(e.target.name, e.target.value));
-  };
-  const handleSubmit = async (values: userSignup) => {
-   if(event) event.preventDefault();
+
+  const handleSubmit = async (values: typeof initialValues) => {
     try {
-      const formData = new FormData();
-      formData.append("firstname", values.firstname);
-      formData.append("lastname", values.lastname);
-      formData.append("email", values.email);
-      formData.append("mobile", values.mobile);
-      formData.append("password", values.password);
-      formData.append("confirm_password", values.confirm_password);
-      if (image) formData.append("image", image);
-      const response = await userAxios.post(userEndpoints.signup, formData);
+      const image = viewImage;
+      const Data = { ...values, image };
+      console.log("Datas", Data);
+      const response = await userAxios.post(userEndpoints.signup, Data);
       if (response.status === 201) {
         showSuccessToast("Account Created");
         setTimeout(() => {
-          navigate("/");
+          navigate(userEndpoints.login);
         }, 2300);
       } else {
         showErrorToast(response?.data?.message);
@@ -72,17 +64,9 @@ function Signup() {
 
           <div className="mb-12 md:mb-0 md:w-8/12 lg:w-5/12 xl:w-5/12">
             <Formik
-              initialValues={{
-                firstname: "",
-                lastname: "",
-                email: "",
-                mobile: "",
-                password: "",
-                confirm_password: "",
-                image: "",
-              }}
-              validationSchema={SignupSchema}
+              initialValues={initialValues}
               onSubmit={handleSubmit}
+              validationSchema={SignupSchema}
             >
               <Form>
                 <div className="flex flex-row items-center justify-center lg:justify-start">
@@ -102,8 +86,6 @@ function Signup() {
                       className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                       name="firstname"
                       placeholder="Enter your first name"
-                      value={signup.firstname}
-                      onChange={onChange}
                     />
                     <label
                       htmlFor="exampleFormControlInput2"
@@ -123,8 +105,6 @@ function Signup() {
                       className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                       name="lastname"
                       placeholder="Enter your last name"
-                      value={signup.lastname}
-                      onChange={onChange}
                     />
                     <label
                       htmlFor="exampleFormControlInput2"
@@ -146,8 +126,6 @@ function Signup() {
                       className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                       name="email"
                       placeholder="Enter your email"
-                      value={signup.email}
-                      onChange={onChange}
                     />
                     <label
                       htmlFor="exampleFormControlInput2"
@@ -168,8 +146,6 @@ function Signup() {
                       className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                       name="mobile"
                       placeholder="Enter your number"
-                      value={signup.mobile}
-                      onChange={onChange}
                     />
                     <label
                       htmlFor="exampleFormControlInput22"
@@ -191,8 +167,6 @@ function Signup() {
                       className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                       name="password"
                       placeholder="Create a password"
-                      value={signup.password}
-                      onChange={onChange}
                     />
                     <label
                       htmlFor="exampleFormControlInput22"
@@ -212,8 +186,6 @@ function Signup() {
                       className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                       name="confirm_password"
                       placeholder="Confirm password"
-                      value={signup.confirm_password}
-                      onChange={onChange}
                     />
                     <label
                       htmlFor="exampleFormControlInput22"
@@ -229,38 +201,51 @@ function Signup() {
                   </div>
                 </div>
                 <div className="relative mb-6" data-te-input-wrapper-init>
-                  <label htmlFor="fileInput" className="custom-file-upload">
+                  {/* <label htmlFor="fileInput" className="custom-file-upload">
                     {image
                       ? "Choose another photo"
                       : "\u00a0  Select a profile Photo"}
-                  </label>
+                  </label> */}
+                  <p>Profile picture</p>
                   <Field
-                    className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     type="file"
                     name="image"
-                    onChange={handleImageChange}
-                    style={{ display: "none" }}
+                    id='image'
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      const imageFileList = e.target.files;
+                      if (imageFileList && imageFileList.length > 0) {
+                        const image = imageFileList[0];
+                        const foldername = "User Image";
+                        setImage(image);
+                        uploadImage(image, foldername).then((url) =>
+                          setViewImage(url)
+                        );
+                      }
+                    }}
+                    className="file-input"
+                    // style={{ display: "none" }}
                   />
+                  <div>
+                    {image && (
+                      <img
+                        style={{
+                          width: "auto",
+                          height: "100px",
+                          margin: "5px 0 15px 0",
+                        }}
+                        src={viewImage}
+                        alt="Mentor Profile"
+                        className="profile-image"
+                      />
+                    )}
+                  </div>
                   <ErrorMessage
                     name="image"
                     component="div"
                     className="error"
                   />
                 </div>
-                <div>
-                  {image && (
-                    <img
-                      style={{
-                        width: "auto",
-                        height: "100px",
-                        margin: "5px 0 15px 0",
-                      }}
-                      src={viewImage}
-                      alt="User Profile"
-                      className="profile-image"
-                    />
-                  )}
-                </div>
+                
 
                 <div className="mb-6 flex items-center justify-between"></div>
 
@@ -275,10 +260,9 @@ function Signup() {
 
                   <br />
                 </div>
-                
               </Form>
             </Formik>
-            <Link to="/">Already registered?</Link>
+            <Link to={userEndpoints.login}>Already registered?</Link>
           </div>
         </div>
       </div>

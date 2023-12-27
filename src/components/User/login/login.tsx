@@ -170,7 +170,7 @@ function Login() {
               className="py-2 px-5 border rounded-xl hover:scale-110 duration-300"
               style={{ backgroundColor: "skyblue" }}
               onClick={() => {
-                navigate(userEndpoints.dashboard);
+                navigate(userEndpoints.signup);
               }}
             >
               Register

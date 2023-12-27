@@ -10,7 +10,7 @@ import {
 } from "../../../services/popups/popups";
 import { ToastContainer } from "react-toastify";
 import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
-import uploadImage from "../../../services/cloudinary/cutomeImageUpload";
+import uploadImage from "../../../services/cloudinary/customeImageUpload";
 import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
 
 function Profile() {
