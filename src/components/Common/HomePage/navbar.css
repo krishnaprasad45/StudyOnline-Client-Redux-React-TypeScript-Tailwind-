@@ -2,11 +2,19 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-.green_btn{
+.green_btn {
     @apply text-white bg-[#002D74] hover:bg-[#002D74] shadow-xl font-medium rounded-md text-sm px-5 py-2.5 me-2 mb-2
 }
 
-.white_btn{
-    @apply  text-black bg-[#fbfcfb] hover:bg-[#e0e9e1] shadow-xl font-medium rounded-md text-sm px-5 py-2.5 me-2 mb-2
+.white_btn {
+    @apply text-black bg-[#fbfcfb] hover:bg-[#e0e9e1] shadow-xl font-medium rounded-md text-sm px-5 py-2.5 me-2 mb-2
+}
+
+.customStyles {
+
+    color: #fff;
+    margin-left: 10px;
+    border-radius: 2
+
 }
 

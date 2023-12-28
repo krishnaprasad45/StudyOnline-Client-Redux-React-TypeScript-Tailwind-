@@ -199,14 +199,14 @@ function Profile() {
                 />
               </div>
               <div>
-                {previewImage ? (
+                {user.image ? (
                   <img
                     style={{
                       width: "auto",
                       height: "50px",
                       margin: "5px 0 15px 0",
                     }}
-                    src={previewImage}
+                    src={user.image}
                     alt="profile-image"
                     className="profile-image"
                   />

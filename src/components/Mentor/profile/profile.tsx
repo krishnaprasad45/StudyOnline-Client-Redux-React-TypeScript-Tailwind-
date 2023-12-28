@@ -63,32 +63,32 @@ function Profile() {
               <div className="profile-card__txt">
                 Joining Date: <strong>{data.date}</strong>
               </div>
+              <div>
+                <span className="profile-card-loc__txt font-semibold ">
+                  PHONE: {data.mobile}
+                </span>
+              </div>
+
+              <span className="profile-card-loc__icon">
+                <svg className="icon">
+                  <use xlinkHref="#icon-location"></use>
+                </svg>
+              </span>
 
               <div
                 className="profile-card-loc"
-                style={{ display: "flex", alignItems: "center" }}
+                // style={{ display: "flex", alignItems: "center" }}
               >
-                <span className="profile-card-loc__icon">
-                  <svg className="icon">
-                    <use xlinkHref="#icon-location"></use>
-                  </svg>
-                </span>
-                <div>
-                  <span className="profile-card-loc__txt mr-2">
-                    PHONE: {data.mobile}
-                  </span>
-                </div>
-
-                <span className="profile-card-loc__txt">
+                <div className=" flex items-center gap-2 font-bold  profile-card-loc__txt">
                   Adhaar{" "}
                   {data.aadhar_image ? (
-                  <FaCheck style={{ color: "green" }} />
+                    <FaCheck style={{ color: "green" }} />
                   ) : (
                     <IoClose style={{ color: "red" }} />
                   )}
-                </span>
+                </div>
 
-                <div className="profile-card-loc__txt ml-2">
+                <div className=" flex items-center gap-2 profile-card-loc__txt ml-2">
                   Experience{" "}
                   {data.experience_image ? (
                     <FaCheck style={{ color: "green" }} />
@@ -98,8 +98,8 @@ function Profile() {
                 </div>
               </div>
 
-              <div className="profile-card__txt">
-                Account Verification:{" "}
+              <div className="profile-card__txt mt-4">
+                Account Verification{" "}
                 <div className="flex items-center justify-center">
                   {data.verification === "Pending" ? (
                     <FaClockRotateLeft
