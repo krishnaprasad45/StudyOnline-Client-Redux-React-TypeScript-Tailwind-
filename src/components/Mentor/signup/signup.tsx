@@ -24,7 +24,7 @@ function Signup() {
   };
 
   const handleSubmit = async (event: { preventDefault: () => void; }) => {
-    console.log("handlesubmit..")
+   
     event.preventDefault();
     try {
       const formData = new FormData();

@@ -1,14 +1,17 @@
-import Homepage from "../../components/User/Home/userHome"
-import Chat from "../../components/User/Home/chat"
+import './chatCSS.css';
+import Homepage from '../../components/User/Home/userHome';
+import Chat from '../../components/User/Home/chat';
+import { io, Socket } from 'socket.io-client';
 
-function MentorCoursePage(){
+const socket: Socket = io('http://localhost:5000');
 
-    return(
-        <>
-        <Homepage/>
-         <Chat />
-        </>
-    )
-} 
+function MentorCoursePage() {
+  return (
+    <>
+      <Homepage socket={socket} />
+      <Chat socket={socket} />
+    </>
+  );
+}
 
-export default MentorCoursePage
+export default MentorCoursePage;

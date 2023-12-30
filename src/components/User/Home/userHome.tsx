@@ -4,7 +4,9 @@ import "./userHome.css";
 
 import { Link } from "react-router-dom";
 
-const Homepage = () => {
+
+
+const Homepage : React.FC = () => {
   return (
    
       <div

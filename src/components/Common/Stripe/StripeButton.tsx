@@ -8,18 +8,24 @@ import {
 } from "../../../services/popups/popups";
 import { useNavigate } from "react-router-dom";
 import PaymentDetails from "../../../Interfaces/paymentDetails";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../Interfaces/common";
 
 interface StripeBtnProps {
   price: number;
   title:string;
 }
 const StripeBtn: React.FC<StripeBtnProps> = ({ price, title }) => {
+   const userStore = useSelector((state:RootState)=> state.UserSignup)
   const publishableKey =
     "pk_test_51OSDUbSFcGfHkHz59ElbCcxes5kEMxrMIXF04DTorWE6gO4umd6LAxM3MWoxJOxlaHh1UmqHRWQBLD1yVi4UsdHY00kWm1XjqE";
   const navigate = useNavigate();
+  const userId = userStore._id
+  console.log("//usedID",userId)
   const onToken = (token: Token) => {
     const body = {
       amount: price,
+      courseTitle: title,
       token: token,
     };
     userAxios
@@ -28,14 +34,13 @@ const StripeBtn: React.FC<StripeBtnProps> = ({ price, title }) => {
         
         const paymentDetails: PaymentDetails = {
           courseAmount: body.amount,
-          courseTitle: title,
+          courseTitle: body.courseTitle,
           usedEmail: body.token.email,
           type: body.token.type,
           transactionId: body.token.created,
           cardType: body.token.card.brand,
         };
 
-        console.log(paymentDetails);
         setTimeout(() => {
           navigate(userEndpoints.payments, { state: { paymentDetails } });
         }, 0);

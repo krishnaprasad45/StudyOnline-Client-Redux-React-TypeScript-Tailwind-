@@ -1,27 +1,50 @@
-import { useLocation } from "react-router-dom";
 import PaymentDetails from "../../../Interfaces/paymentDetails";
+import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
+import { useEffect, useState } from "react";
+import { userAxios } from "../../../Constraints/axiosInterceptors/userAxiosInterceptors";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../Interfaces/common";
 
 function Payments() {
-  const { state } = useLocation();
-  const data: PaymentDetails = state.paymentDetails;
+  
+
+  const [history, setHistory] = useState<PaymentDetails[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const userStore = useSelector((state:RootState)=> state.UserSignup)
+  const id =userStore.user._id
+  
+  useEffect(() => {
+    userAxios
+      .get(`${userEndpoints.paymentHistory}?id=${id}`)
+      .then((response) => {
+        setHistory(response.data);
+      });
+  }, [id, history]);
+
+  const filteredHistory = history.filter(
+    (data) =>
+      data.courseTitle &&
+      data.courseTitle.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="ml-60">
       {/* Navbar */}
-      {/* <div className="bg-gray-200 p-4">
-          <div className="flex justify-between">
-            <div className="flex">
-              <input
-                type="search"
-                placeholder="Search Users"
-                className="border rounded-l py-2 px-4"
-                name=""
-                id=""
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
+      <div className="bg-gray-200 p-4">
+        <div className="flex justify-between">
+          <div className="flex">
+            <input
+              type="search"
+              placeholder="Search Users"
+              className="border rounded-l py-2 px-4"
+              name=""
+              id=""
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
-        </div> */}
+        </div>
+      </div>
 
       {/* Main Content */}
       <div className="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center  font-sans overflow-hidden">
@@ -39,50 +62,52 @@ function Payments() {
                 </tr>
               </thead>
               <tbody className="text-gray-600 text-sm font-light">
-                {/* {filteredUsers.map((user) => ( */}
-                <tr
+                {filteredHistory.map((data) => (
+                  <tr
                     key={data.transactionId}
-                  className="border-b border-gray-200 bg-gray-50 hover:bg-gray-100"
-                >
-                  <td className="py-3 px-6 text-left">
-                        <div className="flex items-center">
-                          <div className="mr-2"></div>
-                          <span className="font-medium">
-                            {data.courseTitle}
-                          </span>
-                        </div>
-                      </td>
-                  <td className="py-3 px-6 text-left">
-                        <div className="flex items-center">
-                          <div className="mr-2"></div>
-                          <span className="font-medium">
-                            {data.transactionId}
-                          </span>
-                        </div>
-                      </td>
-                  <td className="py-3 px-6 text-left">
-                    <div className="flex items-center">
-                      <div className="mr-2"></div>
-                      <span>{data.usedEmail}</span>
-                    </div>
-                  </td>
-                  <td className="py-3 px-6 text-center">
-                        <div className="flex items-center justify-center">
-                          <span className="font-medium">{data.type.toUpperCase()}</span>
-                        </div>
-                      </td>
-                  <td className="py-3 px-6 text-center">
-                        <div className="flex items-center justify-center">
-                          <span className="font-medium">{data.cardType}</span>
-                        </div>
-                      </td>
-                  <td className="py-3 px-6 text-center">
-                        <div className="flex items-center justify-center">
-                          <span className="font-medium">{data.courseAmount}/-</span>
-                        </div>
-                      </td>
-                </tr>
-                {/* ))} */}
+                    className="border-b border-gray-200 bg-gray-50 hover:bg-gray-100"
+                  >
+                    <td className="py-3 px-6 text-left">
+                      <div className="flex items-center">
+                        <div className="mr-2"></div>
+                        <span className="font-medium">{data.courseTitle}</span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-6 text-left">
+                      <div className="flex items-center">
+                        <div className="mr-2"></div>
+                        <span className="font-medium">
+                          {data.transactionId}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-6 text-left">
+                      <div className="flex items-center">
+                        <div className="mr-2"></div>
+                        <span>{data.usedEmail}</span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-6 text-center">
+                      <div className="flex items-center justify-center">
+                        <span className="font-medium">
+                          {data.type.toUpperCase()}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-6 text-center">
+                      <div className="flex items-center justify-center">
+                        <span className="font-medium">{data.cardType}</span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-6 text-center">
+                      <div className="flex items-center justify-center">
+                        <span className="font-medium">
+                          {data.courseAmount}/-
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

@@ -92,12 +92,9 @@ function CourseDetails() {
               <span className="title-font font-medium text-2xl text-gray-900">
                 ₹{selectedCourse.fee}/-
               </span>
-              {/* <button className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">
-                BUY COURSE
-              </button> */}
-
+        
               <div className="customStyles">
-                <StripeBtn price={selectedCourse.fee} title={selectedCourse.title} />
+                <StripeBtn price={selectedCourse.fee} title={selectedCourse.title}/>
               </div>
             </div>
           </div>

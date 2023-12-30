@@ -16,7 +16,6 @@ function MentorManagement() {
   const navigate = useNavigate();
   useEffect(() => {
     adminAxios.get(adminEndpoints.getMentorsList).then((response) => {
-      console.log("response.data..", response.data);
       setMentors(response.data);
     });
   }, [blockedStatus]);
@@ -27,17 +26,11 @@ function MentorManagement() {
     )[0];
 
     navigate("/admin/mentor-details", { state: { selectedMentor } });
-    console.log(selectedMentor);
   };
 
   const handleBlock = async (id: string | undefined) => {
     try {
-     
-      const response = await adminAxios.post(
-        `${adminEndpoints.blockMentor}?id=${id}`
-      );
-      const mentorData: mentorProfile = response.data;
-      console.log("mentorblock**", mentorData);
+      await adminAxios.post(`${adminEndpoints.blockMentor}?id=${id}`);
 
       setBlockedStatus(!blockedStatus);
     } catch (error) {
@@ -78,7 +71,7 @@ function MentorManagement() {
                   <th className="py-3 px-6 text-left">Name</th>
                   <th className="py-3 px-6 text-left">Email</th>
                   <th className="py-3 px-6 text-center">Mobile</th>
-                  <th className="py-3 px-6 text-center">Verification</th>   
+                  <th className="py-3 px-6 text-center">Verification</th>
                   <th className="py-3 px-6 text-center">Action</th>
                   <th className="py-3 px-6 text-center">View</th>
                 </tr>
@@ -108,7 +101,7 @@ function MentorManagement() {
                         <span className="font-medium">{mentor.mobile}</span>
                       </div>
                     </td>
-                   
+
                     <td className="py-3 px-6 text-center">
                       <div className="flex items-center justify-center">
                         {mentor.verification === "Pending" ? (
@@ -138,7 +131,7 @@ function MentorManagement() {
                                 : "#4caf50",
                               color: "#fff",
                               border: "#fff",
-                              borderRadius: "30px", 
+                              borderRadius: "30px",
                               cursor: "pointer",
                             }}
                           >

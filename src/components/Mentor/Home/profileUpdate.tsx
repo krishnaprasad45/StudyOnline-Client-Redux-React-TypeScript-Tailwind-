@@ -24,8 +24,7 @@ function Profile() {
  
   useEffect(() => {
     const mentorEmail = localStorage.getItem("mentorEmail");
-    console.log("mentorProfileUpdate");
-    console.log("mentorEmail...", mentorEmail);
+
   mentorAxios
       .get(mentorEndpoints.profile, {
         params: { email: mentorEmail }

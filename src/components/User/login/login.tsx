@@ -13,14 +13,19 @@ import {
 } from "../../../services/popups/popups";
 import { ToastContainer } from "react-toastify";
 import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
+import { useDispatch, useSelector } from "react-redux";
+import { UserSignupAction } from "../../../services/redux/action/userSignup";
+import { RootState } from "../../../Interfaces/common";
 
 function Login() {
   //state's
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
+  const user = useSelector((state: RootState) => state.UserSignup);
   //
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   const queryParams = {
     email,
@@ -29,7 +34,7 @@ function Login() {
 
   useEffect(() => {
     const token = localStorage.getItem("usertoken");
-    console.log("usertoken", token);
+ 
 
     if (token) {
       navigate(userEndpoints.dashboard);
@@ -56,6 +61,16 @@ function Login() {
       if (response.data.userData && response.data.userData.email) {
         localStorage.setItem("usertoken", response.data.token);
         localStorage.setItem("userEmail", response.data.userData.email);
+
+        // redux store data
+         console.log(response.data.userData)
+         const userPayload = response.data.userData
+         dispatch(UserSignupAction(userPayload))
+         console.log("user......##",user)
+         
+
+
+
         showSuccessToast("Login Successfull");
         setTimeout(() => {
           navigate(userEndpoints.dashboard);
@@ -95,7 +110,7 @@ function Login() {
       const value = { displayName, email };
       const response = await userAxios.post(userEndpoints.gsignin, value);
       localStorage.setItem("usertoken", response.data.token);
-      console.log("response :", response);
+  
 
       if (response) {
         showSuccessToast("Login Successfull");
@@ -109,7 +124,8 @@ function Login() {
       
     }
   };
-//
+console.log("user......**",user._id)
+
   return (
     <section className="bg-gray-50 min-h-screen flex items-center justify-center">
       <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">

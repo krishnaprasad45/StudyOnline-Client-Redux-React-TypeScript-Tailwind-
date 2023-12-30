@@ -11,6 +11,7 @@ export default{
     marks:"/marks",
     chat:"/chat",
     payments:"/payments",
+    paymentHistory:"/payments/history",
     videomeet:"/videomeet",
     myCourse:"/course"
     

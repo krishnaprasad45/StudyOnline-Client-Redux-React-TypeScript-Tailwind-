@@ -10,7 +10,7 @@ function ListCourses() {
   const navigate = useNavigate();
   useEffect(() => {
     userAxios.get(userEndpoints.courses).then((response) => {
-      console.log("response.data..", response);
+   
       setCourses(response.data);
     });
   }, []);
@@ -21,7 +21,7 @@ function ListCourses() {
     )[0];
 
     navigate(userEndpoints.courseDetails, { state: { selectedCourse } });
-    console.log(selectedCourse);
+
   };
 
   const filteredCourses = courses.filter((course) =>

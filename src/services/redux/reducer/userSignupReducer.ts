@@ -1,25 +1,37 @@
-const initialstate ={
-    firstname:"",
-    lastname:"",
-    email:"",
-    mobile:"",
-    password:"",
-    image:""
+import { userSignup } from "../../../Interfaces/userInterfaces";
+
+interface UserSignupState {
+  user: userSignup | null;
 }
 
-
-const UserSignupReducer = (state=initialstate,action: { type: string; field: string; value: string })=>{
-    switch(action.type){
-
-        case "USER_SIGNUP":
-            return{
-                ...state,
-                [action.field]:action.value
-            }
-        default:
-            return state
-        
-    }
+interface UserSignupAction {
+  type: string;
+  userPayload: userSignup;
 }
 
-export default UserSignupReducer
+const initialState: UserSignupState = {
+  user: null,
+};
+
+const UserSignupReducer = (
+  state: UserSignupState = initialState,
+  action: UserSignupAction
+): UserSignupState => {
+  console.log("Reducer", action.userPayload); // should get the user payload now
+  switch (action.type) {
+    case "USER_SIGNUP":
+      return {
+        ...state,
+        user: action.userPayload,
+      };
+    case "USER_LOGOUT":
+      return {
+        ...state,
+        user: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export default UserSignupReducer;

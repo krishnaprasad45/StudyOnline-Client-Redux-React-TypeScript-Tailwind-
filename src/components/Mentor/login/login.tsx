@@ -12,7 +12,7 @@ import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosI
 import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
 
 function Login() {
-  console.log("hello..")
+  
 //state's
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -27,9 +27,7 @@ function Login() {
     const token = localStorage.getItem("mentorToken");
     if (token) {
       navigate(mentorEndpoints.login);
-    } else {
-      console.log("nothing");
-    }
+    } 
   });
 
   const navigate = useNavigate();

@@ -12,7 +12,6 @@ function ListCourses() {
   const navigate = useNavigate();
   useEffect(() => {
     mentorAxios.get(mentorEndpoints.courses).then((response) => {
-      console.log("response.data..", response);
       setCourses(response.data);
     });
   }, [unlistedStatus]);
@@ -23,18 +22,17 @@ function ListCourses() {
     )[0];
 
     navigate(mentorEndpoints.courseDetails, { state: { selectedCourse } });
-    console.log(selectedCourse);
+
   };
 
   const handleUnlist = async (id: string | undefined) => {
     try {
-      console.log("handleUnlist fun..");
-      console.log("course_id", id);
-      const response = await mentorAxios.post(
+     
+      await mentorAxios.post(
         `${mentorEndpoints.unlistCourse}?id=${id}`
       );
-      const courseData: CourseInterface = response.data;
-      console.log("mentorblock**", courseData);
+     
+    
 
       setUnlistedStatus(!unlistedStatus);
     } catch (error) {

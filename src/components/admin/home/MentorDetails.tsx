@@ -35,7 +35,7 @@ function MentorDetails() {
         `${adminEndpoints.verifyMentor}?id=${id}&status=${status}`
       );
       const mentorData: ProfileInterface = response.data;
-      console.log("mentorblock**", mentorData);
+    
       const updatedStatus: string | undefined = mentorData.verification;
       setVerifyStatus(updatedStatus);
     } catch (error) {

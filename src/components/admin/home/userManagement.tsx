@@ -11,18 +11,17 @@ function UserManagement() {
   
   useEffect(() => {
     adminAxios.get(adminEndpoints.getUsersList).then((response) => {
-      console.log("response.data..chk", response.data);
+   
       setUsers(response.data);
     });
   }, [blockedStatus]);
   
   const handleBlock = async (id: string | undefined) => {
     try {
-      const response = await adminAxios.patch(
+         await adminAxios.patch(
         `${adminEndpoints.blockUser}?id=${id}`
       );
-      const userData: userProfile = response.data; 
-      console.log("userblock**", userData);
+   
 
       setBlockedStatus(!blockedStatus); 
     } catch (error) {

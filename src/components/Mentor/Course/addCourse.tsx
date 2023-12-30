@@ -37,7 +37,6 @@ const AddCourse: React.FC = () => {
         const introvideo = previewVideo;
 
         const Data = { ...values, banner, introvideo };
-        console.log("Datas", Data);
         const response = await mentorAxios.post(
           mentorEndpoints.addCoursePost,
           Data

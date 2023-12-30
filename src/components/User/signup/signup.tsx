@@ -35,7 +35,7 @@ function Signup() {
     try {
       const image = viewImage;
       const Data = { ...values, image };
-      console.log("Datas", Data);
+      
       const response = await userAxios.post(userEndpoints.signup, Data);
       if (response.status === 201) {
         showSuccessToast("Account Created");
