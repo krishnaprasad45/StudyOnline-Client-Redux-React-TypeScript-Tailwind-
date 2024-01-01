@@ -13,38 +13,39 @@ import { RootState } from "../../../Interfaces/common";
 
 interface StripeBtnProps {
   price: number;
-  title:string;
+  title: string;
+  createdby: string;
 }
-const StripeBtn: React.FC<StripeBtnProps> = ({ price, title }) => {
-   const userStore = useSelector((state:RootState)=> state.UserSignup)
+const StripeBtn: React.FC<StripeBtnProps> = ({ price, title, createdby }) => {
+  const userStore = useSelector((state: RootState) => state.UserSignup);
   const publishableKey =
     "pk_test_51OSDUbSFcGfHkHz59ElbCcxes5kEMxrMIXF04DTorWE6gO4umd6LAxM3MWoxJOxlaHh1UmqHRWQBLD1yVi4UsdHY00kWm1XjqE";
   const navigate = useNavigate();
-  const userId = userStore._id
-  console.log("//usedID",userId)
+  const userId = userStore._id;
+  console.log("//usedID", userId);
   const onToken = (token: Token) => {
     const body = {
       amount: price,
       courseTitle: title,
+      createdBy: createdby,
       token: token,
     };
     userAxios
       .post(userEndpoints.payments, body)
       .then(() => {
-        
+        console.log("body-mentor-createdBy", body.createdBy);
         const paymentDetails: PaymentDetails = {
           courseAmount: body.amount,
           courseTitle: body.courseTitle,
+          createdBy: body.createdBy,
           usedEmail: body.token.email,
           type: body.token.type,
           transactionId: body.token.created,
           cardType: body.token.card.brand,
         };
 
-        setTimeout(() => {
-          navigate(userEndpoints.payments, { state: { paymentDetails } });
-        }, 0);
         showSuccessToast("Payment Successfull");
+        navigate(userEndpoints.payments, { state: { paymentDetails } });
       })
       .catch((error) => {
         console.log("Payment Error: ", error);

@@ -6,20 +6,18 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../Interfaces/common";
 
 function Payments() {
-  
-
   const [history, setHistory] = useState<PaymentDetails[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const userStore = useSelector((state:RootState)=> state.UserSignup)
-  const id =userStore.user._id
-  
+  const userStore = useSelector((state: RootState) => state.UserSignup);
+  const email = userStore.user.email;
+
   useEffect(() => {
     userAxios
-      .get(`${userEndpoints.paymentHistory}?id=${id}`)
+      .get(`${userEndpoints.paymentHistory}?email=${email}`)
       .then((response) => {
         setHistory(response.data);
       });
-  }, [id, history]);
+  }, [email]);
 
   const filteredHistory = history.filter(
     (data) =>
@@ -54,6 +52,7 @@ function Payments() {
               <thead>
                 <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                   <th className="py-3 px-6 text-left">Course Name</th>
+                  <th className="py-3 px-6 text-left">Mentor</th>
                   <th className="py-3 px-6 text-left">Transaction ID</th>
                   <th className="py-3 px-6 text-left">Email</th>
                   <th className="py-3 px-6 text-center">Type</th>
@@ -71,6 +70,12 @@ function Payments() {
                       <div className="flex items-center">
                         <div className="mr-2"></div>
                         <span className="font-medium">{data.courseTitle}</span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-6 text-left">
+                      <div className="flex items-center">
+                        <div className="mr-2"></div>
+                        <span className="font-medium">{data.createdBy}</span>
                       </div>
                     </td>
                     <td className="py-3 px-6 text-left">

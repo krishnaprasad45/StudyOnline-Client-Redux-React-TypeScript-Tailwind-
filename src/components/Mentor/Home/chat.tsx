@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ChatBar from '../../Common/Chat/ChatBar';
 import ChatBody from '../../Common/Chat/ChatBody';
 import ChatFooter from '../../Common/Chat/ChatFooter';
-import { Socket } from 'socket.io-client';
+import { socket } from '../../../services/socket.io/socketConfig';
 
 interface Message {
   text: string;
@@ -11,17 +11,19 @@ interface Message {
   socketID: string;
 }
 
-interface ChatProps {
-  socket: Socket;
-}
-
-const Chat: React.FC<ChatProps> = ({ socket }) => {
+const Chat: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
-    socket.on('messageResponse', (data: Message) => setMessages([...messages, data]));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [socket, messages]);
+    const handleSocketMessage = (data: Message) => setMessages((prevMessages) => [...prevMessages, data]);
+
+    socket.on('messageResponse', handleSocketMessage);
+
+    return () => {
+      // Clean up the socket listener when the component unmounts
+      socket.off('messageResponse', handleSocketMessage);
+    };
+  }, [socket]);
 
   return (
     <div className="chat">
@@ -29,7 +31,7 @@ const Chat: React.FC<ChatProps> = ({ socket }) => {
       <ChatBar />
       <div className="chat__main">
         <ChatBody messages={messages} />
-        <ChatFooter socket={socket} />
+        <ChatFooter />
       </div>
     </div>
   );

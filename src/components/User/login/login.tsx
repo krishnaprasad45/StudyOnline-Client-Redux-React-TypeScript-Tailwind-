@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { UserSignupAction } from "../../../services/redux/action/userSignup";
 import { RootState } from "../../../Interfaces/common";
 
+
 function Login() {
   //state's
   const [email, setEmail] = useState<string>("");
@@ -124,7 +125,7 @@ function Login() {
       
     }
   };
-console.log("user......**",user._id)
+
 
   return (
     <section className="bg-gray-50 min-h-screen flex items-center justify-center">

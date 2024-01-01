@@ -94,7 +94,7 @@ function CourseDetails() {
               </span>
         
               <div className="customStyles">
-                <StripeBtn price={selectedCourse.fee} title={selectedCourse.title}/>
+                <StripeBtn price={selectedCourse.fee} title={selectedCourse.title} createdby={selectedCourse.createdby}/>
               </div>
             </div>
           </div>

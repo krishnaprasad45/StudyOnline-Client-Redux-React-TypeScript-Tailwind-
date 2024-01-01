@@ -1,10 +1,21 @@
 // Mentor Dashboard.js
 import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
 import "./mentorHome.css";
-
 import { Link } from "react-router-dom";
+import { socket } from '../../../services/socket.io/socketConfig'
+import { useEffect, useState } from "react";
 
 const Homepage = () => {
+
+  socket.connect();
+  const [connected, setConnected] = useState(socket.connected);
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      setConnected(true);
+    })
+  }, [])
+  console.log("Socket.io connection",connected)
   return (
    
       <div
