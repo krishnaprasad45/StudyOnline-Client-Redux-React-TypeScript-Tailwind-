@@ -11,8 +11,7 @@ export interface RootState {
 }
 
 interface UserSignup {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  user?: any;
+  
   _id? :string;
   firstname: string;
   lastname: string;
@@ -21,7 +20,8 @@ interface UserSignup {
   password: string;
   image: string;
   isBlock:boolean
-  date:string
+  date:string;
+  mentorIncharge:string;
 
   
 }

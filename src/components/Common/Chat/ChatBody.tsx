@@ -1,19 +1,31 @@
-import React from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { socket } from "../../../services/socket.io/socketConfig";
 
 interface Message {
-  text: string;
-  name: string;
-  id: string;
-  socketID: string;
+  message: string;
+  to: string;
+  from: string;
+  id:number
+  
 }
 
-interface ChatBodyProps {
-  messages: Message[];
-}
-
-const ChatBody: React.FC<ChatBodyProps> = ({ messages }) => {
+const ChatBody: React.FC = () => {
   const navigate = useNavigate();
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [newMessage, setNewMessage] = useState<string>(''); // New state for input value
+
+  useEffect(() => {
+    socket.on("SentMessage", (msg) => {
+      setMessages((prevMessages) => {
+        if (!prevMessages.find((m) => m.id === msg.id)) {
+          return [...prevMessages, msg];
+        }
+        return prevMessages;
+      });
+    });
+  }, []);
+  
 
   const handleLeaveChat = () => {
     localStorage.removeItem("userName");
@@ -21,41 +33,71 @@ const ChatBody: React.FC<ChatBodyProps> = ({ messages }) => {
     window.location.reload();
   };
 
+  const handleSendMessage = (e: FormEvent) => {
+    e.preventDefault();
+    if (
+      (messages && localStorage.getItem("userEmail")) ||
+      localStorage.getItem("mentorEmail")
+    ) {
+      socket.emit("SentMessage", {
+        from: localStorage.getItem("userEmail"),
+        message: newMessage, // Use newMessage state here
+        to: localStorage.getItem("mentorEmail"),
+        id: `${socket.id}${Math.random()}`,
+      });
+    }
+    console.log({ userName: localStorage.getItem("userEmail"), messages });
+    setNewMessage(''); // Clear input after sending the message
+  };
+
   return (
-    <>
+    <div className="w-full ">
+      {/* ChatBar */}
+
+
+      
       <header className="chat__mainHeader">
-        <p>Let's Chat</p>
+        <p>CHAT WINDOW</p>
         <button className="leaveChat__btn" onClick={handleLeaveChat}>
           LEAVE CHAT
         </button>
       </header>
 
-      {/* This shows messages sent from you */}
       <div className="message__container">
-        {messages.map((message) =>
-          message.name === localStorage.getItem("userName") ? (
-            <div className="message__chats" key={message.id}>
+        {messages.map((data) =>
+          data.from === localStorage.getItem("userEmail") ? (
+            <div className="message__chats" key={data.id}>
               <p className="sender__name">You</p>
               <div className="message__sender">
-                <p>{message.text}</p>
+                <p>{data.message}</p>
               </div>
             </div>
           ) : (
-            <div className="message__chats" key={message.id}>
-              <p>{message.name}</p>
+            <div className="message__chats" key={data.id}>
+              <p>{data.from}</p>
               <div className="message__recipient">
-                <p>{message.text}</p>
+                <p>{data.message}</p>
               </div>
             </div>
           )
         )}
-
-        {/* This is triggered when a user is typing */}
-        {/* <div className="message__status">
-          <p>Someone is typing...</p>
-        </div> */}
       </div>
-    </>
+
+      <div className="chat__footer">
+        <form className="form" onSubmit={handleSendMessage}>
+          <input
+            type="text"
+            placeholder="Write message"
+            className="message"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+          />
+          <button type="submit" className="sendBtn bg-lime-500">
+            SEND
+          </button>
+        </form>
+      </div>
+    </div>
   );
 };
 

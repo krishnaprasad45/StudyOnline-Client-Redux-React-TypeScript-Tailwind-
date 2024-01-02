@@ -1,14 +1,15 @@
-import Homepage from '../../components/Mentor/Home/mentorHome';
-import Chat from '../../components/Mentor/Home/chat';
+import Homepage from "../../components/Mentor/Home/mentorHome";
+import ChatBar from "../../components/Common/Chat/ChatBar";
+import ChatBody from "../../components/Common/Chat/ChatBody";
 
-function MentorCoursePage(){
+function MentorCoursePage() {
+  return (
+    <div className='flex'>
+      <Homepage />
+      <ChatBar />
+      <ChatBody />
+    </div>
+  );
+}
 
-    return(
-        <>
-        <Homepage/>
-         <Chat />
-        </>
-    )
-} 
-
-export default MentorCoursePage
+export default MentorCoursePage;

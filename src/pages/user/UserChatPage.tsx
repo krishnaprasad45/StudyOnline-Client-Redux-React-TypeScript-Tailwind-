@@ -1,16 +1,16 @@
-import './chatCSS.css';
+import ChatBody from '../../components/Common/Chat/ChatBody';
 import Homepage from '../../components/User/Home/userHome';
-import Chat from '../../components/User/Home/chat';
-import { io, Socket } from 'socket.io-client';
+import './chatCSS.css';
+import ChatBar from '../../components/Common/Chat/ChatBar';
 
-const socket: Socket = io('http://localhost:5000');
 
 function MentorCoursePage() {
   return (
-    <>
+    <div className='flex'>
       <Homepage  />
-      <Chat socket={socket} />
-    </>
+      <ChatBar/>
+      <ChatBody/>
+    </div>
   );
 }
 

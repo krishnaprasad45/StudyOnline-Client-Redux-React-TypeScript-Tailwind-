@@ -28,7 +28,7 @@ function Login() {
     if (token) {
       navigate(mentorEndpoints.login);
     } 
-  });
+  },[]);
 
   const navigate = useNavigate();
 
