@@ -1,6 +1,7 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { socket } from "../../../services/socket.io/socketConfig";
+import { generateUniqueID } from "../../../utils/generateUniqueID";
 
 interface Message {
   message: string;
@@ -39,16 +40,22 @@ const ChatBody: React.FC = () => {
       (messages && localStorage.getItem("userEmail")) ||
       localStorage.getItem("mentorEmail")
     ) {
+      const uniqueID = generateUniqueID();
       socket.emit("SentMessage", {
         from: localStorage.getItem("userEmail"),
         message: newMessage, // Use newMessage state here
         to: localStorage.getItem("mentorEmail"),
         id: `${socket.id}${Math.random()}`,
+        chatId:uniqueID
+
       });
     }
     console.log({ userName: localStorage.getItem("userEmail"), messages });
     setNewMessage(''); // Clear input after sending the message
   };
+
+
+  
 
   return (
     <div className="w-full ">

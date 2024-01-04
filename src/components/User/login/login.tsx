@@ -13,9 +13,8 @@ import {
 } from "../../../services/popups/popups";
 import { ToastContainer } from "react-toastify";
 import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { UserSignupAction } from "../../../services/redux/action/userSignup";
-import { RootState } from "../../../Interfaces/common";
 
 
 function Login() {
@@ -23,7 +22,6 @@ function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
-  const user = useSelector((state: RootState) => state.UserSignup);
   //
   const navigate = useNavigate();
   const dispatch = useDispatch()
@@ -46,6 +44,11 @@ function Login() {
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
+  const handleImageError = () => {
+    // Handle the image loading error here
+    console.error('Image failed to load');
+    // You can set a default image or display an error message
+  };
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
@@ -67,7 +70,7 @@ function Login() {
          console.log(response.data.userData)
          const userPayload = response.data.userData
          dispatch(UserSignupAction(userPayload))
-         console.log("user......##",user)
+       
          
 
 
@@ -197,12 +200,13 @@ function Login() {
 
         {/* image */}
         <div className="md:block hidden w-1/2">
-          <img
-            className="rounded-2xl"
-            src="https://img.freepik.com/free-photo/3d-rendering-cartoon-like-man-working-computer_23-2150797574.jpg?t=st=1699953470~exp=1699957070~hmac=706984dfee88657878b759a0dfca27115910e76a15e26dde5fe84b3239380e0d&w=740"
-            alt="Login Image"
-          />
-        </div>
+      <img
+        className="rounded-2xl"
+        src="https://res.cloudinary.com/dc3otxw05/image/upload/v1704359572/User%20Image/glywwzrh0cz3g6fowdhx.jpg"
+        alt="Login Image"
+        onError={handleImageError}
+      />
+    </div>
       </div>
     </section>
   );

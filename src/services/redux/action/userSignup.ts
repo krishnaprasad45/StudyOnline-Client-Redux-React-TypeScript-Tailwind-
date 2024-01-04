@@ -1,7 +1,6 @@
 import { userSignup } from "../../../Interfaces/userInterfaces";
 
 export const UserSignupAction = (user: userSignup) => {
-  console.log("Action", user); 
   return {
     type: "USER_SIGNUP",
     userPayload: user, 

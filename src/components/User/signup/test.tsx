@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import "./signup.css";
+import { RootState } from "../../../Interfaces/common";
 import {
   showErrorToast,
   showSuccessToast,
@@ -15,7 +17,7 @@ import uploadImage from "../../../services/cloudinary/customeImageUpload";
 function Signup() {
   const [image, setImage] = useState<File>();
   const [viewImage, setViewImage] = useState<string>();
-  
+  const signup = useSelector((state: RootState) => state.UserSignup);
   const navigate = useNavigate();
 
   const initialValues = {
@@ -57,10 +59,8 @@ function Signup() {
             alt="Login Image"
           />
         </div>
-        <div className="md:w-2/2 px-8 md:px-12 ">
-          <h2 className="font-bold text-2xl text-[#002D74] mb-4">
-            User Signup
-          </h2>
+        <div className="md:w-2/2 px-8 md:px-16 ">
+          <h2 className="font-bold text-2xl text-[#002D74]">User Signup</h2>
           <ToastContainer />
 
           <Formik
@@ -69,106 +69,134 @@ function Signup() {
             validationSchema={SignupSchema}
           >
             <Form>
-              <div className="flex justify-between gap-2">
+              <div className="flex justify-between">
                 <div className="relative mb-6" data-te-input-wrapper-init>
-                  <label>First Name</label>
-                  <Field
-                    type="text"
-                    className="peer block min-h-[auto] mr-5 w-full rounded border-black bg-white px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                    name="firstname"
-                    placeholder="Enter your first name"
-                    style={{ "::placeholder": { color: "black" } }}
-                  />
-                 
-                  <ErrorMessage
-                    name="firstname"
-                    component="div"
-                    className="error text-sm"
-                  />
-                </div>
-
-                <div className="relative mb-6" data-te-input-wrapper-init>
-                <label>Last Name</label>
                   <Field
                     type="text"
                     className="peer block min-h-[auto] w-full rounded border-black bg-white px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     name="lastname"
                     placeholder="Enter your last name"
                   />
-                
+                  <label
+                    htmlFor="exampleFormControlInput2"
+                    className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
+                  >
+                    {!signup.firstname && <>First Name</>}
+                  </label>
+                  <ErrorMessage
+                    name="firstname"
+                    component="div"
+                    className="error"
+                  />
+                </div>
+
+                <div className="relative mb-6" data-te-input-wrapper-init>
+                  <Field
+                    type="text"
+                    className="peer block min-h-[auto] w-full rounded border-black bg-white px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                    name="lastname"
+                    placeholder="Enter your last name"
+                  />
+                  <label
+                    htmlFor="exampleFormControlInput2"
+                    className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
+                  >
+                    {!signup.lastname && <>Last Name</>}
+                  </label>
                   <ErrorMessage
                     name="lastname"
                     component="div"
-                    className="error text-sm"
+                    className="error"
                   />
                 </div>
               </div>
-              <div className="flex justify-between gap-2">
+              <div className="flex justify-between">
                 <div className="relative mb-6" data-te-input-wrapper-init>
-                <label>Email Address</label>
                   <Field
                     type="email"
                     className="peer block min-h-[auto] w-full rounded border-black bg-white px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     name="email"
                     placeholder="Enter your email"
                   />
-                 
+                  <label
+                    htmlFor="exampleFormControlInput2"
+                    className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
+                  >
+                    {!signup.email && <>Email address</>}
+                  </label>
                   <ErrorMessage
                     name="email"
                     component="div"
-                    className="error text-sm"
+                    className="error"
                   />
                 </div>
 
                 <div className="relative mb-6" data-te-input-wrapper-init>
-                <label>Phone Number</label>
                   <Field
                     type="text"
                     className="peer block min-h-[auto] w-full rounded border-black bg-white px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     name="mobile"
                     placeholder="Enter your number"
                   />
-                
+                  <label
+                    htmlFor="exampleFormControlInput22"
+                    className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
+                  >
+                    {!signup.mobile && <>Phone Number</>}
+                  </label>
                   <ErrorMessage
                     name="mobile"
                     component="div"
-                    className="error text-sm"
+                    className="error"
                   />
                 </div>
               </div>
-              <div className="flex justify-between gap-2">
+              <div className="flex justify-between">
                 <div className="relative mb-6" data-te-input-wrapper-init>
-                <label>Password</label>
                   <Field
                     type="password"
                     className="peer block min-h-[auto] w-full rounded border-black bg-white px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     name="password"
                     placeholder="Create a password"
                   />
-               
+                  <label
+                    htmlFor="exampleFormControlInput22"
+                    className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
+                  >
+                    {!signup.password && <>Password</>}
+                  </label>
                   <ErrorMessage
                     name="password"
                     component="div"
-                    className="error text-sm"
+                    className="error"
                   />
                 </div>
                 <div className="relative mb-6" data-te-input-wrapper-init>
-                <label>Confirm Password</label>
                   <Field
                     type="password"
                     className="peer block min-h-[auto]  w-full rounded border-black bg-white px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     name="confirm_password"
                     placeholder="Confirm password"
                   />
-                 
+                  <label
+                    htmlFor="exampleFormControlInput22"
+                    className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
+                  >
+                    {!signup.password && <>Confirm Password</>}
+                  </label>
                   <ErrorMessage
                     name="confirm_password"
                     component="div"
-                    className="error text-sm"
+                    className="error"
                   />
                 </div>
               </div>
               <div className="relative mb-6" data-te-input-wrapper-init>
+                {/* <label htmlFor="fileInput" className="custom-file-upload">
+                    {image
+                      ? "Choose another photo"
+                      : "\u00a0  Select a profile Photo"}
+                  </label> */}
                 <p>Profile picture</p>
                 <Field
                   type="file"
@@ -203,16 +231,12 @@ function Signup() {
                     />
                   )}
                 </div>
-                <ErrorMessage
-                  name="image"
-                  component="div"
-                  className="error text-sm"
-                />
+                <ErrorMessage name="image" component="div" className="error" />
               </div>
 
               <div className="mb-6 flex items-center justify-between"></div>
 
-              <div className="text-center lg:text-right">
+              <div className="text-center lg:text-left">
                 <button
                   type="submit"
                   className="inline-block rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#3b71ca] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:bg-primary-700 dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
@@ -222,10 +246,13 @@ function Signup() {
                 </button>
 
                 <br />
-                <Link to={userEndpoints.login}>Already registered?</Link>
               </div>
+
+              {/* ... (rest of the form code) */}
             </Form>
           </Formik>
+
+          <Link to={userEndpoints.login}>Already registered?</Link>
         </div>
       </div>
     </section>
