@@ -4,7 +4,7 @@ import { socket } from "../../../services/socket.io/socketConfig";
 import { generateUniqueID } from "../../../utils/generateUniqueID";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Interfaces/common";
-import BuyCourse from "../Alerts/BuyCourse";
+import BuyCourse from "../Alerts/BuyCourseForChat";
 
 interface Message {
   message: string;
@@ -14,10 +14,10 @@ interface Message {
 }
 
 const ChatBody: React.FC = () => {
-  const userStore = useSelector((state: RootState) => state.UserSignup);
+  const userStore = useSelector((state: RootState) => state.user);
 
   const userMentor = userStore.user.mentorIncharge;
-  console.log("userMentor", userMentor);
+ 
 
   const navigate = useNavigate();
   const [messages, setMessages] = useState<Message[]>([]);
@@ -49,14 +49,14 @@ const ChatBody: React.FC = () => {
       const uniqueID = generateUniqueID();
       socket.emit("SentMessage", {
         from: localStorage.getItem("userEmail"),
-        message: newMessage, // Use newMessage state here
+        message: newMessage, 
         to: localStorage.getItem("mentorEmail"),
         id: `${socket.id}${Math.random()}`,
         chatId: uniqueID,
       });
     }
     console.log({ userName: localStorage.getItem("userEmail"), messages });
-    setNewMessage(""); // Clear input after sending the message
+    setNewMessage(""); 
   };
 
   return (

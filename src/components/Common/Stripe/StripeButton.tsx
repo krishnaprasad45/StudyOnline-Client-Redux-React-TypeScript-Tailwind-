@@ -17,7 +17,7 @@ interface StripeBtnProps {
   createdby: string;
 }
 const StripeBtn: React.FC<StripeBtnProps> = ({ price, title, createdby }) => {
-  const userStore = useSelector((state: RootState) => state.UserSignup);
+  const userStore = useSelector((state: RootState) => state.userUpdate);
   const publishableKey =
     "pk_test_51OSDUbSFcGfHkHz59ElbCcxes5kEMxrMIXF04DTorWE6gO4umd6LAxM3MWoxJOxlaHh1UmqHRWQBLD1yVi4UsdHY00kWm1XjqE";
   const navigate = useNavigate();
