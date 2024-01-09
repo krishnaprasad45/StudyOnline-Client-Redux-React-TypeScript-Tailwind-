@@ -4,17 +4,14 @@ import { useNavigate } from 'react-router-dom'
 import { userProfile } from '../../../Interfaces/userInterfaces'
 import { userAxios } from '../../../Constraints/axiosInterceptors/userAxiosInterceptors'
 import userEndpoints from '../../../Constraints/endpoints/userEndpoints'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../../Interfaces/common';
-import { UserLogout } from '../../../services/redux/action/userSignup';
 
 function Profile() {
   const [data, setData] = useState<userProfile>();
   const navigate = useNavigate()
-  const dispatch = useDispatch()
 
-  const userStore = useSelector((state:RootState)=>state.UserSignup)
-  const user =userStore.user
+
+
+  
   const Logout = (() => {
     localStorage.removeItem("userEmail");
     localStorage.removeItem("usertoken");
@@ -43,7 +40,7 @@ function Profile() {
   // console.log("user()",user.mobile)
   return (
     
-    <div className="wrapper">
+    <div className=" wrapper w-70">
       { data?.email && <div className="profile-card js-profile-card">
         <div className="profile-card__img">
         <img src={data.image} alt={data.image} />

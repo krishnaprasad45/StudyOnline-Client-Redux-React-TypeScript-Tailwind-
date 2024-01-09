@@ -4,7 +4,7 @@ interface UserSignupState {
   user: userSignup | null;
 }
 
-interface UserSignupAction {
+export interface UserSignupAction {
   type: string;
   userPayload: userSignup;
 }
@@ -17,7 +17,7 @@ const UserSignupReducer = (
   state: UserSignupState = initialState,
   action: UserSignupAction
 ): UserSignupState => {
-
+  console.log("userReducer",action.userPayload);
   switch (action.type) {
     case "USER_SIGNUP":
       return {

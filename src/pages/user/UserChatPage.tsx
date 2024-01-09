@@ -8,7 +8,7 @@ function MentorCoursePage() {
   return (
     <div className='flex'>
       <Homepage  />
-      <ChatBar/>
+      {/* <ChatBar/> */}
       <ChatBody/>
     </div>
   );

@@ -23,6 +23,7 @@ const StripeBtn: React.FC<StripeBtnProps> = ({ price, title, createdby }) => {
   const navigate = useNavigate();
   const userId = userStore._id;
   console.log("//usedID", userId);
+  console.log("createdBY..", createdby);
   const onToken = (token: Token) => {
     const body = {
       amount: price,

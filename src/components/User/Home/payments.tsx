@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 import { userAxios } from "../../../Constraints/axiosInterceptors/userAxiosInterceptors";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Interfaces/common";
+import EmptyCard from "../../Common/EmptyCard/EmptyCard";
 
 function Payments() {
   const [history, setHistory] = useState<PaymentDetails[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const userStore = useSelector((state: RootState) => state.UserSignup);
+  const userStore = useSelector((state: RootState) => state.user);
+ 
   const email = userStore.user.email;
 
   useEffect(() => {
@@ -28,12 +30,13 @@ function Payments() {
   return (
     <div className="ml-60">
       {/* Navbar */}
-      <div className="bg-gray-200 p-4">
+      {filteredHistory.length === 0 ? '' :(
+      <div className="bg-gray-200 p-4 ml-6">
         <div className="flex justify-between">
           <div className="flex">
             <input
               type="search"
-              placeholder="Search Users"
+              placeholder="Search Payment"
               className="border rounded-l py-2 px-4"
               name=""
               id=""
@@ -42,12 +45,13 @@ function Payments() {
             />
           </div>
         </div>
-      </div>
+      </div>)}
 
       {/* Main Content */}
       <div className="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center  font-sans overflow-hidden">
         <div className="w-full lg:w-5/6">
           <div className="bg-white shadow-md rounded my-6">
+            {filteredHistory.length === 0 ? ( <EmptyCard/>) :
             <table className="min-w-max w-full table-auto">
               <thead>
                 <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -114,7 +118,7 @@ function Payments() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table>}
           </div>
         </div>
       </div>

@@ -14,15 +14,12 @@ import uploadImage from "../../../services/cloudinary/customeImageUpload";
 import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
 
 function Profile() {
-  const mentor = useSelector((state: RootState) => state.MentorUpdate);
-  const APIURL = useSelector((state: RootState) => state.APIURL.url);
+  const mentor = useSelector((state: RootState) => state.mentorUpdate);
+  const APIURL = useSelector((state: RootState) => state.url);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [mentorImage, setMentorImage] = useState<File>();
   const [previewMentorImage, setPreviewMentorImage] = useState<string>();
-  const [adhaarImage, setAdhaarImage] = useState<File>();
   const [previewAdhaarImage, setPreviewAdhaarImage] = useState<string>();
-  const [experienceImage, setExperienceImage] = useState<File>();
   const [previewExperienceImage, setPreviewExperienceImage] = useState<string>();
 
   useEffect(() => {
@@ -60,15 +57,16 @@ function Profile() {
     e.preventDefault();
     try {
       const formData = new FormData();
-      if (previewMentorImage) formData.append("images[]", previewMentorImage);
-      if (previewAdhaarImage) formData.append("images[]", previewAdhaarImage);
-      if (previewExperienceImage) formData.append("images[]", previewExperienceImage);
+      if (previewMentorImage) formData.append("image", previewMentorImage);
+      if (previewAdhaarImage) formData.append("aadhar_image", previewAdhaarImage);
+      if (previewExperienceImage) formData.append("experience_image", previewExperienceImage);
 
       if (mentor) {
         formData.append("firstname", mentor.firstname);
         formData.append("lastname", mentor.lastname);
         formData.append("email", mentor.email);
         formData.append("mobile", mentor.mobile);
+        
       }
 
       const oldEmail = localStorage.getItem("mentorEmail");
@@ -96,10 +94,10 @@ function Profile() {
   };
 
   return (
-    <section className="h-screen">
-      <div className="h-full">
-        <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
-          <div className="shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12">
+    <section className="bg-gray-50 min-h-screen flex items-center justify-center">
+      <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">
+      <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
+      <div className="shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12">
             <img
               src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
               className="w-full"
@@ -188,21 +186,21 @@ function Profile() {
 
               <div className="image-selection">
                 <label htmlFor="fileInput" className="custom-file-upload">
-                  {mentorImage || previewMentorImage
+                  {mentor.image || previewMentorImage
                     ? "\u00a0  \u00a0  Choose another profile photo"
                     : "Select a profile Photo"}
                 </label>
                 <input
                   className="file-input"
                   type="file"
-                  name="images[]"
+                  name="mentor_image"
                   id="fileInput"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     const imageFileList = e.target.files;
                     if (imageFileList && imageFileList.length > 0) {
                       const image = imageFileList[0];
                       const foldername = 'Mentor Image'
-                      setMentorImage(image);
+                   
                       uploadImage(image,foldername).then((url) => setPreviewMentorImage(url));
                     }
                   }}
@@ -228,7 +226,7 @@ function Profile() {
                       height: "50px",
                       margin: "5px 0 15px 0",
                     }}
-                    src={`${APIURL}/public/images/${mentor.image}`}
+                    src={mentor.image}
                     alt="profile-image"
                     className="profile-image"
                   />
@@ -250,21 +248,21 @@ function Profile() {
 
               <div className="image-selection">
                 <label htmlFor="fileInput2" className="custom-file-upload">
-                  {adhaarImage || previewAdhaarImage
+                  {mentor.aadhar_image || previewAdhaarImage
                     ? "\u00a0  \u00a0  Choose another aadhar photo"
                     : "Select a aadhar Photo"}
                 </label>
                 <input
                   className="file-input"
                   type="file"
-                  name="images[]"
+                  name="aadhar_image"
                   id="fileInput2"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     const imageFileList = e.target.files;
                     if (imageFileList && imageFileList.length > 0) {
                       const image = imageFileList[0];
                       const foldername = 'Mentor Adhaar Image'
-                      setAdhaarImage(image);
+                   
                       uploadImage(image,foldername).then((url) => setPreviewAdhaarImage(url));
                     }
                   }}
@@ -290,7 +288,7 @@ function Profile() {
                       height: "50px",
                       margin: "5px 0 15px 0",
                     }}
-                    src={`${APIURL}/public/images/${mentor.aadhar_image}`}
+                    src={mentor.aadhar_image}
                     alt="aadhar-image"
                     className="profile-image"
                   />
@@ -301,7 +299,7 @@ function Profile() {
                       height: "100px",
                       margin: "5px 0 15px 0",
                     }}
-                    src=""
+                    src={previewAdhaarImage}
                     alt="aadhar-image"
                     className="profile-image"
                   />
@@ -312,21 +310,21 @@ function Profile() {
 
               <div className="image-selection">
                 <label htmlFor="fileInput3" className="custom-file-upload">
-                  {experienceImage || previewExperienceImage
+                  {mentor.experience_image || previewExperienceImage
                     ? "\u00a0  \u00a0  Choose another experience photo"
                     : "Select a experience_image"}
                 </label>
                 <input
                   className="file-input"
                   type="file"
-                  name="images[]"
+                  name="experience_image"
                   id="fileInput3"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     const imageFileList = e.target.files;
                     if (imageFileList && imageFileList.length > 0) {
                       const image = imageFileList[0];
                       const foldername = 'Mentor Exerience Image'
-                      setExperienceImage(image);
+                      
                       uploadImage(image,foldername).then((url) => setPreviewExperienceImage(url));
                     }
                   }}
@@ -352,7 +350,7 @@ function Profile() {
                       height: "50px",
                       margin: "5px 0 15px 0",
                     }}
-                    src={`${APIURL}/public/images/${mentor.experience_image}`}
+                    src={mentor.experience_image}
                     alt="experience_image"
                     className="profile-image"
                   />
@@ -360,10 +358,10 @@ function Profile() {
                   <img
                     style={{
                       width: "auto",
-                      height: "100px",
+                      height: "150px",
                       margin: "5px 0 15px 0",
                     }}
-                    src=""
+                    src={previewExperienceImage}
                     alt="experience_image"
                     className="profile-image"
                   />

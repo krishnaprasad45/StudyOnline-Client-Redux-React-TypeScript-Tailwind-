@@ -1,24 +1,35 @@
-const initialstate ={
-    firstname:"",
-    lastname:"",
-    email:"",
-    mobile:"",
-    password:""
-}
+import  mentorSignup  from "../../../Interfaces/mentorInterfaces";
 
 
-const MentorSignupReducer = (state=initialstate,action: { type: string; field: string; value: string })=>{
-    switch(action.type){
 
-        case "MENTOR_SIGNUP":
-            return{
-                ...state,
-                [action.field]:action.value
-            }
-        default:
-            return state
-        
-    }
-}
+interface MentorSignupState {
+    mentor: mentorSignup | null;
+  }
+  
+  interface MentorSignupAction {
+    type: string;
+    mentorPayload: mentorSignup;
+  }
+  
+  const initialState: MentorSignupState = {
+    mentor: null,
+  };
 
-export default MentorSignupReducer
+
+
+const MentorSignupReducer = (
+  state : MentorSignupState = initialState,
+  action: MentorSignupAction
+): MentorSignupState => {
+  switch (action.type) {
+    case "MENTOR_SIGNUP":
+      return {
+        ...state,
+        mentor:action.mentorPayload,
+      };
+    default:
+      return state;
+  }
+};
+
+export default MentorSignupReducer;

@@ -26,17 +26,6 @@ const Homepage = () => {
           <button>Courses</button>
         </Link>
 
-        {/* <Link
-          className="mb-12 p-2 rounded buttonStyle"
-          to={mentorEndpoints.assignments}
-        >
-          <button>Assignments</button>
-        </Link> */}
-
-        {/* <Link className="mb-12 p-2 rounded buttonStyle" to={mentorEndpoints.marks}>
-          <button>Marks</button>
-        </Link> */}
-
         <Link className="mb-12 p-2 rounded buttonStyle" to={mentorEndpoints.videomeet}>
           <button>VideoMeet</button>
         </Link>

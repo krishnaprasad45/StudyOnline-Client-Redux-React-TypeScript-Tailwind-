@@ -1,12 +1,13 @@
-  
-import ProfileUpdate from '../../components/Mentor/profileUpdate/profileUpdate'
+import Homepage from "../../components/Mentor/Home/mentorHome";
+import ProfileUpdate from "../../components/Mentor/profileUpdate/profileUpdate";
 
 function MentorProfileUpdate() {
   return (
     <div>
-        <ProfileUpdate/>
+      <Homepage />
+      <ProfileUpdate />
     </div>
-  )
+  );
 }
 
-export default MentorProfileUpdate
+export default MentorProfileUpdate;

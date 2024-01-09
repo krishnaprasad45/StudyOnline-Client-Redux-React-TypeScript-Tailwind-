@@ -28,16 +28,6 @@ const Homepage: React.FC = () => {
         <button>Courses</button>
       </Link>
 
-      {/* <Link
-          className="mb-12 p-2 rounded buttonStyle2"
-          to="{userEndpoints.assignments}"
-        >
-          <button>Assignments</button>
-        </Link> */}
-
-      {/* <Link className="mb-12 p-2 rounded buttonStyle2" to="/mentor/marks">
-          <button>Marks</button>
-        </Link> */}
 
       <Link
         className="mb-12 p-2 rounded buttonStyle2"

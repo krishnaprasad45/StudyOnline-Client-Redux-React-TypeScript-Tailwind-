@@ -1,4 +1,8 @@
 export interface RootState {
+  mentorUpdate: any;
+  userUpdate: any;
+  url: any;
+  user: any;
   UserLogin: UserLogin;
   MentorSignup: MentorSign;
   MentorLogin: MentorLogin;
