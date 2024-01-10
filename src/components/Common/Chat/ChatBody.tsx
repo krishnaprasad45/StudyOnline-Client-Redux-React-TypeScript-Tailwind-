@@ -2,9 +2,6 @@ import React, { FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { socket } from "../../../services/socket.io/socketConfig";
 import { generateUniqueID } from "../../../utils/generateUniqueID";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../Interfaces/common";
-import BuyCourse from "../Alerts/BuyCourseForChat";
 
 interface Message {
   message: string;
@@ -14,16 +11,19 @@ interface Message {
 }
 
 const ChatBody: React.FC = () => {
-  const userStore = useSelector((state: RootState) => state.user);
-
-  const userMentor = userStore.user.mentorIncharge;
- 
-
   const navigate = useNavigate();
   const [messages, setMessages] = useState<Message[]>([]);
-  const [newMessage, setNewMessage] = useState<string>(""); // New state for input value
+  const [newMessage, setNewMessage] = useState<string>("");
 
   useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      const message = "Are you sure you want to leave?";
+      event.returnValue = message; 
+      return message; 
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
     socket.on("SentMessage", (msg) => {
       setMessages((prevMessages) => {
         if (!prevMessages.find((m) => m.id === msg.id)) {
@@ -32,12 +32,15 @@ const ChatBody: React.FC = () => {
         return prevMessages;
       });
     });
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
   }, []);
 
   const handleLeaveChat = () => {
     localStorage.removeItem("userName");
     navigate("/");
-    window.location.reload();
   };
 
   const handleSendMessage = (e: FormEvent) => {
@@ -49,33 +52,21 @@ const ChatBody: React.FC = () => {
       const uniqueID = generateUniqueID();
       socket.emit("SentMessage", {
         from: localStorage.getItem("userEmail"),
-        message: newMessage, 
+        message: newMessage,
         to: localStorage.getItem("mentorEmail"),
         id: `${socket.id}${Math.random()}`,
         chatId: uniqueID,
       });
     }
     console.log({ userName: localStorage.getItem("userEmail"), messages });
-    setNewMessage(""); 
+    setNewMessage("");
   };
 
   return (
-    <div>
-    {userMentor === 'not assigned' ? (<BuyCourse/>):(
-    <div className="w-full ">
+   
+    <div className=" ml-80 w-full ">
       {/* ChatBar */}
-      <div className="chat__sidebar ml-96"> 
-      <h2>Open Chat</h2>
-
-      <div>
-        <h4 className="chat__header">ACTIVE</h4>
-        <div className="chat__users">
-          <p>User 1</p>
-          <p>User 2</p>
-      
-        </div>
-      </div>
-    </div>
+     
 
       <header className="chat__mainHeader">
         <p>CHAT WINDOW</p>
@@ -85,7 +76,7 @@ const ChatBody: React.FC = () => {
       </header>
       
       <div>
-        <div className="message__container">
+        <div className="message__container bg-violet-50">
           {messages.map((data) =>
             data.from === localStorage.getItem("userEmail") ? (
               <div className="message__chats" key={data.id}>
@@ -97,6 +88,7 @@ const ChatBody: React.FC = () => {
             ) : (
               <div className="message__chats" key={data.id}>
                 <p>{data.from}</p>
+                
                 <div className="message__recipient">
                   <p>{data.message}</p>
                 </div>
@@ -121,8 +113,8 @@ const ChatBody: React.FC = () => {
         </div>
       </div>
     </div>)}
-    </div>
-  );
-};
+    
+  
+
 
 export default ChatBody;

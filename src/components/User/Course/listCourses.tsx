@@ -46,9 +46,9 @@ function ListCourses() {
           </div>
           <button
             className="bg-[#4C3869] text-white py-2 px-4 flex mt-2 mx-2 mb-2  rounded-r"
-            // onClick={() => navigate(MentorEndpoints.add_course_page)}
+            onClick={() => navigate(userEndpoints.courses)}
           >
-            My Course
+            Other Courses
           </button>
         </div>
       </div>
