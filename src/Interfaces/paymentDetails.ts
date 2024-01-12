@@ -1,4 +1,5 @@
 export default interface PaymentDetails {
+  
     courseAmount: number;
     courseTitle:string,
     createdBy:string,
@@ -6,4 +7,5 @@ export default interface PaymentDetails {
     type: string;
     transactionId: number;
     cardType: string;
+   
   }

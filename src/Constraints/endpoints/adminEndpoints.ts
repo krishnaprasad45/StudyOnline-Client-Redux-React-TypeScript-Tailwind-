@@ -3,6 +3,9 @@ export default{
     login:"/admin/login",
     getMentorsList:"/admin/getMentorsList",
     getUsersList:"/admin/getUsersList",
+    paymentHistory:"/admin/payments/history",
+    courses:"admin/courses",
+
     blockUser: "/admin/block/user",
     blockMentor: "/admin/block/mentor",
     mentorDetails:"/admin/mentor-details",

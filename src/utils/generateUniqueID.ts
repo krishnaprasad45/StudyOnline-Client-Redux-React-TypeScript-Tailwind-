@@ -10,7 +10,5 @@ export function generateUniqueID(): string {
     return id;
   }
   
-  // Example usage
-  const uniqueID = generateUniqueID();
-  console.log(uniqueID);
+
   
