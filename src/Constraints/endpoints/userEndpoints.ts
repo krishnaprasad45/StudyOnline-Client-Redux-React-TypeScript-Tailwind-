@@ -13,6 +13,7 @@ export default{
     payments:"/payments",
     paymentHistory:"/payments/history",
     videomeet:"/videomeet",
+    videomeetJoin:"/join/videomeet",
     myCourse:"/course"
     
 }

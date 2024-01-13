@@ -30,7 +30,7 @@ const Homepage: React.FC = () => {
 
       <Link
         className="mb-12 p-2 rounded buttonStyle2"
-        to={userEndpoints.videomeet}
+        to={userEndpoints.videomeetJoin}
       >
         <button>VideoMeet</button>
       </Link>

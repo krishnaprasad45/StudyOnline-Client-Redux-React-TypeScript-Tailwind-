@@ -1,15 +1,13 @@
-import Homepage from "../../components/User/Home/userHome"
-import VideoMeet from "../../components/User/Home/videomeet"
+import VideoCall from "../../components/Common/VideoMeet/VideoCall";
+import Homepage from "../../components/User/Home/userHome";
 
+function MentorCoursePage() {
+  return (
+    <div>
+      <Homepage />
+      <VideoCall value="user" />
+    </div>
+  );
+}
 
-function MentorCoursePage(){
-
-    return(
-        <div>
-        <Homepage/>
-        <VideoMeet/>
-        </div>
-    )
-} 
-
-export default MentorCoursePage
+export default MentorCoursePage;

@@ -15,6 +15,7 @@ export default {
     courseDetails:"/mentor/course/details",
     assignments:"/mentor/assignments",
     marks:"/mentor/marks",
+    videomeetJoin:"/mentor/join/videomeet",
     videomeet:"/mentor/videomeet",
     chat:"/mentor/chat",
     payments:"/mentor/payments",

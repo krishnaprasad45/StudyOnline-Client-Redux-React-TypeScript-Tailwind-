@@ -8,14 +8,18 @@ function CourseDetails() {
   const selectedCourse: CourseInterface = state.selectedCourse;
 
   return (
-    <section className="text-gray-700 body-font overflow-hidden  bg-white">
+    <section className="text-gray-700 body-font overflow-hidden ml-30 bg-white">
       <div className="container px-5 py-24 mx-auto">
-        <div className="lg:w-4/5 mx-auto flex flex-wrap">
-          <img
-            alt="ecommerce"
-            className="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200"
-            src={selectedCourse.banner}
-          />
+        <div className="lg:w-3/5 mx-auto flex flex-wrap">
+          <video
+            autoPlay
+            controls
+            className="lg:w-1/2 w-full ml-30 object-cover object-center rounded border border-gray-200"
+            src={selectedCourse.introvideo}
+            style={{ width: '50%', height: 'auto' }} 
+          >
+            Your browser does not support the video tag.
+          </video>
           <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
             <h2 className="text-sm title-font text-gray-500 tracking-widest">
               COURSE NAME
@@ -92,9 +96,13 @@ function CourseDetails() {
               <span className="title-font font-medium text-2xl text-gray-900">
                 ₹{selectedCourse.fee}/-
               </span>
-        
+
               <div className="customStyles">
-                <StripeBtn price={selectedCourse.fee} title={selectedCourse.title} createdby={selectedCourse.createdby}/>
+                <StripeBtn
+                  price={selectedCourse.fee}
+                  title={selectedCourse.title}
+                  createdby={selectedCourse.createdby}
+                />
               </div>
             </div>
           </div>
