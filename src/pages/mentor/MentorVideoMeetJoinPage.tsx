@@ -1,4 +1,4 @@
-import JoinButton from '../../components/Common/VideoMeet/VideoJoinButton';
+import JoinButton from '../../components/Common/VideoMeet/MentorVideoJoinButton';
 import Homepage from '../../components/Mentor/Home/mentorHome';
 
 
@@ -8,7 +8,8 @@ function MentorCoursePage(){
     return(
         <div>
         <Homepage/>
-        <JoinButton/>
+        <div className='ml-80'><JoinButton /></div>
+      
         </div>
     )
 } 

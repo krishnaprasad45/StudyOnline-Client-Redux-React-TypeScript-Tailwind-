@@ -2,14 +2,15 @@
 import VideoCall from '../../components/Common/VideoMeet/VideoCall';
 import Homepage from '../../components/Mentor/Home/mentorHome';
 
-function MentorCoursePage(){
+function MentorVideoMeetPage(){
 
     return(
         <div>
         <Homepage/>
-        <VideoCall value="mentor"/>
+        <div className='ml-80'><VideoCall value="mentor"/></div>
+        
         </div>
     )
 } 
 
-export default MentorCoursePage
+export default MentorVideoMeetPage

@@ -2,31 +2,23 @@ import React, { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import userEndpoints from '../../../Constraints/endpoints/userEndpoints';
 import { socket } from '../../../services/socket.io/socketConfig';
-import mentorEndpoints from '../../../Constraints/endpoints/mentorEndpoints';
 
 const JoinButton: React.FC = () => {
     const navigate = useNavigate();
-    const email = localStorage.getItem('userEmail') || localStorage.getItem('mentorEmail')
+    const email = localStorage.getItem('userEmail') 
     
 
 
     const handleJoin = useCallback(() => {
         const room = 200;
-      
-       
         if(localStorage.getItem('userEmail')){
             socket.emit('room:join', { email, room });
-        navigate(userEndpoints.videomeet);
         }
-        if(localStorage.getItem('mentorEmail')){
-            socket.emit('room:join', { email, room });
-            navigate(mentorEndpoints.videomeet);
-        }
-       
-    }, [navigate]);
+    }, [email]);
 
-    const handleJoinRoom = useCallback(() => {
-        navigate(userEndpoints.videomeet);
+    const handleJoinRoom = useCallback((data: { room: string; }) => {
+        const { room } = data
+        navigate(`${userEndpoints.videomeet}/${room}`);
     }, [navigate]);
 
     useEffect(() => {

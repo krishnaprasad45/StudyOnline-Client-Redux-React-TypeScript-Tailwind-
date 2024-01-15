@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ReactPlayer from 'react-player';
 import { BsFillTelephoneFill, BsFillTelephoneXFill, BsMicFill, BsMicMuteFill } from 'react-icons/bs';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-
 
 import peer from '../../../services/peer';
 import { socket } from '../../../services/socket.io/socketConfig';
@@ -18,17 +17,26 @@ interface VideoCallProps {
 }
 
 const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
-
-  console.log("value",value)
+   
+  const [videoEnabled, setVideoEnabled] = useState(true);
+  const handleDisableVideo = () => {
+    setVideoEnabled(!videoEnabled);
+    const videoTracks = myStream?.getVideoTracks();
+    if (videoTracks) {
+      videoTracks.forEach(track => {
+        track.enabled = !videoEnabled;
+      });
+    }
+  };
   const navigate = useNavigate();
  
-  // const remoteRef = useRef<HTMLDivElement>(null);
+  const remoteRef = useRef<HTMLDivElement>(null);
   const [remoteSocketId, setRemoteSocketId] = useState<string | undefined>();
-  const mentorToken = localStorage.getItem('mentorEmail');
+  const mentorToken = localStorage.getItem('mentorToken');
   const [myStream, setMyStream] = useState<MediaStream | null>(null);
   const [remoteStream, setRemoteStream] = useState<MediaStream | undefined>();
   const [callActive, setCallActive] = useState<boolean>(false);
- 
+  // const appoint = useSelector(state => state.consult.slot)
   const [muted, setMuted] = useState<boolean>(true);
   const [accepted, setAccepted] = useState<boolean>(false);
 
@@ -44,7 +52,7 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
       socket.emit('call:end', { to: remoteSocketId });
       setCallActive(false);
       setRemoteStream(undefined);
-     
+      console.log("remoteSocketId-",remoteSocketId)
       socket.emit('socket:disconnect', { socketId: remoteSocketId });
       if (value === 'mentor') {
         navigate(mentorEndpoints.videomeetJoin);
@@ -148,27 +156,47 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
 
   return (
     <>
-      <div className="text-center bg-slate-200 p-2">
-        <h3><b>VideoMeet</b></h3>
-        {value === 'user' ? (!remoteSocketId && 'Please wait till the call arrives') : (!callActive && <h5>{remoteSocketId ? 'Learner online' : 'No one in room'}</h5>)}
-        <div className="container">
-          <div className="row text-start">
-            <div className="col-md-6">
-              {myStream && <h1>My stream</h1>}
-              {myStream && <ReactPlayer style={{ backgroundColor: 'black' }} url={myStream} playing muted width={'80%'} height={'80%'} />}
+      <div className="text-center flex justify-center bg-lime-200 h-screen p-2">
+        
+        {value === 'user' ? (
+          !remoteSocketId && <h5 className="text-orange-600 font-italic">Please wait till the call arrives</h5>
+        ) : (
+          !callActive && <h5 className="text-black">{remoteSocketId ? '' : 'No one in room'}</h5>
+        )}
+        <div className="container ">
+          <div className="flex flex-col md:flex-row text-start">
+            <div className="md:w-1/2 mt-20">
+              {myStream && <h1 className="text-black">My stream</h1>}
+              {myStream && accepted && <ReactPlayer style={{ backgroundColor: 'black' }} url={myStream} playing muted className="w-full h-full" />}
             </div>
-            <div className="col-md-6">
-              {remoteStream && <h1>Remote stream</h1>}
-              {remoteStream && <ReactPlayer style={{ backgroundColor: 'black' }}  url={remoteStream} playing muted={muted} width={'80%'} height={'80%'} />}
+            <div className="md:w-1/2 mb-4 mt-20">
+              {remoteStream && <h1 className="text-black">Remote stream</h1>}
+              {remoteStream && accepted && (
+                <>
+                <ReactPlayer style={{ backgroundColor: 'black' }} url={remoteStream} playing muted={muted} className="w-full h-full" />
+              
+               </>
+              )}
             </div>
           </div>
-          <br />
-          {callActive && <button className='btn bg-danger text-white' onClick={handleCallUser}><BsFillTelephoneXFill /></button>}
-          {myStream && <>
-            <button className={!muted ? 'btn btn-primary ms-3' : 'btn btn-dark ms-3'} onClick={handleMute}>{muted ? <BsMicMuteFill /> : <BsMicFill />}</button>
-          </>}
-          {value === 'user' && myStream && <><button className={accepted ? 'd-none' : 'btn btn-success ms-3'} onClick={sendStreams}><BsFillTelephoneFill /></button></>}
-          {!callActive ? (value === 'mentor' && (remoteSocketId && <button className='btn btn-outline-success' onClick={handleCallUser}>Call</button>)) : ''}
+         
+          {myStream && !accepted && <button className='bg-green-500 text-white rounded-full px-6 py-2 ms-3' onClick={sendStreams}>Accept Call</button>}
+          {myStream && (
+            <>
+              <button
+                className={!muted ? 'bg-blue-500 text-white rounded-full px-6 py-2 ms-3' : 'bg-gray-500 text-white rounded-full px-6 py-2 ms-3'}
+                onClick={handleMute}
+              >
+                {muted ? 'Unmute' : 'Mute'}
+              </button>
+              <button className='bg-orange-500 text-white rounded-full px-6 py-2 ms-3' onClick={handleDisableVideo}>
+                {videoEnabled ? 'Disable Video' : 'Enable Video'}
+              </button>
+            </>
+          )}
+          
+          {callActive && <button className='bg-red-500 text-white rounded-full ml-4 px-6 py-2' onClick={handleCallUser}>End Call</button>}
+          {!callActive ? (value === 'mentor' && (remoteSocketId && <button className='bg-green-500 text-white rounded-full px-6 py-2 mb-4' onClick={handleCallUser}>Call Learner</button>)) : ''}
         </div>
       </div>
     </>
