@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ReactPlayer from 'react-player';
 import { BsFillTelephoneFill, BsFillTelephoneXFill, BsMicFill, BsMicMuteFill } from 'react-icons/bs';
 import PropTypes from 'prop-types';
@@ -22,13 +22,13 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
   console.log("value",value)
   const navigate = useNavigate();
  
-  // const remoteRef = useRef<HTMLDivElement>(null);
+  const remoteRef = useRef<HTMLDivElement>(null);
   const [remoteSocketId, setRemoteSocketId] = useState<string | undefined>();
-  const mentorToken = localStorage.getItem('mentorEmail');
+  const mentorToken = localStorage.getItem('mentorToken');
   const [myStream, setMyStream] = useState<MediaStream | null>(null);
   const [remoteStream, setRemoteStream] = useState<MediaStream | undefined>();
   const [callActive, setCallActive] = useState<boolean>(false);
- 
+  // const appoint = useSelector(state => state.consult.slot)
   const [muted, setMuted] = useState<boolean>(true);
   const [accepted, setAccepted] = useState<boolean>(false);
 
@@ -44,7 +44,7 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
       socket.emit('call:end', { to: remoteSocketId });
       setCallActive(false);
       setRemoteStream(undefined);
-     
+      console.log("remoteSocketId-",remoteSocketId)
       socket.emit('socket:disconnect', { socketId: remoteSocketId });
       if (value === 'mentor') {
         navigate(mentorEndpoints.videomeetJoin);

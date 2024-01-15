@@ -1,40 +1,38 @@
 import React, { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import userEndpoints from '../../../Constraints/endpoints/userEndpoints';
 import { socket } from '../../../services/socket.io/socketConfig';
 import mentorEndpoints from '../../../Constraints/endpoints/mentorEndpoints';
+import { useDispatch } from 'react-redux';
+import { setSlot } from '../../../services/redux/reducer/consult';
 
 const JoinButton: React.FC = () => {
     const navigate = useNavigate();
-    const email = localStorage.getItem('userEmail') || localStorage.getItem('mentorEmail')
+   
     
-
+    const dispatch = useDispatch()
 
     const handleJoin = useCallback(() => {
+        const email = localStorage.getItem('mentorEmail')
+        const id = localStorage.getItem('mentorToken')
         const room = 200;
-      
-       
-        if(localStorage.getItem('userEmail')){
-            socket.emit('room:join', { email, room });
-        navigate(userEndpoints.videomeet);
-        }
-        if(localStorage.getItem('mentorEmail')){
-            socket.emit('room:join', { email, room });
-            navigate(mentorEndpoints.videomeet);
-        }
-       
-    }, [navigate]);
+        
+        dispatch(setSlot(id))
+        console.log(room);
+        socket.emit("room:join", { email, room })
+    }, [dispatch, socket])
 
-    const handleJoinRoom = useCallback(() => {
-        navigate(userEndpoints.videomeet);
-    }, [navigate]);
+    const handleJoinRoom = useCallback((data: { room: string; }) => {
+        const { room } = data
+        console.log("mentor room from data",room) 
+        navigate(`${mentorEndpoints.videomeet}/${room}`);
+    }, [navigate])
 
     useEffect(() => {
-        socket.on('room:join', handleJoinRoom);
+        socket.on('room:join', handleJoinRoom)
         return () => {
-            socket?.off('room:join', handleJoinRoom);
-        };
-    }, [socket, handleJoinRoom]);
+            socket.off('room:join', handleJoinRoom)
+        }
+    }, [socket, handleJoinRoom])
 
     return (
         <div className='bg-blue-200' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>

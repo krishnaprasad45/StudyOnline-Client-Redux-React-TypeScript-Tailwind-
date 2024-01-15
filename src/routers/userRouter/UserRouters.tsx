@@ -28,7 +28,7 @@ const UserRouters: React.FC = () => {
       <Route Component={UserChatPage} path={userEndpoints.chat} />
       <Route Component={UserPaymentsPage} path={userEndpoints.payments} />
       <Route Component={UserVideoMeetJoinPage} path={userEndpoints.videomeetJoin} />
-      <Route Component={UserVideoMeetPage} path={userEndpoints.videomeet} />
+      <Route Component={UserVideoMeetPage} path={`${userEndpoints.videomeet}/:room`} />
       <Route Component={UserListCoursePage} path={userEndpoints.courses} />
       <Route Component={UserCourseFeedPage} path={userEndpoints.myCourse} />
       <Route

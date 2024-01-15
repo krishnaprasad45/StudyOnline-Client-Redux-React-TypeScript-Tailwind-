@@ -31,7 +31,7 @@ const MentorRouters: React.FC = () => {
       <Route Component={MentorChatPage} path="/chat"/>
       <Route Component={MentorPaymentsPage} path="/payments"/>
       <Route Component={MentorVideoMeetJoinPage} path="/join/videomeet" />
-      <Route Component={MentorVideoMeetPage} path="/videomeet" />
+      <Route Component={MentorVideoMeetPage} path="/videomeet/:room" />
       <Route Component={MentorListCoursePage} path="/courses"/>
       <Route Component={MentorCourseDetailsPage} path="/course/details"/>
     </Routes>
