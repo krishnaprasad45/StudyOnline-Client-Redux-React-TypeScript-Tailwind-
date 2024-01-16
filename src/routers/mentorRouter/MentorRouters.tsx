@@ -15,6 +15,8 @@ import MentorAddCoursePage from "../../pages/mentor/CoursePages/MentorAddCourseP
 import MentorListCoursePage from "../../pages/mentor/CoursePages/MentorListCoursePage";
 import MentorCourseDetailsPage from "../../pages/mentor/CoursePages/MentorCourseDetailsPage";
 import MentorVideoMeetJoinPage from "../../pages/mentor/MentorVideoMeetJoinPage";
+import MentorAddChapterPage from "../../pages/mentor/CoursePages/MentorAddChapterPage";
+import MentorChapterDetailsPage from "../../pages/mentor/CoursePages/MentorChapterDetailsPage";
 
 const MentorRouters: React.FC = () => {
   return (
@@ -26,6 +28,7 @@ const MentorRouters: React.FC = () => {
       <Route Component={mentorHome} path="/home" />
       <Route Component={MentorAssignmentPage} path="/assignments" />
       <Route Component={MentorAddCoursePage} path="/add/course"/>
+      <Route Component={MentorAddChapterPage} path="/add/chapter"/>
       <Route Component={MentorMarksPage} path="/marks" />
       <Route Component={MentorCoursePage} path="/mycourse" />
       <Route Component={MentorChatPage} path="/chat"/>
@@ -34,6 +37,7 @@ const MentorRouters: React.FC = () => {
       <Route Component={MentorVideoMeetPage} path="/videomeet/:room" />
       <Route Component={MentorListCoursePage} path="/courses"/>
       <Route Component={MentorCourseDetailsPage} path="/course/details"/>
+      <Route Component={MentorChapterDetailsPage} path="/chapter/details"/>
     </Routes>
   );
 };

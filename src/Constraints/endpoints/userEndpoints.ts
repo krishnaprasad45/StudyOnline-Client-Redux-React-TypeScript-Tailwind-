@@ -7,6 +7,8 @@ export default{
     gsignin:'/google/signin',
     courses:"/courses",
     courseDetails:"/course/details",
+    chapterDetails:"/chapter/details",
+    chaptersList:"/chapter/list",
     dashboard:"/dashboard",
     marks:"/marks",
     chat:"/chat",

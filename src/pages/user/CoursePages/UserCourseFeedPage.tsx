@@ -1,7 +1,7 @@
 import Homepage from '../../../components/User/Home/userHome';
 import CourseFeed from '../../../components/Common/Course/CourseFeed';
 
-function MentorCoursePage(){
+function UserCourseFeedPage(){
 
     return(
         <>
@@ -11,4 +11,4 @@ function MentorCoursePage(){
     )
 } 
 
-export default MentorCoursePage
+export default UserCourseFeedPage

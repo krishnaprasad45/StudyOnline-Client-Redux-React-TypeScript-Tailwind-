@@ -14,6 +14,7 @@ import LandingPage from "../../pages/Common/HomePage";
 import userEndpoints from "../../Constraints/endpoints/userEndpoints";
 import UserCourseFeedPage from "../../pages/user/CoursePages/UserCourseFeedPage";
 import UserVideoMeetJoinPage from "../../pages/user/UserVideoMeetJoinPage";
+import UserChapterDetailsPage from "../../pages/user/CoursePages/UserChapterDetailsPage";
 
 const UserRouters: React.FC = () => {
   return (
@@ -28,13 +29,11 @@ const UserRouters: React.FC = () => {
       <Route Component={UserChatPage} path={userEndpoints.chat} />
       <Route Component={UserPaymentsPage} path={userEndpoints.payments} />
       <Route Component={UserVideoMeetJoinPage} path={userEndpoints.videomeetJoin} />
-      <Route Component={UserVideoMeetPage} path={`${userEndpoints.videomeet}/:room`} />
+      <Route Component={UserVideoMeetPage} path={`${userEndpoints.videomeet}/:room`}/>
       <Route Component={UserListCoursePage} path={userEndpoints.courses} />
       <Route Component={UserCourseFeedPage} path={userEndpoints.myCourse} />
-      <Route
-        Component={UserCourseDetailsPage}
-        path={userEndpoints.courseDetails}
-      />
+      <Route Component={UserCourseDetailsPage} path={userEndpoints.courseDetails} />
+      <Route Component={UserChapterDetailsPage} path={userEndpoints.chapterDetails} />
     </Routes>
   );
 };

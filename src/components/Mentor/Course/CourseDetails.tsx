@@ -1,14 +1,40 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { CourseInterface } from "../../../Interfaces/courseInterface";
+import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
+import { useEffect, useState } from "react";
+import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
+import { ChapterInterface } from "../../../Interfaces/chapterInterface";
 
 function CourseDetails() {
   const { state } = useLocation();
   const selectedCourse: CourseInterface = state.selectedCourse;
+  const [chapters, setChapters] = useState<ChapterInterface[]>([]);
 
+  const navigate = useNavigate()
+  const courseId = selectedCourse._id
+  const handleEnroll = (chapterId:string) => {
+    navigate(mentorEndpoints.chapterDetails, { state: { chapterId } });
+  };
+  const handleAddChapter = (CourseId: string | undefined) => {
+    
+    const courseId = CourseId
+
+    navigate(mentorEndpoints.addChapter, { state: { courseId } });
+  };
+
+
+  useEffect(() => {
+    mentorAxios
+      .get(`${mentorEndpoints.chaptersList}?courseId=${courseId}`)
+      .then((response) => {
+        setChapters(response.data);
+      });
+  }, [courseId]);
+ console.log("chapterslist",chapters)
   return (
     <div className="md:flex items-start justify-center py-12 2xl:px-20 md:px-6 px-4 ml-20">
-      <div className="xl:w-2/5 md:w-1/2 lg:ml-8 md:ml-6 md:mt-0 mt-6">
+      <div className="ml-60">
         <div className="border-b border-gray-200 pb-6">
           <h1
             className="
@@ -20,12 +46,14 @@ function CourseDetails() {
 							text-gray-800
 							mt-2
               uppercase
-        block-letters
+              block-letters
 						"
           >
             {selectedCourse.title}
           </h1>
         </div>
+        <div>
+          <div className="flex justify-items-stretch">
         {selectedCourse.introvideo ? (
           <video autoPlay muted loop controls={false} width="400" height="200">
             <source src={selectedCourse.introvideo} type="video/mp4" />
@@ -34,6 +62,19 @@ function CourseDetails() {
         ) : (
           "Not updated"
         )}
+          
+        {selectedCourse.banner ? (
+          <img
+            // className="w-full"
+            width="400" height="200"
+            alt="Banner image"
+            src={selectedCourse.banner}
+          />
+        ) : (
+          "Not updated"
+        )}
+        </div>
+      </div>
         <div className="py-4 border-b border-gray-200 flex items-center justify-between">
           <h1 className="text-2xl leading-20 text-gray-800">
             {selectedCourse.subtitle}
@@ -63,6 +104,67 @@ function CourseDetails() {
           <div className="flex items-center justify-center"></div>
         </div>
         <div className="py-4 border-b border-gray-200 flex items-center justify-between">
+          <p className="text-lg leading-6 text-gray-800 font-semibold">
+            CHAPTERS
+           
+          </p>
+          <div className="flex items-center justify-center"></div>
+        </div>
+        {/* Chapters Table - Start */}
+
+        <div className="min-w-screen min-h-screen    font-sans overflow-hidden">
+          <div className=" lg:w-5/6">
+            <div className="bg-white shadow-md rounded my-6">
+              <table className="min-w-max w-full table-auto">
+                <thead>
+                  <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                    <th className="py-3 px-6 text-left font-semibold">Course content</th>
+
+                    <th className="py-3 px-6 text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="text-gray-600 text-sm font-light">
+              {chapters.map((chapter) => (
+                <tr key={chapter._id} className="border-b border-gray-200 bg-gray-50 hover:bg-gray-100">
+                  <td className="py-3 px-6 text-left">
+                    <div className="flex items-center">
+                      <div className="mr-2"></div>
+                      <span className="font-medium">
+                        &#x27A4;  {chapter.title} 
+                      </span>
+                    </div>
+                  </td>
+                  <td className="py-3 px-6 text-center">
+                    <div className="flex items-center justify-center">
+                      <span className="font-medium">
+                        <button onClick={() => handleEnroll(chapter._id)} className="rounded-full px-4 py-2 bg-blue-500 text-white focus:outline-none">
+                          <p>Enroll</p>
+                        </button>
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center justify-center">
+                        <span className="font-medium">
+                          <button
+                
+                            onClick={() => handleAddChapter(courseId?._id)}
+                            className="rounded-full px-4 py-2 bg-blue-500 text-white focus:outline-none"
+                          >
+                            +
+                          </button>
+                        </span>
+                      </div>
+
+        {/* Chapters Table - End */}
+
+        <div className="py-4 border-b border-gray-200 flex items-center justify-between">
           <p className="text-base leading-4 text-gray-800">
             Created At : {selectedCourse.createdat}
           </p>
@@ -75,17 +177,7 @@ function CourseDetails() {
           <div className="flex items-center justify-center"></div>
         </div>
       </div>
-      <div className="xl:w-2/6 lg:w-2/5 w-80 md:block hidden mt-14">
-        {selectedCourse.banner ? (
-          <img
-            className="w-full"
-            alt="Banner image"
-            src={selectedCourse.banner}
-          />
-        ) : (
-          "Not updated"
-        )}
-      </div>
+    
     </div>
   );
 }

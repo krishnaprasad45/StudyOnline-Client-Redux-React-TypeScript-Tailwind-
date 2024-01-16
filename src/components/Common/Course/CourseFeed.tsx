@@ -1,14 +1,32 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
-import {  useState } from "react";
+import {  useEffect, useState } from "react";
+import { userAxios } from "../../../Constraints/axiosInterceptors/userAxiosInterceptors";
+import { ChapterInterface } from "../../../Interfaces/chapterInterface";
 
 
 export default function CourseFeed() {
  
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [chapter, setChapters] = useState<ChapterInterface[]>([]);
+  // const { state } = useLocation();
+  // const courseId = state.courseId;
+// console.log("course id -",courseId)
   const navigate = useNavigate();
-  
+  const handleEnroll = () => {
+   
+
+    navigate(userEndpoints.chapterDetails);
+
+  };
+
+  // useEffect(() => {
+  //   userAxios
+  //     .get(`${userEndpoints.chaptersList}?courseId=${courseId}`)
+  //     .then((response) => {
+  //       setChapters(response.data);
+  //     });
+  // }, [courseId]);
 
   return (
     <div className="ml-60">
@@ -62,7 +80,7 @@ export default function CourseFeed() {
                     <td className="py-3 px-6 text-center">
                       <div className="flex items-center justify-center">
                         <span className="font-medium">
-                          <button className="rounded-full px-4 py-2 bg-blue-500 text-white focus:outline-none">
+                          <button onClick= {()=> handleEnroll()} className="rounded-full px-4 py-2 bg-blue-500 text-white focus:outline-none">
                             <p >Enroll</p>
                           </button>
                         </span>
@@ -86,7 +104,7 @@ export default function CourseFeed() {
                     <td className="py-3 px-6 text-center">
                       <div className="flex items-center justify-center">
                         <span className="font-medium">
-                          <button className="rounded-full px-4 py-2 bg-blue-500 text-white focus:outline-none">
+                          <button onClick= {()=> handleEnroll()} className="rounded-full px-4 py-2 bg-blue-500 text-white focus:outline-none">
                             <p >Enroll</p>
                           </button>
                         </span>
@@ -110,7 +128,7 @@ export default function CourseFeed() {
                     <td className="py-3 px-6 text-center">
                       <div className="flex items-center justify-center">
                         <span className="font-medium">
-                          <button className="rounded-full px-4 py-2 bg-blue-500 text-white focus:outline-none">
+                          <button onClick= {()=> handleEnroll()} className="rounded-full px-4 py-2 bg-blue-500 text-white focus:outline-none">
                             <p >Enroll</p>
                           </button>
                         </span>

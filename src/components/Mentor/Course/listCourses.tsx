@@ -20,19 +20,19 @@ function ListCourses() {
     const selectedCourse = courses.filter(
       (course) => course._id === CourseId
     )[0];
-
+    console.log("course",selectedCourse)
     navigate(mentorEndpoints.courseDetails, { state: { selectedCourse } });
+  };
+  const handleAddChapter = (CourseId: string | undefined) => {
+    
+    const courseId = CourseId
 
+    navigate(mentorEndpoints.addChapter, { state: { courseId } });
   };
 
   const handleUnlist = async (id: string | undefined) => {
     try {
-     
-      await mentorAxios.post(
-        `${mentorEndpoints.unlistCourse}?id=${id}`
-      );
-     
-    
+      await mentorAxios.post(`${mentorEndpoints.unlistCourse}?id=${id}`);
 
       setUnlistedStatus(!unlistedStatus);
     } catch (error) {
@@ -72,7 +72,7 @@ function ListCourses() {
       {/* Main Content */}
       <div className="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center  font-sans overflow-hidden">
         <div className="w-full lg:w-5/6">
-          <div className="bg-white shadow-md rounded my-6">
+          <div className="bg-white shadow-md rounded my-6  overflow-x-auto">
             <table className="min-w-max w-full table-auto">
               <thead>
                 <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -80,21 +80,28 @@ function ListCourses() {
                   <th className="py-3 px-6 text-left">Fee</th>
                   <th className="py-3 px-6 text-center">Duration</th>
                   <th className="py-3 px-6 text-center">Action</th>
-                  <th className="py-3 px-6 text-center">View</th>
+                  <th className="py-3 px-6 text-center">Chapter</th>
+                  {/* <th className="py-3 px-6 text-center">View</th> */}
                 </tr>
               </thead>
               <tbody className="text-gray-600 text-sm font-light">
                 {filteredCourses.map((course) => (
+                  
                   <tr
                     key={course._id}
                     className="border-b border-gray-200 bg-gray-50 hover:bg-gray-100"
                   >
+                    <button
+                              key={course._id}
+                              onClick={() => handleCourseDetails(course._id)}
+                            >
                     <td className="py-3 px-6 text-left">
                       <div className="flex items-center">
                         <div className="mr-2"></div>
                         <span className="font-medium">{course.title}</span>
                       </div>
                     </td>
+                    </button>
                     <td className="py-3 px-6 text-left">
                       <div className="flex items-center">
                         <div className="mr-2"></div>
@@ -122,23 +129,36 @@ function ListCourses() {
                         </span>
                       </div>
                     </td>
-
                     <td className="py-3 px-6 text-center">
                       <div className="flex items-center justify-center">
                         <span className="font-medium">
-                          {
-                                <button
-                                key={course._id}
-                                onClick={() => handleCourseDetails(course._id)}
-                              >
-                                <FaEye
-                                  style={{ color: "grey", fontSize: "1.5em" }}
-                                />
-                              </button>
-                          }
+                          <button
+                
+                            onClick={() => handleAddChapter(course._id)}
+                            className="rounded-full px-4 py-2 bg-blue-500 text-white focus:outline-none"
+                          >
+                            +
+                          </button>
                         </span>
                       </div>
                     </td>
+
+                    {/* <td className="py-3 px-6 text-center">
+                      <div className="flex items-center justify-center">
+                        <span className="font-medium">
+                          {
+                            <button
+                              key={course._id}
+                              onClick={() => handleCourseDetails(course._id)}
+                            >
+                              <FaEye
+                                style={{ color: "grey", fontSize: "1.5em" }}
+                              />
+                            </button>
+                          }
+                        </span>
+                      </div>
+                    </td> */}
                   </tr>
                 ))}
               </tbody>

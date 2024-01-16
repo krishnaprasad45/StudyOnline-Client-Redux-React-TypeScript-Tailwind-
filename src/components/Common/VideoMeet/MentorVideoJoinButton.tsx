@@ -7,37 +7,36 @@ import { setSlot } from '../../../services/redux/reducer/consult';
 
 const JoinButton: React.FC = () => {
     const navigate = useNavigate();
-   
-    
-    const dispatch = useDispatch()
-
+    const email = localStorage.getItem('mentorEmail')
+    const id = localStorage.getItem('mentorToken')
+    const dispatch = useDispatch();
     const handleJoin = useCallback(() => {
-        const email = localStorage.getItem('mentorEmail')
-        const id = localStorage.getItem('mentorToken')
-        const room = 200;
-        
-        dispatch(setSlot(id))
-        console.log(room);
-        socket.emit("room:join", { email, room })
-    }, [dispatch, socket])
 
-    const handleJoinRoom = useCallback((data: { room: string; }) => {
+        const room = 200;
+        if(localStorage.getItem('mentorEmail')){
+            socket.emit('room:join', { email, room });
+          
+        }
+       
+    }, [navigate]);
+
+    const handleJoinRoom = useCallback((data: { room: number; }) => {
         const { room } = data
-        console.log("mentor room from data",room) 
+        dispatch(setSlot(id))
         navigate(`${mentorEndpoints.videomeet}/${room}`);
-    }, [navigate])
+    }, [navigate]);
 
     useEffect(() => {
-        socket.on('room:join', handleJoinRoom)
+        socket.on('room:join', handleJoinRoom);
         return () => {
-            socket.off('room:join', handleJoinRoom)
-        }
-    }, [socket, handleJoinRoom])
+            socket.off('room:join', handleJoinRoom);
+        };
+    }, [socket, handleJoinRoom]);
 
     return (
         <div className='bg-blue-200' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
-            <button onClick={handleJoin} style={{ backgroundColor: 'green', padding: '10px 20px', fontSize: '16px', borderRadius: '5px', color: 'white' }}>
-                Join to Video Meet
+            <button onClick={handleJoin} style={{ backgroundColor: 'blue', padding: '10px 20px', fontSize: '16px', borderRadius: '5px', color: 'white' }}>
+                Join to Learner  Video Meet
             </button>
         </div>
     );
