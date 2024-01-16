@@ -6,6 +6,7 @@ export default{
     profileUpdate: '/profile/update',
     gsignin:'/google/signin',
     courses:"/courses",
+    course:"/course",
     courseDetails:"/course/details",
     chapterDetails:"/chapter/details",
     chaptersList:"/chapter/list",

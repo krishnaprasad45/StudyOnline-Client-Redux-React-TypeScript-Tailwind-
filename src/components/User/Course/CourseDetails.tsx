@@ -102,6 +102,7 @@ function CourseDetails() {
                   price={selectedCourse.fee}
                   title={selectedCourse.title}
                   createdby={selectedCourse.createdby}
+                  courseId = {selectedCourse._id}
                 />
               </div>
             </div>
