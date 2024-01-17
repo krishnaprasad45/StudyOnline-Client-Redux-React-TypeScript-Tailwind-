@@ -15,7 +15,7 @@ const Homepage = () => {
     });
 
     socket.on("room:join", () => {
-      console.log("video init conn ")
+      console.log("video init conn ");
       setConnected(true);
     });
     return () => {
@@ -25,9 +25,11 @@ const Homepage = () => {
   console.log("mentor Socket.io conn", connected);
   return (
     <div
-      className="w-1/5 bg-gradient-to-r from-white via-#002D74 to-white h-screen p-4 flex flex-col fixed"
-      style={{ backgroundColor: "rgb(0, 45, 116)" }}
+      className="w-1/5 bg-gradient-to-r from-yellow via-#002974 to-yellow h-screen p-4 flex flex-col fixed"
+      style={{ backgroundColor: "#C55FFC" }}
     >
+          <h1 className="font-semibold flex justify-center mb-4 text-xl text-neutral-50">MENTOR</h1>
+
       <Link
         className="mb-12 p-2 rounded buttonStyle"
         to={mentorEndpoints.courses}

@@ -18,9 +18,9 @@ const Homepage: React.FC = () => {
   console.log("Socket.io connection", connected);
   return (
     <div
-      className="w-1/5 bg-gradient-to-r from-white via-#002D74 to-white h-screen p-4 flex flex-col fixed"
-      style={{ backgroundColor: "rgb(0, 45, 116)" }}
-    >
+      className="w-1/5 bg-gradient-to-r from-blue via-#002D74 to-blue h-screen p-4 flex flex-col fixed"
+      style={{ backgroundColor: "#5885AF" }}
+    ><h1 className="font-semibold flex justify-center mb-4 text-xl text-neutral-50">LEARNER</h1>
       <Link
         className="mb-12 p-2 rounded buttonStyle2"
         to={userEndpoints.myCourse}

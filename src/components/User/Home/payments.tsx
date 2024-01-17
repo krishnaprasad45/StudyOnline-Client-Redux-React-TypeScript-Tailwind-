@@ -2,16 +2,19 @@ import PaymentDetails from "../../../Interfaces/paymentDetails";
 import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
 import { useEffect, useState } from "react";
 import { userAxios } from "../../../Constraints/axiosInterceptors/userAxiosInterceptors";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../Interfaces/common";
 import EmptyCard from "../../Common/EmptyCard/EmptyCard";
+import { userProfile } from "../../../Interfaces/userInterfaces";
+import { UserSignupAction } from "../../../services/redux/action/userSignup";
 
 function Payments() {
   const [history, setHistory] = useState<PaymentDetails[]>([]);
+  const [data, setData] = useState<userProfile>();
   const [searchTerm, setSearchTerm] = useState("");
   const userStore = useSelector((state: RootState) => state.user);
-
-  const email = userStore.user.email;
+  const dispatch = useDispatch();
+  const email = localStorage.getItem("userEmail");
 
   useEffect(() => {
     userAxios
@@ -19,8 +22,18 @@ function Payments() {
       .then((response) => {
         setHistory(response.data);
       });
+    userAxios
+      .get(userEndpoints.profile, {
+        params: { email: email },
+      })
+      .then((response) => {
+        setData(response.data);
+        dispatch(UserSignupAction(response.data));
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
   }, [email]);
-
   const filteredHistory = history.filter(
     (data) =>
       data.courseTitle &&
@@ -96,7 +109,7 @@ function Payments() {
                           <span className="font-medium">{data.createdBy}</span>
                         </div>
                       </td>
-                    
+
                       <td className="py-3 px-6 text-left">
                         <div className="flex items-center">
                           <div className="mr-2"></div>
@@ -105,7 +118,7 @@ function Payments() {
                           </span>
                         </div>
                       </td>
-                        <td className="py-3 px-6 text-left">
+                      <td className="py-3 px-6 text-left">
                         <div className="flex items-center">
                           <div className="mr-2"></div>
 

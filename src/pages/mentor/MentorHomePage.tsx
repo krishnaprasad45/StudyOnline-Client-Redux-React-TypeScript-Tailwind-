@@ -3,7 +3,7 @@ import Home from '../../components/Mentor/Home/mentorHome'
 
 function MentorHomePage() {
   return (
-    <div>
+    <div >
         <Home/>
        
     </div>
