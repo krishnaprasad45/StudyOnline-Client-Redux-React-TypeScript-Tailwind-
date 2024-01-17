@@ -18,6 +18,7 @@ function CourseFeed() {
   console.log("courseid", courseId);
   const navigate = useNavigate();
   const handleEnroll = (chapterId: string) => {
+    console.log("CHAPTER ID",chapterId)
     navigate(userEndpoints.chapterDetails, { state: { chapterId } });
   };
 

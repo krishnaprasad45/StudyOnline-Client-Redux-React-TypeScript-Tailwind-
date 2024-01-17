@@ -3,7 +3,7 @@ export interface ChapterInterface{
     title:string,
     duration:string,
     description:string,
-    introvideo:string,
+    chaptervideo:string,
     courseId?:string,
 } 
  

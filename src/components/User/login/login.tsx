@@ -47,7 +47,7 @@ function Login() {
   const handleImageError = () => {
     // Handle the image loading error here
     console.error('Image failed to load');
-    // You can set a default image or display an error message
+   
   };
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);

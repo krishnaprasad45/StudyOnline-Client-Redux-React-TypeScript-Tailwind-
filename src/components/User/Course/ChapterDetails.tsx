@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
 import { ChapterInterface } from "../../../Interfaces/chapterInterface";
-import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
 import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
+import { userAxios } from "../../../Constraints/axiosInterceptors/userAxiosInterceptors";
 
 function ListChapters() {
   const [chapter, setChapter] = useState<ChapterInterface | null>(null);
@@ -11,13 +10,13 @@ function ListChapters() {
   const { state } = useLocation();
   const chapterId = state.chapterId;
 
-  const handleFinish = ()=>{
-    navigate(userEndpoints.course)
-  }
+  const handleFinish = () => {
+    navigate(userEndpoints.course);
+  };
 
   useEffect(() => {
-    mentorAxios
-      .get(`${mentorEndpoints.chapterDetails}?chapterId=${chapterId}`)
+    userAxios
+      .get(`${userEndpoints.chapterDetails}?chapterId=${chapterId}`)
       .then((response) => {
         setChapter(response.data);
       })
@@ -32,12 +31,13 @@ function ListChapters() {
         {chapter ? (
           <>
             <h1 className="text-2xl font-bold mb-4">{chapter.title}</h1>
-
             <video
               className="w-full h-auto rounded-lg"
               controls
+              preload="metadata"
             >
-              <source src={chapter.introvideo} type="video/mp4" />
+              {/* Ensure that the video source is correctly set */}
+              <source src={chapter.chaptervideo} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
 
@@ -45,7 +45,7 @@ function ListChapters() {
 
             <div className="flex justify-end items-center p-5">
               <button
-               onClick={()=>handleFinish()}
+                onClick={() => handleFinish()}
                 className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
               >
                 Finish
