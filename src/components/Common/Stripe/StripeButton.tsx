@@ -24,8 +24,7 @@ const StripeBtn: React.FC<StripeBtnProps> = ({ price, title, createdby, courseId
     "pk_test_51OSDUbSFcGfHkHz59ElbCcxes5kEMxrMIXF04DTorWE6gO4umd6LAxM3MWoxJOxlaHh1UmqHRWQBLD1yVi4UsdHY00kWm1XjqE";
   const navigate = useNavigate();
   const userId = userStore._id;
-  console.log("//usedID", userId);
-  console.log("createdBY..", createdby);
+  
   const onToken = async (token: Token) => {
     const body = {
       amount: price,
@@ -37,7 +36,6 @@ const StripeBtn: React.FC<StripeBtnProps> = ({ price, title, createdby, courseId
     userAxios
       .post(userEndpoints.payments, body)
       .then(() => {
-        console.log("body-mentor-createdBy", body.createdBy);
         const paymentDetails: PaymentDetails = {
           courseAmount: body.amount,
           courseTitle: body.courseTitle,
@@ -54,8 +52,7 @@ const StripeBtn: React.FC<StripeBtnProps> = ({ price, title, createdby, courseId
         navigate(userEndpoints.payments, { state: { paymentDetails } });
       })
       .catch((error) => {
-        console.log("Payment Error: ", error);
-        showErrorToast("Payment Failed");
+        showErrorToast("Payment Failed",error);
       });
   };
   const closePopup = () => {
@@ -69,7 +66,6 @@ const StripeBtn: React.FC<StripeBtnProps> = ({ price, title, createdby, courseId
       name="StudyOnline"
       description="Purchase Course and explore more"
       panelLabel="Proceed payment"
-      //   currency="inr"
       amount={price}
       token={onToken}
       stripeKey={publishableKey}

@@ -26,7 +26,7 @@ const StatisticsCount: React.FC = () => {
       };
   
       fetchData();
-    }, []); // Empty dependency array to trigger the effect only once on mount
+    }, []);
   
     const usersCount = users.length;
     const mentorsCount = mentors.length;

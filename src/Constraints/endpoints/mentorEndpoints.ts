@@ -23,6 +23,8 @@ export default {
     videomeet:"/mentor/videomeet",
     chat:"/mentor/chat",
     payments:"/mentor/payments",
+    paymentHistory:"/mentor/payments/history",
+
    
     
 

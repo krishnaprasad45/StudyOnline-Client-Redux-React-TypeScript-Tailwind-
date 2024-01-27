@@ -36,7 +36,7 @@ function ListChapters() {
               controls
               preload="metadata"
             >
-              {/* Ensure that the video source is correctly set */}
+              
               <source src={chapter.chaptervideo} type="video/mp4" />
               Your browser does not support the video tag.
             </video>

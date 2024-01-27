@@ -15,7 +15,6 @@ const Homepage = () => {
     });
 
     socket.on("room:join", () => {
-      console.log("video init conn ");
       setConnected(true);
     });
     return () => {
@@ -28,7 +27,9 @@ const Homepage = () => {
       className="w-1/5 bg-gradient-to-r from-yellow via-#002974 to-yellow h-screen p-4 flex flex-col fixed"
       style={{ backgroundColor: "#C55FFC" }}
     >
-          <h1 className="font-semibold flex justify-center mb-4 text-xl text-neutral-50">MENTOR</h1>
+      <h1 className="font-semibold flex justify-center mb-4 text-xl text-neutral-50">
+        MENTOR
+      </h1>
 
       <Link
         className="mb-12 p-2 rounded buttonStyle"

@@ -29,8 +29,7 @@ const AddCourse: React.FC = () => {
       if (chapterVideo) {
         const chaptervideo = previewVideo;
 
-        const Data = { ...values, chaptervideo,courseId };
-        console.log(" chapter data-", Data);
+        const Data = { ...values, chaptervideo, courseId };
         const response = await mentorAxios.post(
           mentorEndpoints.addChapterPost,
           Data

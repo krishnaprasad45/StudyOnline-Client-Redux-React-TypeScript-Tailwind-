@@ -20,14 +20,13 @@ const Chat: React.FC = () => {
     socket.on('messageResponse', handleSocketMessage);
 
     return () => {
-      // Clean up the socket listener when the component unmounts
       socket.off('messageResponse', handleSocketMessage);
     };
   }, [socket]);
 
   return (
     <div className="chat">
-      {/* <ChatBar socket={socket} /> */}
+   
       <ChatBar />
       <div className="chat__main">
         <ChatBody messages={messages} />

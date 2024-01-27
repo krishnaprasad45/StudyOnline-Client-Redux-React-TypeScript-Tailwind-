@@ -46,7 +46,6 @@ function ListCourses() {
           </div>
           <button
             className="bg-[#4C3869] text-white py-2 px-4 flex mt-2 mx-2 mb-2  rounded-r"
-            // onClick={() => navigate(userEndpoints.courses)}
           >
             {/* Other Courses */}
           </button>
@@ -57,7 +56,6 @@ function ListCourses() {
       <div className="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center  font-sans overflow-hidden">
         <div className="w-full lg:w-5/6">
           <div className="bg-white shadow-md rounded my-6">
-            {/* <tbody className="text-gray-600 text-sm font-light"> */}
             {filteredCourses.map((course) => (
               <div className="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mb-8">
                 {" "}
@@ -66,7 +64,7 @@ function ListCourses() {
                     className="rounded-t-lg"
                     src={course.banner}
                     alt={course.title}
-                    style={{ width: "400px", height: "250px" }} // Adjust the values as per your requirements
+                    style={{ width: "400px", height: "250px" }}
                   />
                 </a>
                 <div className="p-5">

@@ -2,7 +2,6 @@ import "./login.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-// import toast from "react-hot-toast";
 import { userAxios } from "../../../Constraints/axiosInterceptors/userAxiosInterceptors";
 import { auth } from "../../../services/firebase/config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,7 +15,6 @@ import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
 import { useDispatch } from "react-redux";
 import { UserSignupAction } from "../../../services/redux/action/userSignup";
 
-
 function Login() {
   //state's
   const [email, setEmail] = useState<string>("");
@@ -24,7 +22,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   //
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const queryParams = {
     email,
@@ -33,22 +31,17 @@ function Login() {
 
   useEffect(() => {
     const token = localStorage.getItem("usertoken");
- 
 
     if (token) {
       navigate(userEndpoints.dashboard);
     }
-  },[]);
+  }, []);
 
   //handle's
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
-  const handleImageError = () => {
-    // Handle the image loading error here
-    console.error('Image failed to load');
-   
-  };
+  const handleImageError = () => {};
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
@@ -67,13 +60,8 @@ function Login() {
         localStorage.setItem("userEmail", response.data.userData.email);
 
         // redux store data
-         console.log(response.data.userData)
-         const userPayload = response.data.userData
-         dispatch(UserSignupAction(userPayload))
-       
-         
-
-
+        const userPayload = response.data.userData;
+        dispatch(UserSignupAction(userPayload));
 
         showSuccessToast("Login Successfull");
         setTimeout(() => {
@@ -83,12 +71,10 @@ function Login() {
         showErrorToast("Please check email & password");
       }
     } catch (error) {
-      console.log("error", error);
       alert((error as Error).message);
     }
   };
-  //
-
+  
   //google_signin
 
   const provider = new GoogleAuthProvider();
@@ -105,7 +91,7 @@ function Login() {
         submitSignInWithGoogle(displayName, email);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -114,21 +100,17 @@ function Login() {
       const value = { displayName, email };
       const response = await userAxios.post(userEndpoints.gsignin, value);
       localStorage.setItem("usertoken", response.data.token);
-  
 
       if (response) {
         showSuccessToast("Login Successfull");
         setTimeout(() => {
           navigate(userEndpoints.dashboard);
         }, 2300);
-        
       }
     } catch (error) {
       console.log(error);
-      
     }
   };
-
 
   return (
     <section className="bg-gray-50 min-h-screen flex items-center justify-center">
@@ -139,7 +121,7 @@ function Login() {
           <p className="text-xs mt-4 text-[#002D74]">
             If you are already a member, easily log in
           </p>
-         
+
           <form onSubmit={handleLogin} className="flex flex-col gap-4">
             <input
               type="email"
@@ -200,13 +182,13 @@ function Login() {
 
         {/* image */}
         <div className="md:block hidden w-1/2">
-      <img
-        className="rounded-2xl"
-        src="https://res.cloudinary.com/dc3otxw05/image/upload/v1704359572/User%20Image/glywwzrh0cz3g6fowdhx.jpg"
-        alt="Login Image"
-        onError={handleImageError}
-      />
-    </div>
+          <img
+            className="rounded-2xl"
+            src="https://res.cloudinary.com/dc3otxw05/image/upload/v1704359572/User%20Image/glywwzrh0cz3g6fowdhx.jpg"
+            alt="Login Image"
+            onError={handleImageError}
+          />
+        </div>
       </div>
     </section>
   );

@@ -30,13 +30,13 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
   };
   const navigate = useNavigate();
  
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const remoteRef = useRef<HTMLDivElement>(null);
   const [remoteSocketId, setRemoteSocketId] = useState<string | undefined>();
   const mentorToken = localStorage.getItem('mentorToken');
   const [myStream, setMyStream] = useState<MediaStream | null>(null);
   const [remoteStream, setRemoteStream] = useState<MediaStream | undefined>();
   const [callActive, setCallActive] = useState<boolean>(false);
-  // const appoint = useSelector(state => state.consult.slot)
   const [muted, setMuted] = useState<boolean>(true);
   const [accepted, setAccepted] = useState<boolean>(false);
 

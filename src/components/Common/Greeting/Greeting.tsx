@@ -28,7 +28,7 @@ const Greeting: React.FC = () => {
     };
 
     updateDateTime();
-    const intervalId = setInterval(updateDateTime, 1000 * 60); // Update every minute
+    const intervalId = setInterval(updateDateTime, 1000 * 60); 
 
     return () => clearInterval(intervalId);
   }, []);

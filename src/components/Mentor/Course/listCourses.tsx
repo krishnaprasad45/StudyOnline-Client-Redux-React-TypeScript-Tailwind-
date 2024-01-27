@@ -20,12 +20,10 @@ function ListCourses() {
     const selectedCourse = courses.filter(
       (course) => course._id === CourseId
     )[0];
-    console.log("course",selectedCourse)
     navigate(mentorEndpoints.courseDetails, { state: { selectedCourse } });
   };
   const handleAddChapter = (CourseId: string | undefined) => {
-    
-    const courseId = CourseId
+    const courseId = CourseId;
 
     navigate(mentorEndpoints.addChapter, { state: { courseId } });
   };
@@ -86,21 +84,20 @@ function ListCourses() {
               </thead>
               <tbody className="text-gray-600 text-sm font-light">
                 {filteredCourses.map((course) => (
-                  
                   <tr
                     key={course._id}
                     className="border-b border-gray-200 bg-gray-50 hover:bg-gray-100"
                   >
                     <button
-                              key={course._id}
-                              onClick={() => handleCourseDetails(course._id)}
-                            >
-                    <td className="py-3 px-6 text-left">
-                      <div className="flex items-center">
-                        <div className="mr-2"></div>
-                        <span className="font-medium">{course.title}</span>
-                      </div>
-                    </td>
+                      key={course._id}
+                      onClick={() => handleCourseDetails(course._id)}
+                    >
+                      <td className="py-3 px-6 text-left">
+                        <div className="flex items-center">
+                          <div className="mr-2"></div>
+                          <span className="font-medium">{course.title}</span>
+                        </div>
+                      </td>
                     </button>
                     <td className="py-3 px-6 text-left">
                       <div className="flex items-center">
@@ -133,7 +130,6 @@ function ListCourses() {
                       <div className="flex items-center justify-center">
                         <span className="font-medium">
                           <button
-                
                             onClick={() => handleAddChapter(course._id)}
                             className="rounded-full px-4 py-2 bg-blue-500 text-white focus:outline-none"
                           >
@@ -143,22 +139,7 @@ function ListCourses() {
                       </div>
                     </td>
 
-                    {/* <td className="py-3 px-6 text-center">
-                      <div className="flex items-center justify-center">
-                        <span className="font-medium">
-                          {
-                            <button
-                              key={course._id}
-                              onClick={() => handleCourseDetails(course._id)}
-                            >
-                              <FaEye
-                                style={{ color: "grey", fontSize: "1.5em" }}
-                              />
-                            </button>
-                          }
-                        </span>
-                      </div>
-                    </td> */}
+                 
                   </tr>
                 ))}
               </tbody>

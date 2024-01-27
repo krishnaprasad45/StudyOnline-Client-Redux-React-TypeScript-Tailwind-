@@ -18,8 +18,8 @@ const ChatBody: React.FC = () => {
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       const message = "Are you sure you want to leave?";
-      event.returnValue = message; 
-      return message; 
+      event.returnValue = message;
+      return message;
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
@@ -58,15 +58,12 @@ const ChatBody: React.FC = () => {
         chatId: uniqueID,
       });
     }
-    console.log({ userName: localStorage.getItem("userEmail"), messages });
     setNewMessage("");
   };
 
   return (
-   
     <div className=" ml-80 w-full ">
       {/* ChatBar */}
-     
 
       <header className="chat__mainHeader">
         <p>CHAT WINDOW</p>
@@ -74,7 +71,7 @@ const ChatBody: React.FC = () => {
           LEAVE CHAT
         </button>
       </header>
-      
+
       <div>
         <div className="message__container bg-violet-50">
           {messages.map((data) =>
@@ -88,7 +85,7 @@ const ChatBody: React.FC = () => {
             ) : (
               <div className="message__chats" key={data.id}>
                 <p>{data.from}</p>
-                
+
                 <div className="message__recipient">
                   <p>{data.message}</p>
                 </div>
@@ -112,9 +109,8 @@ const ChatBody: React.FC = () => {
           </form>
         </div>
       </div>
-    </div>)}
-    
-  
-
+    </div>
+  );
+};
 
 export default ChatBody;
