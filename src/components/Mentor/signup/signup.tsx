@@ -14,6 +14,8 @@ import { SignupSchema } from "../../../utils/validationSchema";
 function Signup() {
   const [image, setImage] = useState<File>();
   const [viewImage, setViewImage] = useState<string>();
+  const [loading, setLoading] = useState<boolean>(false);
+
 
   const navigate = useNavigate();
 
@@ -181,14 +183,18 @@ function Signup() {
                       const image = imageFileList[0];
                       const foldername = "User Image";
                       setImage(image);
-                      uploadImage(image, foldername).then((url) =>
-                        setViewImage(url)
-                      );
+                      setLoading(true); 
+                      uploadImage(image, foldername).then((url) =>{
+                        setViewImage(url);
+                        setLoading(false);
+                        
+                       } );
                     }
                   }}
                   className=" file-inputpeer block min-h-[auto] w-full rounded border-black bg-white px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
 
                 />
+                     {loading && <div>Loading...</div>}
                 <div>
                   {image && (
                     <img

@@ -13,6 +13,7 @@ export default {
     deleteCourse:"/mentor/delete/course",
     viewCourse:"/mentor/view/course",
     courses:"/mentor/courses",
+    myCourses:"/mentor/mycourses",
     unlistCourse:"/mentor/unlist/course",
     courseDetails:"/mentor/course/details",
     chapterDetails:"/mentor/chapter/details",

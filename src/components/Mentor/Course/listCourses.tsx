@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { FaEye } from "react-icons/fa";
 import { CourseInterface } from "../../../Interfaces/courseInterface";
 import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
 import { useNavigate } from "react-router-dom";
