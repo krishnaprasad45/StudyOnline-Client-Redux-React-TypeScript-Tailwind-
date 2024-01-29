@@ -2,6 +2,9 @@ import React, { FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { socket } from "../../../services/socket.io/socketConfig";
 import { generateUniqueID } from "../../../utils/generateUniqueID";
+import { RootState } from "../../../Interfaces/common";
+import { useSelector } from "react-redux";
+import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
 
 interface Message {
   message: string;
@@ -14,6 +17,12 @@ const ChatBody: React.FC = () => {
   const navigate = useNavigate();
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
+  const userStore = useSelector((state: RootState) => state.user);
+  let mentorEmail: string | undefined;
+  if (userStore) {
+    mentorEmail = userStore?.user?.mentorIncharge;
+    console.log(mentorEmail);
+  }
 
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
@@ -42,6 +51,9 @@ const ChatBody: React.FC = () => {
     localStorage.removeItem("userName");
     navigate("/");
   };
+  const handleOnclick = () => {
+    navigate(userEndpoints.courses);
+  };
 
   const handleSendMessage = (e: FormEvent) => {
     e.preventDefault();
@@ -53,7 +65,7 @@ const ChatBody: React.FC = () => {
       socket.emit("SentMessage", {
         from: localStorage.getItem("userEmail"),
         message: newMessage,
-        to: localStorage.getItem("mentorEmail"),
+        to: mentorEmail,
         id: `${socket.id}${Math.random()}`,
         chatId: uniqueID,
       });
@@ -62,9 +74,18 @@ const ChatBody: React.FC = () => {
   };
 
   return (
-    <div className=" ml-80 w-full ">
+    <div className=" ml-80 w-full  ">
       {/* ChatBar */}
-
+      { mentorEmail === "not assigned" ? (
+        <p className="  text-center text-orange-600 py-4 ">You need to purchase the course to unlock the chat feature.
+        <button
+            onClick={handleOnclick}
+            className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-blue-600 rounded-lg focus:ring-4 focus:outline-none"
+          >
+            Buy Course
+          </button></p>
+      ) :(
+       <div >
       <header className="chat__mainHeader">
         <p>CHAT WINDOW</p>
         <button className="leaveChat__btn" onClick={handleLeaveChat}>
@@ -109,6 +130,7 @@ const ChatBody: React.FC = () => {
           </form>
         </div>
       </div>
+    </div>)}
     </div>
   );
 };

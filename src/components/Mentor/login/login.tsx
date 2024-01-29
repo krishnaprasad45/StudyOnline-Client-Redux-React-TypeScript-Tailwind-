@@ -10,14 +10,15 @@ import {
 import { ToastContainer } from "react-toastify";
 import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
 import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
+import { MentorSignupAction } from "../../../services/redux/action/mentorSignup";
+import { useDispatch } from "react-redux";
 
 function Login() {
-  
-//state's
+  //state's
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
-//
+  //
   const queryParams = {
     email,
     password,
@@ -27,10 +28,11 @@ function Login() {
     const token = localStorage.getItem("mentorToken");
     if (token) {
       navigate(mentorEndpoints.login);
-    } 
-  },[]);
+    }
+  }, []);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   //handle's
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,12 +53,14 @@ function Login() {
       if (response.data.mentorData && response.data.mentorData.email) {
         localStorage.setItem("mentorToken", response.data.token);
         localStorage.setItem("mentorEmail", response.data.mentorData.email);
+        // redux store data
+        const mentorPayload = response.data.mentorData;
+        dispatch(MentorSignupAction(mentorPayload));
         showSuccessToast("Login Successfull");
         setTimeout(() => {
           navigate(mentorEndpoints.profile);
         }, 2300);
       } else {
-       
         showErrorToast("Please check email & password");
       }
     } catch (error) {
@@ -64,7 +68,7 @@ function Login() {
       alert((error as Error).message);
     }
   };
-//
+  //
   return (
     <section className="bg-gray-50 min-h-screen flex items-center justify-center">
       <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">
@@ -109,7 +113,6 @@ function Login() {
             <button className="bg-[#593E31] rounded-xl text-white py-2 hover:scale-105 duration-300">
               Login
             </button>
-           
           </form>
 
           <div className="mt-5 text-xs border-b border-[#002D74] py-4 text-[#002D74]">
@@ -120,7 +123,6 @@ function Login() {
             <button
               className="py-2 px-5 border rounded-xl hover:scale-110 duration-300"
               style={{ backgroundColor: "#4C3869" }}
-
               onClick={() => {
                 navigate(mentorEndpoints.signup);
               }}

@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
 import uploadFile from "../../../services/cloudinary/uploadCourseFile";
 import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
+import { RootState } from "../../../Interfaces/common";
+import { useSelector } from "react-redux";
 
 
 const AddCourse: React.FC = () => {
@@ -16,15 +18,17 @@ const AddCourse: React.FC = () => {
   const [introVideo, setIntroVideo] = useState<File>();
   const [previewBanner, setPreviewBanner] = useState<string>();
   const [previewVideo, setPreviewVideo] = useState<string>();
-
-
+  const mentorStore = useSelector((state: RootState) => state.mentor);
+  const [bannerLoading, setBannerLoading] = useState<boolean>(false);
+  const [videoLoading, setvideoLoading] = useState<boolean>(false);
+  const mentorEmail = mentorStore.mentor.email
   const navigate = useNavigate();
   const initialValues = {
     title: "",
     subtitle: "",
     duration: "",
     fee: "",
-    createdby: "",
+    createdby: mentorEmail,
     description: "",
     banner: "",
     introvideo: "",
@@ -35,17 +39,18 @@ const AddCourse: React.FC = () => {
       if (bannerImage && introVideo) {
         const banner = previewBanner;
         const introvideo = previewVideo;
-
+  
         const Data = { ...values, banner, introvideo };
         const response = await mentorAxios.post(
           mentorEndpoints.addCoursePost,
           Data
         );
+  
         if (response.status === 201) {
-          showSuccessToast("Course Created");
+          showSuccessToast("Course Created"); 
           setTimeout(() => {
             navigate(mentorEndpoints.courses);
-          }, 2500);
+          }, 3000);
         } else {
           showErrorToast(response?.data?.message);
         }
@@ -54,6 +59,7 @@ const AddCourse: React.FC = () => {
       showErrorToast((error as Error).message);
     }
   };
+  
 
   return (
     <div className="bg-[#2233] ">
@@ -110,7 +116,7 @@ const AddCourse: React.FC = () => {
               type="text"
               id="createdby"
               name="createdby"
-               
+              value= {mentorEmail} 
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
             <ErrorMessage name="createdby" component="div" className="error" />
@@ -145,13 +151,20 @@ const AddCourse: React.FC = () => {
                 if (imageFileList && imageFileList.length > 0) {
                   const image = imageFileList[0];
                   setBannerImage(image);
-                  uploadFile(image).then((url) => setPreviewBanner(url));
+                  setBannerLoading(true)
+                  uploadFile(image).then((url) =>{
+                     setPreviewBanner(url);
+                     setBannerLoading(false);
+                  }
+
+                     );
+                  
                 }
               }}
               className="file-input"
               style={{ display: "none" }}
             />
-
+                 {bannerLoading && <div>Loading...</div>}
             {previewBanner && (
               <img
                 src={previewBanner}
@@ -177,13 +190,17 @@ const AddCourse: React.FC = () => {
                 if (imageFileList && imageFileList.length > 0) {
                   const video = imageFileList[0];
                   setIntroVideo(video);
-                  uploadFile(video).then((url) => setPreviewVideo(url));
+                  setvideoLoading(true)
+                  uploadFile(video).then((url) =>{ setPreviewVideo(url);
+                    setvideoLoading(false)
+
+                  });
                 }
               }}
               className="file-input"
               style={{ display: "none" }}
             />
-
+           {videoLoading &&<div> Loading...</div>}
             {previewVideo && (
               <video autoPlay muted loop controls={false} width="400" height="200">
               <source src={previewVideo} type="video/mp4" />
