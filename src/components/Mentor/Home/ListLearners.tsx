@@ -5,13 +5,14 @@ import { UserSignupAction } from "../../../services/redux/action/userSignup";
 import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
 import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
 import Empty from "../../Common/EmptyCard/Empty";
+import { useNavigate } from "react-router-dom";
 
-function Payments() {
+function ListLearners() {
   const [history, setHistory] = useState<PaymentDetails[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
   const email = localStorage.getItem("mentorEmail");
-
+  const navigate = useNavigate()
   useEffect(() => {
     mentorAxios
       .get(`${mentorEndpoints.paymentHistory}?email=${email}`)
@@ -29,18 +30,20 @@ function Payments() {
         console.error(error.message);
       });
   }, [email]);
+
+  const handleChat = (PaymentId: string | undefined,LearnerEmail:string | undefined) => {
+    const paymentId = PaymentId;
+    const learnerEmail = LearnerEmail
+    
+
+    navigate(mentorEndpoints.chat, { state: { paymentId,learnerEmail } });
+  };
   const filteredHistory = history.filter(
     (data) =>
       data.courseTitle &&
       data.courseTitle.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  const options = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-  };
+
   return (
     <div className="ml-60">
       {/* Navbar */}
@@ -52,7 +55,7 @@ function Payments() {
             <div className="flex">
               <input
                 type="search"
-                placeholder="Search Payment"
+                placeholder="Search "
                 className="border rounded-l py-2 px-4"
                 name=""
                 id=""
@@ -75,9 +78,9 @@ function Payments() {
                 <thead>
                   <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                     <th className="py-3 px-6 text-left">Course Name</th>
-                    <th className="py-3 px-6 text-left">Date </th>
                     <th className="py-3 px-6 text-left">Learner</th>
-                    <th className="py-3 px-6 text-left">Amount</th>
+                    <th className="py-3 px-6 text-left"></th>
+                    <th className="py-3 px-6 text-left"></th>
                    
                   </tr>
                 </thead>
@@ -96,35 +99,39 @@ function Payments() {
                         </div>
                       </td>
                     
-
-                     
-                      <td className="py-3 px-6 text-left">
-                        <div className="flex items-center">
-                          <div className="mr-2"></div>
-
-                          <span className="font-medium">
-                            {new Date(data.date).toLocaleDateString(
-                              undefined,
-                              options
-                            )}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="py-3 px-6 text-left">
+                      <td className="py-3 px-6 text-left font-semibold">
                         <div className="flex items-center">
                           <div className="mr-2"></div>
                           <span>{data.usedEmail}</span>
                         </div>
                       </td>
-                     
-                     
                       <td className="py-3 px-6 text-center">
                         <div className="flex items-center justify-center">
                           <span className="font-medium">
-                            {data.courseAmount}/-
+                            <button
+                              onClick={() => handleChat(data._id,data.usedEmail)}
+                              className="rounded-full px-4 py-2 bg-green-500 text-white focus:outline-none"
+                            >
+                              Chat
+                            </button>
                           </span>
                         </div>
                       </td>
+                      <td className="py-3 px-6 text-center">
+                        <div className="flex items-center justify-center">
+                          <span className="font-medium">
+                            <button style={{ backgroundColor: 'blue',color: 'white' }}
+                            //   onClick={() => handleAddChapter(course._id)}
+                              className="rounded-full px-4 py-2 bg-blue-500 text-white focus:outline-none"
+                            >
+                              VideoMeet
+                            </button>
+                          </span>
+                        </div>
+                      </td>
+                     
+                     
+                    
                     </tr>
                   ))}
                 </tbody>
@@ -137,4 +144,4 @@ function Payments() {
   );
 }
 
-export default Payments;
+export default ListLearners;

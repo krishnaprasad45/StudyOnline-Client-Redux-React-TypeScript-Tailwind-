@@ -1,5 +1,6 @@
 export default interface PaymentDetails {
-  
+    
+    _id?: string | undefined;
     courseAmount: number;
     courseTitle:string,
     createdBy:string,

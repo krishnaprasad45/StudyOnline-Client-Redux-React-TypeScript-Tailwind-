@@ -25,8 +25,7 @@ export default {
     chat:"/mentor/chat",
     payments:"/mentor/payments",
     paymentHistory:"/mentor/payments/history",
-
-   
-    
-
+    learners:"/mentor/learners",
+    getChatHistory:"/mentor/chat/history"
+ 
 }

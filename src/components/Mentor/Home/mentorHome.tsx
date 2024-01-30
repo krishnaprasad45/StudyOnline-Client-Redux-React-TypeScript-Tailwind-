@@ -37,6 +37,12 @@ const Homepage = () => {
       >
         <button>Courses</button>
       </Link>
+      <Link
+        className="mb-12 p-2 rounded buttonStyle"
+        to={mentorEndpoints.learners}
+      >
+        <button>Learners</button>
+      </Link>
 
       <Link
         className="mb-12 p-2 rounded buttonStyle"

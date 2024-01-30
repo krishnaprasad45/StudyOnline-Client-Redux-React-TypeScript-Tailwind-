@@ -4,7 +4,6 @@ import { socket } from "../../../services/socket.io/socketConfig";
 import { RootState } from "../../../Interfaces/common";
 import { useSelector } from "react-redux";
 import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
-import ChatBar from "./ChatBar";
 
 interface Message {
   message: string;
@@ -14,6 +13,8 @@ interface Message {
 }
 interface ChatBodyProps {
   role: string;
+  chatId:string |undefined;
+  email:string |undefined;
 }
 
 const ChatBody: React.FC<ChatBodyProps> = (props) => {
@@ -23,22 +24,15 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
   const [newMessage, setNewMessage] = useState<string>("");
   const userStore = useSelector((state: RootState) => state.user);
   let mentorEmail: string | undefined;
-  let courseId: string | undefined;
   if (userStore) {
     mentorEmail = userStore?.user?.mentorIncharge;
-    courseId = userStore?.user?.courseId
-    console.log(mentorEmail);
-    console.log("c-id",courseId);
   }
+  console.log("props",props)
 
   useEffect(() => {
-    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      const message = "Are you sure you want to leave?";
-      event.returnValue = message;
-      return message;
-    };
+  
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+    
 
     socket.on("SentMessage", (msg) => {
       setMessages((prevMessages) => {
@@ -49,9 +43,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
       });
     });
 
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
+   
   }, []);
 
   const handleLeaveChat = () => {
@@ -73,7 +65,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
         from: props.role,
         message: newMessage,
         to: props.role == 'user' ? "mentor" : "user",
-        id: courseId,
+        id: props.chatId,
       }
       console.log("message data to serever ",messageData)
       socket.emit("SentMessage", messageData);

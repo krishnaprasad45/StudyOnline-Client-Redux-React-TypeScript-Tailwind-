@@ -2,17 +2,13 @@ import PaymentDetails from "../../../Interfaces/paymentDetails";
 import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
 import { useEffect, useState } from "react";
 import { userAxios } from "../../../Constraints/axiosInterceptors/userAxiosInterceptors";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../Interfaces/common";
+import { useDispatch } from "react-redux";
 import EmptyCard from "../../Common/EmptyCard/EmptyCard";
-import { userProfile } from "../../../Interfaces/userInterfaces";
 import { UserSignupAction } from "../../../services/redux/action/userSignup";
 
 function Payments() {
   const [history, setHistory] = useState<PaymentDetails[]>([]);
-  const [data, setData] = useState<userProfile>();
   const [searchTerm, setSearchTerm] = useState("");
-  const userStore = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const email = localStorage.getItem("userEmail");
 
@@ -27,7 +23,6 @@ function Payments() {
         params: { email: email },
       })
       .then((response) => {
-        setData(response.data);
         dispatch(UserSignupAction(response.data));
       })
       .catch((error) => {
