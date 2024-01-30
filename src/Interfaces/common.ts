@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface RootState {
   mentor: any;
   userSignup: any;
@@ -65,6 +66,17 @@ interface MentorUpdate {
 interface UserLogin {
   email: string;
   password: string;
+}
+export interface Message {
+  sender: string;
+  content: string;
+  timestamp: Date;
+}
+
+export interface chat {
+  rideId: string;
+  handleChangeTheChatState: () => void
+  role: string
 }
 // Exporting the Status type
 export type Status = "Pending" | "Verified" | "Rejected";

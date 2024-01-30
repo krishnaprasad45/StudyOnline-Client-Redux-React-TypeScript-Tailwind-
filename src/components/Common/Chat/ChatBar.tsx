@@ -2,7 +2,7 @@
 
 const ChatBar = () => {
   return (
-    <div className="chat__sidebar ml-96"> 
+    <div className="chat__sidebar h-1/3"> 
       <h2>Open Chat</h2>
 
       <div>

@@ -12,7 +12,7 @@ export default{
     chaptersList:"/chapter/list",
     dashboard:"/dashboard",
     marks:"/marks",
-    chat:"/chat",
+    chat:"/chat/user",
     payments:"/payments",
     paymentHistory:"/payments/history",
     videomeet:"/videomeet",

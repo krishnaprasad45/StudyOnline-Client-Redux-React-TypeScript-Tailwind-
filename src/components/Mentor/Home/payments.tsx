@@ -1,7 +1,5 @@
 import PaymentDetails from "../../../Interfaces/paymentDetails";
-import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
 import { useEffect, useState } from "react";
-import { userAxios } from "../../../Constraints/axiosInterceptors/userAxiosInterceptors";
 import { useDispatch } from "react-redux";
 import { userProfile } from "../../../Interfaces/userInterfaces";
 import { UserSignupAction } from "../../../services/redux/action/userSignup";
@@ -22,8 +20,8 @@ function Payments() {
       .then((response) => {
         setHistory(response.data);
       });
-    userAxios
-      .get(userEndpoints.profile, {
+    mentorAxios
+      .get(mentorEndpoints.profile, {
         params: { email: email },
       })
       .then((response) => {
@@ -80,13 +78,10 @@ function Payments() {
                 <thead>
                   <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                     <th className="py-3 px-6 text-left">Course Name</th>
-                    <th className="py-3 px-6 text-left">Mentor</th>
-                    <th className="py-3 px-6 text-left">Transaction ID</th>
                     <th className="py-3 px-6 text-left">Date </th>
-                    <th className="py-3 px-6 text-left">Email</th>
-                    <th className="py-3 px-6 text-center">Type</th>
-                    <th className="py-3 px-6 text-center">Card Type</th>
-                    <th className="py-3 px-6 text-center">Course Amount</th>
+                    <th className="py-3 px-6 text-left">Learner</th>
+                    <th className="py-3 px-6 text-left">Amount</th>
+                   
                   </tr>
                 </thead>
                 <tbody className="text-gray-600 text-sm font-light">
@@ -103,21 +98,9 @@ function Payments() {
                           </span>
                         </div>
                       </td>
-                      <td className="py-3 px-6 text-left">
-                        <div className="flex items-center">
-                          <div className="mr-2"></div>
-                          <span className="font-medium">{data.createdBy}</span>
-                        </div>
-                      </td>
+                    
 
-                      <td className="py-3 px-6 text-left">
-                        <div className="flex items-center">
-                          <div className="mr-2"></div>
-                          <span className="font-medium">
-                            {data.transactionId}
-                          </span>
-                        </div>
-                      </td>
+                     
                       <td className="py-3 px-6 text-left">
                         <div className="flex items-center">
                           <div className="mr-2"></div>
@@ -136,18 +119,8 @@ function Payments() {
                           <span>{data.usedEmail}</span>
                         </div>
                       </td>
-                      <td className="py-3 px-6 text-center">
-                        <div className="flex items-center justify-center">
-                          <span className="font-medium">
-                            {data.type.toUpperCase()}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="py-3 px-6 text-center">
-                        <div className="flex items-center justify-center">
-                          <span className="font-medium">{data.cardType}</span>
-                        </div>
-                      </td>
+                     
+                     
                       <td className="py-3 px-6 text-center">
                         <div className="flex items-center justify-center">
                           <span className="font-medium">

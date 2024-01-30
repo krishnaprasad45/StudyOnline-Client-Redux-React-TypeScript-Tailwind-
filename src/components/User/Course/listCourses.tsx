@@ -79,6 +79,9 @@ function ListCourses() {
                   <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
                     {course.subtitle}
                   </p>
+                  <p className="mb-3 font-semibold text-gray-700 dark:text-gray-400">
+                    Created By : {course.createdby}
+                  </p>
 
                   <button
                     key={course._id}

@@ -1,10 +1,10 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { socket } from "../../../services/socket.io/socketConfig";
-import { generateUniqueID } from "../../../utils/generateUniqueID";
 import { RootState } from "../../../Interfaces/common";
 import { useSelector } from "react-redux";
 import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
+import ChatBar from "./ChatBar";
 
 interface Message {
   message: string;
@@ -12,16 +12,23 @@ interface Message {
   from: string;
   id: number;
 }
+interface ChatBodyProps {
+  role: string;
+}
 
-const ChatBody: React.FC = () => {
+const ChatBody: React.FC<ChatBodyProps> = (props) => {
+
   const navigate = useNavigate();
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
   const userStore = useSelector((state: RootState) => state.user);
   let mentorEmail: string | undefined;
+  let courseId: string | undefined;
   if (userStore) {
     mentorEmail = userStore?.user?.mentorIncharge;
+    courseId = userStore?.user?.courseId
     console.log(mentorEmail);
+    console.log("c-id",courseId);
   }
 
   useEffect(() => {
@@ -56,19 +63,20 @@ const ChatBody: React.FC = () => {
   };
 
   const handleSendMessage = (e: FormEvent) => {
+    console.log("handle sed message 6")
     e.preventDefault();
     if (
       (messages && localStorage.getItem("userEmail")) ||
       localStorage.getItem("mentorEmail")
     ) {
-      const uniqueID = generateUniqueID();
-      socket.emit("SentMessage", {
-        from: localStorage.getItem("userEmail"),
+      const messageData = {
+        from: props.role,
         message: newMessage,
-        to: mentorEmail,
-        id: `${socket.id}${Math.random()}`,
-        chatId: uniqueID,
-      });
+        to: props.role == 'user' ? "mentor" : "user",
+        id: courseId,
+      }
+      console.log("message data to serever ",messageData)
+      socket.emit("SentMessage", messageData);
     }
     setNewMessage("");
   };
@@ -76,6 +84,7 @@ const ChatBody: React.FC = () => {
   return (
     <div className=" ml-80 w-full  ">
       {/* ChatBar */}
+      
       { mentorEmail === "not assigned" ? (
         <p className="  text-center text-orange-600 py-4 ">You need to purchase the course to unlock the chat feature.
         <button
