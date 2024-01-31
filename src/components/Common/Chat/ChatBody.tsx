@@ -27,6 +27,10 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
   let mentorEmail: string | undefined;
   const chatId = props.chatId;
   const role = props.role;
+  const email = props.email
+  const chattingWith = (email?.split('@')[0] || '').toUpperCase();
+
+
   if (userStore) {
     mentorEmail = userStore?.user?.mentorIncharge;
   }
@@ -40,14 +44,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
         setMessages(response.data.messages);
       });
   
-    socket.on("SentMessage", (msg) => {
-      setMessages((prevMessages) => {
-        if (!prevMessages.find((m) => m.id === msg.id)) {
-          return [...prevMessages, msg];
-        }
-        return prevMessages;
-      });
-    });
+   
   
     // Scroll to the bottom when messages are updated
     const chatContainer = document.getElementById("chat-container");
@@ -100,7 +97,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
       ) : (
         <div>
           <header className="chat__mainHeader">
-            <p>CHAT WINDOW</p>
+            <p>{chattingWith}</p> {/* Chatting with */}
             <button className="leaveChat__btn" onClick={handleLeaveChat}>
               LEAVE CHAT
             </button>

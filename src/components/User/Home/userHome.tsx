@@ -35,7 +35,7 @@ const Homepage: React.FC = () => {
         <button>VideoMeet</button>
       </Link>
       <Link className="mb-12 p-2 rounded buttonStyle2" to={userEndpoints.chat}>
-        <button>Chat</button>
+        <button>Chat With Mentor</button>
       </Link>
       <Link
         className="mb-12 p-2 rounded buttonStyle2"
