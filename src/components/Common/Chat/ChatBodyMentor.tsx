@@ -51,7 +51,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
     if (chatContainer) {
       chatContainer.scrollTop = chatContainer.scrollHeight;
     }
-  }, [messages]);
+  }, []);
 
   const handleLeaveChat = () => {
     localStorage.removeItem("userName");
@@ -76,8 +76,14 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
       };
       console.log("message data to serever ", messageData);
       socket.emit("SentMessage", messageData);
+
+      socket.on("SentUpdatedMessage",(updatedMessage)=>{
+        console.log("SentUpdatedMessage",updatedMessage)
+        setMessages(updatedMessage.messages)
+      })
     }
     setNewMessage("");
+    
   };
 
   return (

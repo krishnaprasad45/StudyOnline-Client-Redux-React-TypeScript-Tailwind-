@@ -4,8 +4,8 @@ import { socket } from "../../../services/socket.io/socketConfig";
 import { RootState } from "../../../Interfaces/common";
 import { useSelector } from "react-redux";
 import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
-import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
 import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
+import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
 
 interface Message {
   message: string;
@@ -34,7 +34,8 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
   if (userStore) {
     mentorEmail = userStore?.user?.mentorIncharge;
   }
-  console.log("props", props);
+  console.log("props*", props);
+  console.log("ch-hist",messages)
 
   useEffect(() => {
     mentorAxios
@@ -51,11 +52,11 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
     if (chatContainer) {
       chatContainer.scrollTop = chatContainer.scrollHeight;
     }
-  }, [messages]);
+  }, []);
 
   const handleLeaveChat = () => {
     localStorage.removeItem("userName");
-    navigate("/");
+    navigate(userEndpoints.dashboard);
   };
   const handleOnclick = () => {
     navigate(userEndpoints.courses);
@@ -76,6 +77,11 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
       };
       console.log("message data to serever ", messageData);
       socket.emit("SentMessage", messageData);
+
+      socket.on("SentUpdatedMessage",(updatedMessage)=>{
+        console.log("SentUpdatedMessage",updatedMessage)
+        setMessages(updatedMessage.messages)
+      })
     }
     setNewMessage("");
   };

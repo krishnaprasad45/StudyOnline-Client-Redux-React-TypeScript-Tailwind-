@@ -1,4 +1,3 @@
-import ChatBody from "../../components/Common/Chat/ChatBodyMentor";
 import Homepage from "../../components/User/Home/userHome";
 import "./chatCSS.css";
 import PaymentDetails from "../../Interfaces/paymentDetails";
@@ -7,6 +6,7 @@ import { useEffect, useState } from "react";
 import userEndpoints from "../../Constraints/endpoints/userEndpoints";
 import { userAxios } from "../../Constraints/axiosInterceptors/userAxiosInterceptors";
 import { UserSignupAction } from "../../services/redux/action/userSignup";
+import ChatBody from "../../components/Common/Chat/ChatBodyUser";
 
 function UserChatPage() {
   const [history, setHistory] = useState<PaymentDetails>();
@@ -44,7 +44,7 @@ function UserChatPage() {
   return (
     <div className="flex">
       <Homepage />
-      <ChatBody role="user" chatId={chatId} email={mentorEmail} />
+      <ChatBody role={"user"} chatId={chatId} email={mentorEmail} />
     </div>
   );
 }
