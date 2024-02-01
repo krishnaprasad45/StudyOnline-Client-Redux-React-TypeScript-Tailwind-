@@ -22,6 +22,7 @@ const AddCourse: React.FC = () => {
   const [bannerLoading, setBannerLoading] = useState<boolean>(false);
   const [videoLoading, setvideoLoading] = useState<boolean>(false);
   const mentorEmail = mentorStore.mentor.email
+  const verificationStatus = mentorStore.mentor.verification
   const navigate = useNavigate();
   const initialValues = {
     title: "",
@@ -62,7 +63,9 @@ const AddCourse: React.FC = () => {
   
 
   return (
-    <div className="bg-[#2233] ">
+    <div className="bg-[#2233]  ">
+      {verificationStatus === "Pending" || verificationStatus === "Reject" ? (<p className="text-center py-4 text-gray-500 bg-red-200 shadow-md rounded  overflow-x-auto">Account is not verified by the admin</p>):
+       ( <div>
       <Formik
         initialValues={initialValues}
         onSubmit={handleSubmit}
@@ -200,7 +203,7 @@ const AddCourse: React.FC = () => {
               className="file-input"
               style={{ display: "none" }}
             />
-           {videoLoading &&<div> Loading...</div>}
+           {videoLoading &&<div> Uploading...</div>}
             {previewVideo && (
               <video autoPlay muted loop controls={false} width="400" height="200">
               <source src={previewVideo} type="video/mp4" />
@@ -219,6 +222,7 @@ const AddCourse: React.FC = () => {
           </div>
         </Form>
       </Formik>
+      </div>)}
     </div>
   );
 };

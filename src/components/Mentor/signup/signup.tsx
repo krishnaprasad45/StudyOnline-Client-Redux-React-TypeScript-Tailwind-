@@ -1,4 +1,4 @@
-import { useState } from "react";
+  import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./signup.css";
 import {
@@ -173,6 +173,11 @@ function Signup() {
               </div>
               <div className="relative mb-6" data-te-input-wrapper-init>
                 <p>Profile picture</p>
+                <label htmlFor="image" className="custom-file-upload">
+              {image || viewImage
+                ? "\u00a0  \u00a0  Choose another image"
+                : " \u00a0  \u00a0 Select an image"}
+            </label>
                 <Field
                   type="file"
                   name="image"
@@ -191,10 +196,10 @@ function Signup() {
                        } );
                     }
                   }}
-                  className=" file-inputpeer block min-h-[auto] w-full rounded border-black bg-white px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-
+                  className="file-input"
+                  style={{ display: "none" }}
                 />
-                     {loading && <div>Loading...</div>}
+                     {loading && <div>Uploading...</div>}
                 <div>
                   {image && (
                     <img

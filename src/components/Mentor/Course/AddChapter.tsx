@@ -13,6 +13,8 @@ import uploadVideo from "../../../services/cloudinary/customeImageUpload";
 
 const AddCourse: React.FC = () => {
   const [chapterVideo, setchapterVideo] = useState<File>();
+  const [videoLoading, setvideoLoading] = useState<boolean>(false);
+
   const [previewVideo, setPreviewVideo] = useState<string>();
   const { state } = useLocation();
   const courseId = state.courseId;
@@ -108,15 +110,17 @@ const AddCourse: React.FC = () => {
                 if (imageFileList && imageFileList.length > 0) {
                   const video = imageFileList[0];
                   setchapterVideo(video);
-
-                  uploadVideo(video, "Chapter Video").then((url) =>
-                    setPreviewVideo(url)
-                  );
+                  setvideoLoading(true);
+                  uploadVideo(video, "Chapter Video").then((url) => {
+                    setPreviewVideo(url);
+                    setvideoLoading(false);
+                  });
                 }
               }}
               className="file-input"
               style={{ display: "none" }}
             />
+            {videoLoading && <div> Uploading...</div>}
 
             {previewVideo && (
               <video

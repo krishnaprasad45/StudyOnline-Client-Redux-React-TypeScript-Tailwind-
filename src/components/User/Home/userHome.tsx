@@ -1,21 +1,11 @@
 // User Dashboard.js
-import { useState, useEffect } from "react";
 import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
-import { socket } from "../../../services/socket.io/socketConfig";
 import "./userHome.css";
 
 import { Link } from "react-router-dom";
 
 const Homepage: React.FC = () => {
-  socket.connect();
-  const [connected, setConnected] = useState(socket.connected);
-
-  useEffect(() => {
-    socket.on("connect", () => {
-      setConnected(true);
-    });
-  }, []);
-  console.log("Socket.io connection", connected);
+ 
   return (
     <div
       className="w-1/5 bg-gradient-to-r from-blue via-#002D74 to-blue h-screen p-4 flex flex-col fixed"

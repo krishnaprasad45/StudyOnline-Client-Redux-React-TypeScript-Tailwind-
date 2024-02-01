@@ -38,6 +38,14 @@ function ListLearners() {
 
     navigate(mentorEndpoints.chat, { state: { paymentId,learnerEmail } });
   };
+  const handleVideoMeet = (PaymentId: string | undefined,LearnerEmail:string | undefined) => {
+ 
+    const paymentId = PaymentId;
+    const learnerEmail = LearnerEmail
+    
+
+    navigate(mentorEndpoints.videomeetJoin,{ state: { paymentId,learnerEmail } });
+  };
   const filteredHistory = history.filter(
     (data) =>
       data.courseTitle &&
@@ -121,7 +129,7 @@ function ListLearners() {
                         <div className="flex items-center justify-center">
                           <span className="font-medium">
                             <button style={{ backgroundColor: 'blue',color: 'white' }}
-                            //   onClick={() => handleAddChapter(course._id)}
+                              onClick={() => handleVideoMeet(data._id,data.usedEmail)}
                               className="rounded-full px-4 py-2 bg-blue-500 text-white focus:outline-none"
                             >
                               VideoMeet

@@ -9,7 +9,6 @@ function ListChapters() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const chapterId = state.chapterId;
-
   const handleFinish = () => {
     navigate(userEndpoints.course);
   };

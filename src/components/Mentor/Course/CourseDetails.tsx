@@ -138,7 +138,7 @@ function CourseDetails() {
                     <div className="flex items-center justify-center">
                       <span className="font-medium">
                         <button onClick={() => handleEnroll(chapter._id)} className="rounded-full px-4 py-2 bg-blue-500 text-white focus:outline-none">
-                          <p>Enroll</p>
+                          <p>View</p>
                         </button>
                       </span>
                     </div>

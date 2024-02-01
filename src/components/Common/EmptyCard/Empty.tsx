@@ -16,7 +16,7 @@ const EmptyCard: React.FC = () => {
           No Records
         </h5>
         <span className="text-sm text-gray-500 dark:text-gray-400">
-          For now, no one purchased your course
+          No one has purchased your course yet
         </span>
       
       </div>

@@ -1,4 +1,4 @@
-import ChatBody from "../../components/Common/Chat/ChatBody";
+import ChatBody from "../../components/Common/Chat/ChatBodyMentor";
 import Homepage from "../../components/User/Home/userHome";
 import "./chatCSS.css";
 import PaymentDetails from "../../Interfaces/paymentDetails";
@@ -44,8 +44,6 @@ function UserChatPage() {
   return (
     <div className="flex">
       <Homepage />
-
-      {/* <ChatBody role={"user"} chatId={`${chatId}`} email={`${mentorEmail}`} /> */}
       <ChatBody role="user" chatId={chatId} email={mentorEmail} />
     </div>
   );

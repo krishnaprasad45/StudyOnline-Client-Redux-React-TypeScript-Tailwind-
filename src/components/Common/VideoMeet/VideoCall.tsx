@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ReactPlayer from 'react-player';
-import { BsFillTelephoneFill, BsFillTelephoneXFill, BsMicFill, BsMicMuteFill } from 'react-icons/bs';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
@@ -56,7 +55,8 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
       socket.emit('socket:disconnect', { socketId: remoteSocketId });
       if (value === 'mentor') {
         navigate(mentorEndpoints.videomeetJoin);
-      } else if (value === 'user') {
+      }
+      if (value === 'user') {
         navigate(userEndpoints.videomeetJoin);
       }
     } else {
