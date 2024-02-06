@@ -5,33 +5,50 @@ import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
 import { useEffect, useState } from "react";
 import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
 import { ChapterInterface } from "../../../Interfaces/chapterInterface";
+import { MdDelete, MdRemoveRedEye } from "react-icons/md";
+import { GrEdit } from "react-icons/gr";
+import { IoEyeOffSharp } from "react-icons/io5";
 
 function CourseDetails() {
   const { state } = useLocation();
   const selectedCourse: CourseInterface = state.selectedCourse;
   const [chapters, setChapters] = useState<ChapterInterface[]>([]);
+  const [unlistedStatus, setUnlistedStatus] = useState(false);
 
-  const navigate = useNavigate()
-  const courseId = selectedCourse._id
-  const handleEnroll = (chapterId:string) => {
+  const navigate = useNavigate();
+  const courseId = selectedCourse._id;
+  const handleEnroll = (chapterId: string | undefined) => {
     navigate(mentorEndpoints.chapterDetails, { state: { chapterId } });
   };
   const handleAddChapter = (CourseId: string | undefined) => {
-    
-    const courseId = CourseId
+    const courseId = CourseId;
 
     navigate(mentorEndpoints.addChapter, { state: { courseId } });
   };
+  const handleEdit = (ChapterId: string | undefined) => {
+    const chapterId = ChapterId;
 
+    navigate(mentorEndpoints.editChapter, { state: { chapterId } });
+  };
+  const handleUnlist = async (id: string | undefined) => {
+    try {
+      await mentorAxios.post(`${mentorEndpoints.unlistCourse}?id=${id}`);
+
+      setUnlistedStatus(!unlistedStatus);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     mentorAxios
       .get(`${mentorEndpoints.chaptersList}?courseId=${courseId}`)
       .then((response) => {
         setChapters(response.data);
-      });
+      })
+      .catch((error) => console.log(error));
   }, [courseId]);
- console.log("chapterslist",chapters)
+  console.log("chapterslist", chapters);
   return (
     <div className="md:flex items-start justify-center py-12 2xl:px-20 md:px-6 px-4 ml-20">
       <div className="ml-60">
@@ -54,27 +71,35 @@ function CourseDetails() {
         </div>
         <div>
           <div className="flex justify-items-stretch">
-        {selectedCourse.introvideo ? (
-          <video autoPlay muted loop controls={false} width="400" height="200">
-            <source src={selectedCourse.introvideo} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        ) : (
-          "Not updated"
-        )}
-          
-        {selectedCourse.banner ? (
-          <img
-            // className="w-full"
-            width="400" height="200"
-            alt="Banner image"
-            src={selectedCourse.banner}
-          />
-        ) : (
-          "Not updated"
-        )}
+            {selectedCourse.introvideo ? (
+              <video
+                autoPlay
+                muted
+                loop
+                controls={false}
+                width="400"
+                height="200"
+              >
+                <source src={selectedCourse.introvideo} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            ) : (
+              "Not updated"
+            )}
+
+            {selectedCourse.banner ? (
+              <img
+                // className="w-full"
+                width="400"
+                height="200"
+                alt="Banner image"
+                src={selectedCourse.banner}
+              />
+            ) : (
+              "Not updated"
+            )}
+          </div>
         </div>
-      </div>
         <div className="py-4 border-b border-gray-200 flex items-center justify-between">
           <h1 className="text-2xl leading-20 text-gray-800">
             {selectedCourse.subtitle}
@@ -106,10 +131,20 @@ function CourseDetails() {
         <div className="py-4 border-b border-gray-200 flex items-center justify-between">
           <p className="text-lg leading-6 text-gray-800 font-semibold">
             CHAPTERS
-           
           </p>
           <div className="flex items-center justify-center"></div>
+          <div>
+            <span className="font-medium">
+              <button
+                onClick={() => handleAddChapter(courseId?._id)}
+                className="rounded-full px-4 py-2 bg-green-500 text-white focus:outline-none"
+              >
+                Add Chapter
+              </button>
+            </span>
+          </div>
         </div>
+
         {/* Chapters Table - Start */}
 
         <div className="min-w-screen min-h-screen    font-sans overflow-hidden">
@@ -118,49 +153,88 @@ function CourseDetails() {
               <table className="min-w-max w-full table-auto">
                 <thead>
                   <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                    <th className="py-3 px-6 text-left font-semibold">Course content</th>
+                    <th className="py-3 px-6 text-left font-semibold">
+                      Course content
+                    </th>
 
-                    <th className="py-3 px-6 text-center">Action</th>
+                    <th className="py-3 px-6 text-center"></th>
+                    <th className="py-3 px-6 text-center"></th>
+                    <th className="py-3 px-6 text-center"></th>
+                    <th className="py-3 px-6 text-center"></th>
                   </tr>
                 </thead>
                 <tbody className="text-gray-600 text-sm font-light">
-              {chapters.map((chapter) => (
-                <tr key={chapter._id} className="border-b border-gray-200 bg-gray-50 hover:bg-gray-100">
-                  <td className="py-3 px-6 text-left">
-                    <div className="flex items-center">
-                      <div className="mr-2"></div>
-                      <span className="font-medium">
-                        &#x27A4;  {chapter.title} 
-                      </span>
-                    </div>
-                  </td>
-                  <td className="py-3 px-6 text-center">
-                    <div className="flex items-center justify-center">
-                      <span className="font-medium">
-                        <button onClick={() => handleEnroll(chapter._id)} className="rounded-full px-4 py-2 bg-blue-500 text-white focus:outline-none">
-                          <p>View</p>
-                        </button>
-                      </span>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+                  {chapters.map((chapter) => (
+                    <tr
+                      key={chapter._id}
+                      className="border-b border-gray-200 bg-gray-50 hover:bg-gray-100"
+                    >
+                      <td className="py-3 px-6 text-left">
+                        <div className="flex items-center">
+                          <div className="mr-2"></div>
+                          <span className="font-medium">
+                            <button onClick={() => handleEnroll(chapter._id)}>
+                              &#x27A4; {chapter.title}
+                            </button>
+                          </span>
+                        </div>
+                      </td>
+                     
+                      <td className="py-3 px-6 text-center">
+                        <div className="flex items-center justify-center">
+                          <span className="font-medium">
+                            <button
+                              onClick={() => handleUnlist(chapter._id)}
+                              className="rounded-full px-2 py-2 bg-blue-500 text-white focus:outline-none"
+                            >
+                              {chapter.isUnlisted ? (
+                                <p style={{ fontSize: "1.1rem" }}>
+                                  <MdRemoveRedEye />
+                                </p>
+                              ) : (
+                                <p style={{ fontSize: "1.1rem" }}>
+                                  <IoEyeOffSharp />
+                                </p>
+                              )}
+                            </button>
+                          </span>
+                        </div>
+                      </td>
+                      <td className="py-3 px-6 text-center">
+                        <div className="flex items-center justify-center">
+                          <span className="font-medium">
+                            <button
+                              onClick={() => handleEdit(chapter._id)}
+                              className="rounded-full px-2 py-2 bg-blue-500 text-white focus:outline-none"
+                            >
+                              <p style={{ fontSize: "1.1rem" }}>
+                                <GrEdit />
+                              </p>
+                            </button>
+                          </span>
+                        </div>
+                      </td>
+                      <td className="py-3 px-6 text-center">
+                        <div className="flex items-center justify-center">
+                          <span className="font-medium">
+                            <button
+                              onClick={() => handleUnlist(chapter._id)}
+                              className="rounded-full px-2 py-2 bg-blue-500 text-white focus:outline-none"
+                            >
+                              <p style={{ fontSize: "1.1rem" }}>
+                                <MdDelete />
+                              </p>
+                            </button>
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
               </table>
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-center">
-                        <span className="font-medium">
-                          <button
-                
-                            onClick={() => handleAddChapter(courseId?._id)}
-                            className="rounded-full px-4 py-2 bg-blue-500 text-white focus:outline-none"
-                          >
-                            +
-                          </button>
-                        </span>
-                      </div>
 
         {/* Chapters Table - End */}
 
@@ -177,7 +251,6 @@ function CourseDetails() {
           <div className="flex items-center justify-center"></div>
         </div>
       </div>
-    
     </div>
   );
 }

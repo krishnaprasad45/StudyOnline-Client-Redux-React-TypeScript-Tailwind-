@@ -50,7 +50,9 @@ function Login() {
       const response = await mentorAxios.get(mentorEndpoints.login, {
         params: queryParams,
       });
-      if (response.data.mentorData && response.data.mentorData.email) {
+      if (response.data.mentorData.isBlock === true)
+        showErrorToast("You account is blocked by the admin");
+      else if (response.data.mentorData && response.data.mentorData.email) {
         localStorage.setItem("mentorToken", response.data.token);
         localStorage.setItem("mentorEmail", response.data.mentorData.email);
         // redux store data

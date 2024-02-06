@@ -5,6 +5,12 @@ import { useNavigate } from "react-router-dom";
 import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
 import { RootState } from "../../../Interfaces/common";
 import { useSelector } from "react-redux";
+import { MdDelete, MdRemoveRedEye } from "react-icons/md";
+import { IoEyeOffSharp } from "react-icons/io5";
+import { GrEdit } from "react-icons/gr";
+import { showErrorToast, showSuccessToast } from "../../../services/popups/popups";
+import { ToastContainer } from "react-toastify";
+
 // .
 function ListCourses() {
   const [courses, setCourses] = useState<CourseInterface[]>([]);
@@ -32,12 +38,42 @@ function ListCourses() {
 
     navigate(mentorEndpoints.addChapter, { state: { courseId } });
   };
+  const handleEdit = (CourseId: string | undefined) => {
+    const courseId = CourseId;
+
+    navigate(mentorEndpoints.editCourse, { state: { courseId } });
+  };
 
   const handleUnlist = async (id: string | undefined) => {
     try {
-      await mentorAxios.post(`${mentorEndpoints.unlistCourse}?id=${id}`);
+      console.log("unlist id ",id)
+      await mentorAxios.post(`${mentorEndpoints.unlistCourse}?courseId=${id}`);
 
       setUnlistedStatus(!unlistedStatus);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleDelete = async (id: string | undefined) => {
+    try {
+      const confirmDelete = window.confirm("Are you sure you want to delete this course?");
+  
+      if (confirmDelete) {
+        await mentorAxios.delete(`${mentorEndpoints.deleteCourse}?courseId=${id}`)
+          .then((response) => {
+            if (response.status === 201) {
+              showSuccessToast("Delete Successful");
+              setTimeout(() => {
+                navigate(mentorEndpoints.courses);
+              }, 2300);
+            } else {
+              showErrorToast("Delete failed");
+              alert(response.data.message);
+            }
+          });
+  
+        setUnlistedStatus(!unlistedStatus);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -68,6 +104,7 @@ function ListCourses() {
             onClick={() => navigate(mentorEndpoints.addCourse)}
           >
             Add Course
+            <ToastContainer/>
           </button>
         </div>
       </div>
@@ -92,7 +129,7 @@ function ListCourses() {
                     <th className="py-3 px-6 text-left">Course</th>
                     <th className="py-3 px-6 text-left">Fee</th>
                     <th className="py-3 px-6 text-center">Duration</th>
-                    <th className="py-3 px-6 text-center">Action</th>
+                    <th className="py-3 px-6 text-center">Actions</th>
                     <th className="py-3 px-6 text-center">Chapter</th>
                     {/* <th className="py-3 px-6 text-center">View</th> */}
                   </tr>
@@ -103,21 +140,23 @@ function ListCourses() {
                       key={course._id}
                       className="border-b border-gray-200 bg-gray-50 hover:bg-gray-100"
                     >
-                      <button
+                      
+                      <td className="py-3 px-6 text-left">
+                        <span
+                        style={{cursor: 'pointer'}}
                         key={course._id}
                         onClick={() => handleCourseDetails(course._id)}
-                      >
-                        <td className="py-3 px-6 text-left">
+                        >
                           <div className="flex items-center">
                             <div className="mr-2"></div>
                             <span className="font-medium">{course.title}</span>
                           </div>
-                        </td>
-                      </button>
+                        </span>
+                      </td>
                       <td className="py-3 px-6 text-left">
                         <div className="flex items-center">
                           <div className="mr-2"></div>
-                          <span>{course.fee}</span>
+                          <span className="font-medium">{course.fee}</span>
                         </div>
                       </td>
                       <td className="py-3 px-6 text-center">
@@ -125,28 +164,62 @@ function ListCourses() {
                           <span className="font-medium">{course.duration}</span>
                         </div>
                       </td>
-                      <td className="py-3 px-6 text-center">
-                        <div className="flex items-center justify-center">
-                          <span className="font-medium">
-                            <button
-                              onClick={() => handleUnlist(course._id)}
-                              className="rounded-full px-4 py-2 bg-blue-500 text-white focus:outline-none"
-                            >
-                              {course.isUnlisted ? (
-                                <p className="unblocked">List</p>
-                              ) : (
-                                <p className="blocked">Unlist</p>
-                              )}
-                            </button>
-                          </span>
-                        </div>
-                      </td>
+                      <div className="flex justify-center">
+                        <td className="py-3 px-6 text-center">
+                          <div className="flex items-center justify-center">
+                            <span className="font-medium">
+                              <button
+                                onClick={() => handleUnlist(course._id)}
+                                className="rounded-full px-2 py-2 bg-blue-500 text-white focus:outline-none"
+                              >
+                                {course.isUnlisted ? (
+                                  <p style={{ fontSize: "1.1rem" }}>
+                                    <MdRemoveRedEye />
+                                  </p>
+                                ) : (
+                                  <p style={{ fontSize: "1.1rem" ,  }}>
+                                    <IoEyeOffSharp />
+                                  </p>
+                                )}
+                              </button>
+                            </span>
+                          </div>
+                        </td>
+                        <td className="py-3 px-6 text-center">
+                          <div className="flex items-center justify-center">
+                            <span className="font-medium">
+                              <button
+                                onClick={() => handleEdit(course._id)}
+                                className="rounded-full px-2 py-2 bg-blue-500 text-white focus:outline-none"
+                              >
+                                <p style={{ fontSize: "1.1rem" }}>
+                                  <GrEdit />
+                                </p>
+                              </button>
+                            </span>
+                          </div>
+                        </td>
+                        <td className="py-3 px-6 text-center">
+                          <div className="flex items-center justify-center">
+                            <span className="font-medium">
+                              <button
+                                onClick={() => handleDelete(course._id)}
+                                className="rounded-full px-2 py-2 bg-blue-500 text-white focus:outline-none"
+                              >
+                                <p style={{ fontSize: "1.1rem" }}>
+                                  <MdDelete />
+                                </p>
+                              </button>
+                            </span>
+                          </div>
+                        </td>
+                      </div>
                       <td className="py-3 px-6 text-center">
                         <div className="flex items-center justify-center">
                           <span className="font-medium">
                             <button
                               onClick={() => handleAddChapter(course._id)}
-                              className="rounded-full px-4 py-2 bg-blue-500 text-white focus:outline-none"
+                              className="rounded-full px-3 py-2 bg-blue-500 text-white focus:outline-none"
                             >
                               +
                             </button>

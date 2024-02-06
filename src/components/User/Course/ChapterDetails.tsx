@@ -52,7 +52,7 @@ function ListChapters() {
             </div>
           </>
         ) : (
-          <p>Loading...</p>
+          <p>Uploading...</p>
         )}
       </div>
     </div>

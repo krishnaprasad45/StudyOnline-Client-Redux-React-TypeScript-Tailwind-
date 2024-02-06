@@ -11,6 +11,8 @@ import uploadFile from "../../../services/cloudinary/uploadCourseFile";
 import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
 import { RootState } from "../../../Interfaces/common";
 import { useSelector } from "react-redux";
+import { ToastContainer, } from 'react-toastify';  
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const AddCourse: React.FC = () => {
@@ -49,9 +51,12 @@ const AddCourse: React.FC = () => {
   
         if (response.status === 201) {
           showSuccessToast("Course Created"); 
+          console.log("Course Created Successfully");
           setTimeout(() => {
             navigate(mentorEndpoints.courses);
+            console.log("Navigating to Courses");
           }, 3000);
+
         } else {
           showErrorToast(response?.data?.message);
         }
@@ -73,6 +78,7 @@ const AddCourse: React.FC = () => {
       >
         <Form className="max-w-sm mx-auto ">
           <h1 className="text-xl mb-5">Add Course</h1>
+          <ToastContainer/>
           <div>
             <label htmlFor="title">Course Title:</label>
             <Field
@@ -167,7 +173,7 @@ const AddCourse: React.FC = () => {
               className="file-input"
               style={{ display: "none" }}
             />
-                 {bannerLoading && <div>Loading...</div>}
+                 {bannerLoading && <div>Uploading...</div>}
             {previewBanner && (
               <img
                 src={previewBanner}

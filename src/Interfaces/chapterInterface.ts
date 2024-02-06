@@ -5,5 +5,6 @@ export interface ChapterInterface{
     description:string,
     chaptervideo:string,
     courseId?:string,
+    isUnlisted:boolean
 } 
  

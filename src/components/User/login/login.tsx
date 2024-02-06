@@ -55,7 +55,10 @@ function Login() {
       const response = await userAxios.get(userEndpoints.login, {
         params: queryParams,
       });
-      if (response.data.userData && response.data.userData.email) {
+      console.log(response.data.userData.isBlock)
+      if (response.data.userData.isBlock === true)
+        showErrorToast("You account is blocked by the admin");
+      else if (response.data.userData && response.data.userData.email) {
         localStorage.setItem("usertoken", response.data.token);
         localStorage.setItem("userEmail", response.data.userData.email);
 
@@ -74,7 +77,7 @@ function Login() {
       alert((error as Error).message);
     }
   };
-  
+
   //google_signin
 
   const provider = new GoogleAuthProvider();
