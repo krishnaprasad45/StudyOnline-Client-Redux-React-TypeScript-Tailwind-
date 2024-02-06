@@ -13,9 +13,9 @@ import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
 import uploadImage from "../../../services/cloudinary/customeImageUpload";
 
 function Signup() {
-  const [image, setImage] = useState<File>();
   const [viewImage, setViewImage] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [image, setImage] = useState<File>();
   const navigate = useNavigate();
 
   const initialValues = {

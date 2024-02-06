@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { socket } from "../../../services/socket.io/socketConfig";
 import { RootState } from "../../../Interfaces/common";
@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
 import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
 import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
+import { FaImage } from "react-icons/fa";
+import uploadImage from "../../../services/cloudinary/customeImageUpload";
 
 interface Message {
   message: string;
@@ -22,20 +24,22 @@ interface ChatBodyProps {
 const ChatBody: React.FC<ChatBodyProps> = (props) => {
   const navigate = useNavigate();
   const [messages, setMessages] = useState<Message[]>([]);
-  const [newMessage, setNewMessage] = useState<string>("");
+  const [newMessage, setNewMessage] = useState<string>();
   const userStore = useSelector((state: RootState) => state.user);
+  const [viewImage, setViewImage] = useState<string>();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [image, setImage] = useState<File>();
   let mentorEmail: string | undefined;
   const chatId = props.chatId;
   const role = props.role;
-  const email = props.email
-  const chattingWith = (email?.split('@')[0] || '').toUpperCase();
-
-
+  const email = props.email;
+  const chattingWith = (email?.split("@")[0] || "").toUpperCase();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   if (userStore) {
     mentorEmail = userStore?.user?.mentorIncharge;
   }
   console.log("props*", props);
-  console.log("ch-hist",messages)
+  console.log("ch-hist", messages);
 
   useEffect(() => {
     mentorAxios
@@ -44,9 +48,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
         console.log("res-data", response.data);
         setMessages(response.data.messages);
       });
-  
-   
-  
+
     // Scroll to the bottom when messages are updated
     const chatContainer = document.getElementById("chat-container");
     if (chatContainer) {
@@ -63,11 +65,10 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
   };
 
   const handleSendMessage = (e: FormEvent) => {
-    console.log("handle sed message 6");
     e.preventDefault();
+    
     if (
-      (messages && localStorage.getItem("userEmail")) ||
-      localStorage.getItem("mentorEmail")
+      (messages && localStorage.getItem("userEmail")) 
     ) {
       const messageData = {
         from: props.role,
@@ -75,21 +76,30 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
         to: role == "user" ? "mentor" : "user",
         id: chatId,
       };
-      console.log("message data to serever ", messageData);
+
       socket.emit("SentMessage", messageData);
 
-      socket.on("SentUpdatedMessage",(updatedMessage)=>{
-        console.log("SentUpdatedMessage",updatedMessage)
-        setMessages(updatedMessage.messages)
-      })
+      socket.on("SentUpdatedMessage", (updatedMessage) => {
+        setMessages(updatedMessage.messages);
+
+        // Close the image preview after sending the image
+        setViewImage(undefined);
+        setImage(undefined);
+      });
     }
     setNewMessage("");
   };
+  const handleFileButtonClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
 
   return (
-    <div className="w-full md:ml-80"> {/* Use full width for mobile, ml-80 for desktop */}
+    <div className="w-full md:ml-80">
+      {" "}
+      {/* Use full width for mobile, ml-80 for desktop */}
       {/* ChatBar */}
-
       {mentorEmail === "not assigned" ? (
         <p className="  text-center text-orange-600 py-4 ">
           You need to purchase the course to unlock the chat feature.
@@ -110,46 +120,137 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
           </header>
 
           <div>
-            <div  id="chat-container" className="message__container bg-violet-50">
-              {messages.map((data) =>
-                role == "mentor" ? (
-                  data.from === "mentor" ? (
-                    <div className="message__chats" key={data.id}>
+            <div
+              id="chat-container"
+              className="message__container bg-violet-50"
+            >
+              {messages.map((data) => (
+                <div className="message__chats" key={data.id}>
+                  {role === "mentor" ? (
+                    data.from === "mentor" ? (
+                      <>
+                        <p className="sender__name">You</p>
+                        {data.message &&
+                        typeof data.message === "string" &&
+                        data.message.startsWith("https") ? (
+                          <img
+                            style={{
+                              width: "auto",
+                              height: "100px",
+                              margin: "5px 0 15px 0",
+                            }}
+                            src={data.message} // Assuming the message itself is the URL
+                            alt="Image Preview"
+                            className="image-preview"
+                          />
+                        ) : (
+                          <div className="message__sender">
+                            <p>{data.message}</p>
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <p>{data.from}</p>
+                        <div className="message__recipient">
+                          <p>{data.message}</p>
+                        </div>
+                      </>
+                    )
+                  ) : data.from === "mentor" ? (
+                    <>
+                      <p>{data.from}</p>
+                      <div className="message__recipient">
+                        {data.message &&
+                        typeof data.message === "string" &&
+                        data.message.startsWith("https") ? (
+                          <img
+                            style={{
+                              width: "auto",
+                              height: "100px",
+                              margin: "5px 0 15px 0",
+                            }}
+                            src={data.message} // Assuming the message itself is the URL
+                            alt="Image Preview"
+                            className="image-preview"
+                          />
+                        ) : (
+                          <p>{data.message}</p>
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    <>
                       <p className="sender__name">You</p>
                       <div className="message__sender">
-                        <p>{data.message}</p>
+                        {data.message &&
+                        typeof data.message === "string" &&
+                        data.message.startsWith("https") ? (
+                          <img
+                            style={{
+                              width: "auto",
+                              height: "100px",
+                              margin: "5px 0 15px 0",
+                            }}
+                            src={data.message} // Assuming the message itself is the URL
+                            alt="Image Preview"
+                            className="image-preview"
+                          />
+                        ) : (
+                          <p>{data.message}</p>
+                        )}
                       </div>
-                    </div>
-                  ) : (
-                    <div className="message__chats" key={data.id}>
-                      <p>{data.from}</p>
-
-                      <div className="message__recipient">
-                        <p>{data.message}</p>
-                      </div>
-                    </div>
-                  )
-                ) : data.from === "mentor" ? (
-                  <div className="message__chats" key={data.id}>
-                    <p>{data.from}</p>
-
-                    <div className="message__recipient">
-                      <p>{data.message}</p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="message__chats" key={data.id}>
-                    <p className="sender__name">You</p>
-                    <div className="message__sender">
-                      <p>{data.message}</p>
-                    </div>
-                  </div>
-                )
-              )}
+                    </>
+                  )}
+                </div>
+              ))}
             </div>
 
             <div className="chat__footer">
               <form className="form" onSubmit={handleSendMessage}>
+                <button
+                  type="button"
+                  className="file-btn"
+                  onClick={handleFileButtonClick}
+                >
+                  <FaImage style={{ fontSize: "28px" }} />
+                </button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".jpg, .jpeg, .png, .gif"
+                  onChange={async (e: React.ChangeEvent<HTMLInputElement>) => {
+                    const imageFileList = e.target.files;
+                    if (imageFileList && imageFileList.length > 0) {
+                      const image = imageFileList[0];
+                      const foldername = "Chat Image";
+                      setImage(image);
+                      setLoading(true);
+                      const imageUrl = await uploadImage(image, foldername);
+                      setViewImage(imageUrl);
+                      setLoading(false);
+
+                      // Store the image URL in setNewMessage
+                      setNewMessage(imageUrl);
+                    }
+                  }}
+                  style={{ display: "none" }}
+                />
+                {loading && <div>Uploading...</div>}
+                <div>
+                  {image && (
+                    <img
+                      style={{
+                        width: "auto",
+                        height: "100px",
+                        margin: "5px 0 15px 0",
+                      }}
+                      src={viewImage}
+                 
+                      className="profile-image"
+                    />
+                  )}
+                </div>
                 <input
                   type="text"
                   placeholder="Write message"
