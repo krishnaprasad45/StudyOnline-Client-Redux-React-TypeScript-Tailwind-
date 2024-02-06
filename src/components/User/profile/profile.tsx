@@ -34,7 +34,7 @@ function Profile() {
   }, [navigate]);
 
   return (
-    <div className=" wrapper w-70">
+    <div className="wrapper w-70">
       {data?.email && (
         <div className="profile-card js-profile-card">
           <div className="profile-card__img">
@@ -43,7 +43,6 @@ function Profile() {
           <div className="profile-card-inf">
             <div className="profile-card-inf__item">
               <div className="profile-card-inf__title">
-                {" "}
                 {data.firstname} {data.lastname}
               </div>
             </div>
@@ -51,8 +50,7 @@ function Profile() {
           <div className="profile-card__cnt js-profile-cnt">
             <br />
             <div className="profile-card__txt">
-              {" "}
-              Email ID : <strong>{data.email}</strong>
+              Email ID: <strong>{data.email}</strong>
             </div>
             <div className="profile-card-loc">
               <span className="profile-card-loc__icon">
@@ -60,13 +58,10 @@ function Profile() {
                   <use xlinkHref="#icon-location"></use>
                 </svg>
               </span>
-
               <span className="profile-card-loc__txt">
-                {" "}
-                PHONE : {data.mobile}{" "}
+                PHONE: {data.mobile}
               </span>
             </div>
-
             <div className="profile-card-ctr">
               <button
                 onClick={() => {

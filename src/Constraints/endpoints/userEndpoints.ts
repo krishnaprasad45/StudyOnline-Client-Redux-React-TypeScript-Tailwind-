@@ -13,6 +13,7 @@ export default{
     dashboard:"/dashboard",
     marks:"/marks",
     chat:"/chat/user",
+    community:"/community/user",
     payments:"/payments",
     paymentHistory:"/payments/history",
     videomeet:"/videomeet",

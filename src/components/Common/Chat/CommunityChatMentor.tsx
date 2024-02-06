@@ -3,9 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { socket } from "../../../services/socket.io/socketConfig";
 import { RootState } from "../../../Interfaces/common";
 import { useSelector } from "react-redux";
-import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
-import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
 import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
+import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
 
 interface Message {
   message: string;
@@ -23,19 +22,16 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
   const navigate = useNavigate();
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
-  const userStore = useSelector((state: RootState) => state.user);
-  let mentorEmail: string | undefined;
+  const mentorStore = useSelector((state: RootState) => state.mentor);
+  const verificationStatus = mentorStore.mentor.verification
+
   const chatId = props.chatId;
   const role = props.role;
   const email = props.email
-  const chattingWith = (email?.split('@')[0] || '').toUpperCase();
 
 
-  if (userStore) {
-    mentorEmail = userStore?.user?.mentorIncharge;
-  }
-  console.log("props*", props);
-  console.log("ch-hist",messages)
+  
+  console.log("props", props);
 
   useEffect(() => {
     mentorAxios
@@ -56,21 +52,18 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
 
   const handleLeaveChat = () => {
     localStorage.removeItem("userName");
-    navigate(userEndpoints.dashboard);
+    navigate("/");
   };
-  const handleOnclick = () => {
-    navigate(userEndpoints.courses);
-  };
+
 
   const handleSendMessage = (e: FormEvent) => {
     console.log("handle sed message 6");
     e.preventDefault();
     if (
-      (messages && localStorage.getItem("userEmail")) ||
-      localStorage.getItem("mentorEmail")
+      (messages && localStorage.getItem("mentorEmail")) 
     ) {
       const messageData = {
-        from: props.role,
+        from: email,
         message: newMessage,
         to: role == "user" ? "mentor" : "user",
         id: chatId,
@@ -84,26 +77,21 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
       })
     }
     setNewMessage("");
+    
   };
 
   return (
-    <div className="w-full md:ml-80"> {/* Use full width for mobile, ml-80 for desktop */}
+    <div className=" ml-80 w-full  ">
       {/* ChatBar */}
 
-      {mentorEmail === "not assigned" ? (
+      {verificationStatus === "Pending" || verificationStatus === "Reject" ? (
         <p className="  text-center text-orange-600 py-4 ">
-          You need to purchase the course to unlock the chat feature.
-          <button
-            onClick={handleOnclick}
-            className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-blue-600 rounded-lg focus:ring-4 focus:outline-none"
-          >
-            Buy Course
-          </button>
+         Account is not verified by the admin
         </p>
       ) : (
         <div>
           <header className="chat__mainHeader">
-            <p>{chattingWith}</p> {/* Chatting with */}
+          <p className="font-semibold uppercase flex">Community Group</p>
             <button className="leaveChat__btn" onClick={handleLeaveChat}>
               LEAVE CHAT
             </button>
@@ -113,7 +101,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
             <div  id="chat-container" className="message__container bg-violet-50">
               {messages.map((data) =>
                 role == "mentor" ? (
-                  data.from === "mentor" ? (
+                  data.from === email  ? (
                     <div className="message__chats" key={data.id}>
                       <p className="sender__name">You</p>
                       <div className="message__sender">
@@ -122,7 +110,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
                     </div>
                   ) : (
                     <div className="message__chats" key={data.id}>
-                      <p>{data.from}</p>
+                      <p>left{data.from}</p>
 
                       <div className="message__recipient">
                         <p>{data.message}</p>
@@ -131,7 +119,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
                   )
                 ) : data.from === "mentor" ? (
                   <div className="message__chats" key={data.id}>
-                    <p>{data.from}</p>
+                    <p>{email}</p>
 
                     <div className="message__recipient">
                       <p>{data.message}</p>

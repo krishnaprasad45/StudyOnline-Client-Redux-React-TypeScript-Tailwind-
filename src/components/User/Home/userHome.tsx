@@ -6,6 +6,11 @@ import "./userHome.css";
 import { Link, useNavigate } from "react-router-dom";
 import { userProfile } from "../../../Interfaces/userInterfaces";
 import { userAxios } from "../../../Constraints/axiosInterceptors/userAxiosInterceptors";
+import { IoBookSharp, IoVideocam } from "react-icons/io5";
+import { IoIosChatboxes } from "react-icons/io";
+import { MdOutlinePayment } from "react-icons/md";
+import { HiUserGroup } from "react-icons/hi2";
+import { FaUser } from "react-icons/fa6";
 
 const Homepage: React.FC = () => {
   const [data, setData] = useState<userProfile>();
@@ -48,32 +53,56 @@ const Homepage: React.FC = () => {
             className="mb-12 p-2 rounded buttonStyle2"
             to={userEndpoints.myCourse}
           >
-            <button>Courses</button>
+            <button className="flex items-center gap-2">
+              <IoBookSharp className="ml-2" style={{ color: "black" }} />{" "}
+              Courses
+            </button>
           </Link>
 
           <Link
             className="mb-12 p-2 rounded buttonStyle2"
             to={userEndpoints.videomeetJoin}
           >
-            <button>VideoMeet</button>
+            <button className="flex items-center gap-2">
+              <IoVideocam className="ml-2" style={{ color: "black" }} /> Video
+              Meet
+            </button>
           </Link>
           <Link
             className="mb-12 p-2 rounded buttonStyle2"
             to={userEndpoints.chat}
           >
-            <button>Chat With Mentor</button>
+            <button className="flex items-center gap-2">
+              <IoIosChatboxes className="ml-2" style={{ color: "black" }} />{" "}
+              Chat with Mentor
+            </button>
+          </Link>
+          <Link
+            className="mb-12 p-2 rounded buttonStyle2"
+            to={userEndpoints.community}
+          >
+            <button className="flex items-center gap-2">
+              <HiUserGroup className="ml-2" style={{ color: "black" }} />{" "}
+              Community
+            </button>
           </Link>
           <Link
             className="mb-12 p-2 rounded buttonStyle2"
             to={userEndpoints.payments}
           >
-            <button>Payment Details</button>
+            <button className="flex items-center gap-2">
+              <MdOutlinePayment className="ml-2" style={{ color: "black" }} />{" "}
+              Payment Details
+            </button>{" "}
           </Link>
           <Link
             className="mb-12 p-2 rounded buttonStyle2"
             to={userEndpoints.profile}
           >
-            <button>Profile</button>
+            <button className="flex items-center gap-2">
+              <FaUser className="ml-2" style={{ color: "black" }} />{" "}
+              Profile
+            </button>
           </Link>
         </>
       )}

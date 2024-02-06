@@ -4,8 +4,8 @@ import { socket } from "../../../services/socket.io/socketConfig";
 import { RootState } from "../../../Interfaces/common";
 import { useSelector } from "react-redux";
 import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
-import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
 import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
+import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
 
 interface Message {
   message: string;
@@ -27,15 +27,13 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
   let mentorEmail: string | undefined;
   const chatId = props.chatId;
   const role = props.role;
-  const email = props.email
-  const chattingWith = (email?.split('@')[0] || '').toUpperCase();
+  const userEmail = props.email
 
 
   if (userStore) {
     mentorEmail = userStore?.user?.mentorIncharge;
   }
-  console.log("props*", props);
-  console.log("ch-hist",messages)
+  console.log("props", props);
 
   useEffect(() => {
     mentorAxios
@@ -56,7 +54,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
 
   const handleLeaveChat = () => {
     localStorage.removeItem("userName");
-    navigate(userEndpoints.dashboard);
+    navigate("/");
   };
   const handleOnclick = () => {
     navigate(userEndpoints.courses);
@@ -70,7 +68,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
       localStorage.getItem("mentorEmail")
     ) {
       const messageData = {
-        from: props.role,
+        from: userEmail,
         message: newMessage,
         to: role == "user" ? "mentor" : "user",
         id: chatId,
@@ -84,10 +82,11 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
       })
     }
     setNewMessage("");
+    
   };
 
   return (
-    <div className="w-full md:ml-80"> {/* Use full width for mobile, ml-80 for desktop */}
+    <div className=" ml-80 w-full  ">
       {/* ChatBar */}
 
       {mentorEmail === "not assigned" ? (
@@ -103,7 +102,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
       ) : (
         <div>
           <header className="chat__mainHeader">
-            <p>{chattingWith}</p> {/* Chatting with */}
+            <p className="font-semibold uppercase flex">Community Group</p>
             <button className="leaveChat__btn" onClick={handleLeaveChat}>
               LEAVE CHAT
             </button>
@@ -112,8 +111,8 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
           <div>
             <div  id="chat-container" className="message__container bg-violet-50">
               {messages.map((data) =>
-                role == "mentor" ? (
-                  data.from === "mentor" ? (
+                role == "user" ? (
+                  data.from === userEmail ? (
                     <div className="message__chats" key={data.id}>
                       <p className="sender__name">You</p>
                       <div className="message__sender">
@@ -131,7 +130,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
                   )
                 ) : data.from === "mentor" ? (
                   <div className="message__chats" key={data.id}>
-                    <p>{data.from}</p>
+                    <p>{userEmail}</p>
 
                     <div className="message__recipient">
                       <p>{data.message}</p>

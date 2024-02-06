@@ -24,7 +24,7 @@ const AdminHome = () => {
         >
           <button className="flex items-center gap-2">
             <FaUserCog className="ml-2" style={{ color: "black" }} />
-            UserManagement
+            User Management
           </button>
         </Link>
 
@@ -34,7 +34,7 @@ const AdminHome = () => {
         >
           <button className="flex items-center gap-2">
             <FaChalkboardTeacher className="ml-2" style={{ color: "black" }} />
-            MentorManagement
+            Mentor Management
           </button>
         </Link>
 
@@ -44,7 +44,7 @@ const AdminHome = () => {
         >
           <button className="flex items-center gap-2">
             <TbReport className="ml-2" style={{ color: "black" }} />
-            SalesReport
+            Sales Report
           </button>
         </Link>
 

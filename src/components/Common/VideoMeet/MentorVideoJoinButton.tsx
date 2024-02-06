@@ -36,7 +36,7 @@ const JoinButton: React.FC<JoinButtonProps> = ({ videoId }) => {
   }, [handleJoinRoom]);
 
   return (
-    <div className='bg-blue-200' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+    <div className='bg-white' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
       <button onClick={handleJoin} style={{ backgroundColor: 'blue', padding: '10px 20px', fontSize: '16px', borderRadius: '5px', color: 'white' }}>
         Join to Learner Video Meet
       </button>

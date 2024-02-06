@@ -2,10 +2,14 @@ import { useLocation } from "react-router-dom";
 
 import { CourseInterface } from "../../../Interfaces/courseInterface";
 import StripeBtn from "../../Common/Stripe/StripeButton";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../Interfaces/common";
 
 function CourseDetails() {
   const { state } = useLocation();
   const selectedCourse: CourseInterface = state.selectedCourse;
+  const userStore = useSelector((state: RootState) => state.user);
+  const courseId = userStore.user.courseId;
 
   return (
     <section className="text-gray-700 body-font overflow-hidden ml-30 bg-white">
@@ -98,13 +102,20 @@ function CourseDetails() {
               </span>
 
               <div className="customStyles">
-                <StripeBtn
-                  price={selectedCourse.fee}
-                  title={selectedCourse.title}
-                  createdby={selectedCourse.createdby}
-                  courseId = {selectedCourse._id}
-                />
-              </div>
+          <p className="bg-color-black-400 font-normal text-base" style={{ color: 'red' }}>
+            {courseId ? (
+              "You need to finish the current course to purchase this course"
+            ) : (
+              <StripeBtn
+                price={selectedCourse.fee}
+                title={selectedCourse.title}
+                createdby={selectedCourse.createdby}
+                courseId={selectedCourse._id}
+                onClick={handleButtonClick}
+              />
+            )}
+          </p>
+        </div>
             </div>
           </div>
         </div>

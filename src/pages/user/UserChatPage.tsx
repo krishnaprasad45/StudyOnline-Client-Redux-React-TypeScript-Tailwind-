@@ -42,7 +42,7 @@ function UserChatPage() {
   
 
   return (
-    <div className="flex">
+    <div className="flex flex-col md:flex-row">
       <Homepage />
       <ChatBody role={"user"} chatId={chatId} email={mentorEmail} />
     </div>

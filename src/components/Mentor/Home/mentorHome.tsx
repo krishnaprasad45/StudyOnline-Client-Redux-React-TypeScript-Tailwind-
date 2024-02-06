@@ -5,6 +5,12 @@ import "./mentorHome.css";
 import { Link, useNavigate } from "react-router-dom";
 import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
 import  ProfileInterface  from "../../../Interfaces/mentorInterfaces";
+import { IoBookSharp } from "react-icons/io5";
+import { ImUsers } from "react-icons/im";
+import { MdOutlinePayment } from "react-icons/md";
+import { FaUser } from "react-icons/fa";
+import { HiUserGroup } from "react-icons/hi2";
+
 
 
 const Homepage = () => {
@@ -51,26 +57,47 @@ const Homepage = () => {
         className="mb-12 p-2 rounded buttonStyle"
         to={mentorEndpoints.courses}
       >
-        <button>Courses</button>
+        <button className="flex items-center gap-2">
+              <IoBookSharp className="ml-2" style={{ color: "black" }} />{" "}
+              Courses
+            </button>
       </Link>
       <Link
         className="mb-12 p-2 rounded buttonStyle"
         to={mentorEndpoints.learners}
       >
-        <button>Learners</button>
+        <button className="flex items-center gap-2">
+              <ImUsers className="ml-2" style={{ color: "black" }} />{" "}
+              Learners
+            </button>
+      </Link>
+      <Link
+        className="mb-12 p-2 rounded buttonStyle"
+        to={mentorEndpoints.community}
+      >
+        <button className="flex items-center gap-2">
+              <HiUserGroup className="ml-2" style={{ color: "black" }} />{" "}
+              Community
+            </button>
       </Link>
 
       <Link
         className="mb-12 p-2 rounded buttonStyle"
         to={mentorEndpoints.payments}
       >
-        <button>Payment Details</button>
+        <button className="flex items-center gap-2">
+              <MdOutlinePayment className="ml-2" style={{ color: "black" }} />{" "}
+              Payment Details
+            </button>{" "}
       </Link>
       <Link
         className="mb-12 p-2 rounded buttonStyle"
         to={mentorEndpoints.profile}
       >
-        <button>Profile</button>
+            <button className="flex items-center gap-2">
+              <FaUser className="ml-2" style={{ color: "black" }} />{" "}
+              Profile
+            </button>
       </Link>
       </>
       )}

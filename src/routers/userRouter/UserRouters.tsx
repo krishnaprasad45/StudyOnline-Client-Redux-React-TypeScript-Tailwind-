@@ -15,6 +15,7 @@ import userEndpoints from "../../Constraints/endpoints/userEndpoints";
 import UserCourseFeedPage from "../../pages/user/CoursePages/UserCourseFeedPage";
 import UserVideoMeetJoinPage from "../../pages/user/UserVideoMeetJoinPage";
 import UserChapterDetailsPage from "../../pages/user/CoursePages/UserChapterDetailsPage";
+import UserCommunityPage from "../../pages/user/UserCommunityPage";
 
 const UserRouters: React.FC = () => {
   return (
@@ -27,6 +28,7 @@ const UserRouters: React.FC = () => {
       <Route Component={LandingPage} path={userEndpoints.home} />
       <Route Component={UserMarksPage} path={userEndpoints.marks} />
       <Route Component={UserChatPage} path={userEndpoints.chat} />
+      <Route Component={UserCommunityPage} path={userEndpoints.community} />
       <Route Component={UserPaymentsPage} path={userEndpoints.payments} />
       <Route Component={UserVideoMeetJoinPage} path={userEndpoints.videomeetJoin} />
       <Route Component={UserVideoMeetPage} path={`${userEndpoints.videomeet}/:room`}/>

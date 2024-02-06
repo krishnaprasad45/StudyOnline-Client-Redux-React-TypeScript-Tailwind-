@@ -5,6 +5,8 @@ import { socket } from '../../../services/socket.io/socketConfig';
 
 interface JoinButtonProps {
   videoId: string;
+  role:string;
+  email:string;
 }
 
 const JoinButton: React.FC<JoinButtonProps> = ({ videoId }) => {
@@ -31,7 +33,7 @@ const JoinButton: React.FC<JoinButtonProps> = ({ videoId }) => {
   }, [handleJoinRoom]);
 
   return (
-    <div className='bg-blue-200' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+    <div className='bg-white' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
       <button onClick={handleJoin} style={{ backgroundColor: 'green', padding: '10px 20px', fontSize: '16px', borderRadius: '5px', color: 'white' }}>
         Ready to receive call
       </button>

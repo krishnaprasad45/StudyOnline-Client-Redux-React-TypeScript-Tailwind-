@@ -33,6 +33,8 @@ export default {
     videomeet:"/mentor/videomeet",
     chat:"/mentor/chat",
     getChatHistory:"/mentor/chat/history",
+    community:"/mentor/community",
+    getCommunityHistory:"/mentor/community/history",
     payments:"/mentor/payments",
     paymentHistory:"/mentor/payments/history",
     learners:"/mentor/learners",
