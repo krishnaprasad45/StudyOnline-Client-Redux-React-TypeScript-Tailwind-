@@ -25,7 +25,7 @@ function ListCourses() {
   };
 
   const filteredCourses = courses.filter((course) =>
-    course.title.toLowerCase().includes(searchTerm.toLowerCase())
+    course.isUnlisted === false && course.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (

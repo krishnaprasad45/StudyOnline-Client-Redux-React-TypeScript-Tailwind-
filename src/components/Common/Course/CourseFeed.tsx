@@ -19,7 +19,7 @@ function CourseFeed() {
   const handleEnroll = (chapterId: string) => {
     navigate(userEndpoints.chapterDetails, { state: { chapterId } });
   };
-
+  const filteredChapters = chapters.filter((chapter) => !chapter.isUnlisted);
   useEffect(() => {
     userAxios
       .get(`${userEndpoints.chaptersList}?courseId=${courseId}`)
@@ -124,7 +124,7 @@ function CourseFeed() {
                         </tr>
                       </thead>
                       <tbody className="text-gray-600 text-sm font-light">
-                        {chapters.map((chapter) => (
+                        {filteredChapters.map((chapter) => (
                           <tr
                             key={chapter._id}
                             className="border-b border-gray-200 bg-gray-50 hover:bg-gray-100"

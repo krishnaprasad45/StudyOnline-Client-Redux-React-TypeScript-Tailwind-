@@ -1,6 +1,6 @@
 export interface CourseInterface{
     _id?:string | undefined,
-    title?:string,
+    title:string | undefined,
     subtitle?:string | undefined,
     duration?:string | undefined,
     fee?:string,

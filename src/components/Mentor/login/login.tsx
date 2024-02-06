@@ -50,6 +50,7 @@ function Login() {
       const response = await mentorAxios.get(mentorEndpoints.login, {
         params: queryParams,
       });
+      console.log("mentor-block",response.data.mentorData)
       if (response.data.mentorData.isBlock === true)
         showErrorToast("You account is blocked by the admin");
       else if (response.data.mentorData && response.data.mentorData.email) {

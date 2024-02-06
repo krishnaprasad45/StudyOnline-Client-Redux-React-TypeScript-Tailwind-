@@ -32,7 +32,8 @@ function CourseDetails() {
   };
   const handleUnlist = async (id: string | undefined) => {
     try {
-      await mentorAxios.post(`${mentorEndpoints.unlistCourse}?id=${id}`);
+      
+      await mentorAxios.post(`${mentorEndpoints.unlistChapter}?chapterId=${id}`);
 
       setUnlistedStatus(!unlistedStatus);
     } catch (error) {
@@ -47,8 +48,8 @@ function CourseDetails() {
         setChapters(response.data);
       })
       .catch((error) => console.log(error));
-  }, [courseId]);
-  console.log("chapterslist", chapters);
+  }, [unlistedStatus]);
+ chapters.filter((chapter) => !chapter.isUnlisted);
   return (
     <div className="md:flex items-start justify-center py-12 2xl:px-20 md:px-6 px-4 ml-20">
       <div className="ml-60">
@@ -136,7 +137,7 @@ function CourseDetails() {
           <div>
             <span className="font-medium">
               <button
-                onClick={() => handleAddChapter(courseId?._id)}
+                onClick={() => handleAddChapter(selectedCourse._id)}
                 className="rounded-full px-4 py-2 bg-green-500 text-white focus:outline-none"
               >
                 Add Chapter
@@ -165,6 +166,7 @@ function CourseDetails() {
                 </thead>
                 <tbody className="text-gray-600 text-sm font-light">
                   {chapters.map((chapter) => (
+                    
                     <tr
                       key={chapter._id}
                       className="border-b border-gray-200 bg-gray-50 hover:bg-gray-100"
@@ -189,11 +191,11 @@ function CourseDetails() {
                             >
                               {chapter.isUnlisted ? (
                                 <p style={{ fontSize: "1.1rem" }}>
-                                  <MdRemoveRedEye />
+                                  <IoEyeOffSharp />
                                 </p>
                               ) : (
                                 <p style={{ fontSize: "1.1rem" }}>
-                                  <IoEyeOffSharp />
+                                  <MdRemoveRedEye />
                                 </p>
                               )}
                             </button>
@@ -218,7 +220,7 @@ function CourseDetails() {
                         <div className="flex items-center justify-center">
                           <span className="font-medium">
                             <button
-                              onClick={() => handleUnlist(chapter._id)}
+                              onClick={() => handleEdit(chapter._id)}
                               className="rounded-full px-2 py-2 bg-blue-500 text-white focus:outline-none"
                             >
                               <p style={{ fontSize: "1.1rem" }}>

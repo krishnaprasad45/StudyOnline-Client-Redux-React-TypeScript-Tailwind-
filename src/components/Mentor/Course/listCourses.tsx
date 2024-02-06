@@ -46,7 +46,7 @@ function ListCourses() {
 
   const handleUnlist = async (id: string | undefined) => {
     try {
-      console.log("unlist id ",id)
+     
       await mentorAxios.post(`${mentorEndpoints.unlistCourse}?courseId=${id}`);
 
       setUnlistedStatus(!unlistedStatus);
@@ -174,11 +174,11 @@ function ListCourses() {
                               >
                                 {course.isUnlisted ? (
                                   <p style={{ fontSize: "1.1rem" }}>
-                                    <MdRemoveRedEye />
+                                    <IoEyeOffSharp />
                                   </p>
                                 ) : (
                                   <p style={{ fontSize: "1.1rem" ,  }}>
-                                    <IoEyeOffSharp />
+                                    <MdRemoveRedEye />
                                   </p>
                                 )}
                               </button>
