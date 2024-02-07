@@ -5,7 +5,6 @@ import Statistics from "../../components/admin/home/Statistics";
 function AdminHomePage() {
   return (
     <div >
-     
       <AdminHome/>
       <Statistics/>
     </div>
