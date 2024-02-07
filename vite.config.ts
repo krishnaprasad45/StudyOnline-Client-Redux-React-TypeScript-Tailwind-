@@ -10,6 +10,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      '@fortawesome/fontawesome-svg-core': '@fortawesome/fontawesome-svg-core',
       "@": path.resolve(__dirname, "./src"),
       util: "@browsery/util",
       process: "process/browser",
