@@ -13,6 +13,10 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
       util: "@browsery/util",
       process: "process/browser",
+      stream: "stream-browserify",
+      zlib: "browserify-zlib",
+      './runtimeConfig': './runtimeConfig.browser',
+
     },
   },
 });
