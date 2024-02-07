@@ -11,6 +11,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@fortawesome/fontawesome-svg-core': '@fortawesome/fontawesome-svg-core',
+      '@mui/material/styles': '@mui/material/styles',
       "@": path.resolve(__dirname, "./src"),
       util: "@browsery/util",
       process: "process/browser",
