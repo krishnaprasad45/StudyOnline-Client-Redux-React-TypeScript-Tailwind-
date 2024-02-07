@@ -8,8 +8,7 @@ import {
 } from "../../../services/popups/popups";
 import { useNavigate } from "react-router-dom";
 import PaymentDetails from "../../../Interfaces/paymentDetails";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../Interfaces/common";
+
 
 interface StripeBtnProps {
   price: number;
@@ -18,12 +17,11 @@ interface StripeBtnProps {
   courseId:string;
 }
 const StripeBtn: React.FC<StripeBtnProps> = ({ price, title, createdby, courseId }) => {
-  const userStore = useSelector((state: RootState) => state.userUpdate);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const publishableKey =
     "pk_test_51OSDUbSFcGfHkHz59ElbCcxes5kEMxrMIXF04DTorWE6gO4umd6LAxM3MWoxJOxlaHh1UmqHRWQBLD1yVi4UsdHY00kWm1XjqE";
   const navigate = useNavigate();
-  const userId = userStore._id;
+  
   
   const onToken = async (token: Token) => {
     const body = {
@@ -44,7 +42,8 @@ const StripeBtn: React.FC<StripeBtnProps> = ({ price, title, createdby, courseId
           type: body.token.type,
           transactionId: body.token.created,
           cardType: body.token.card.brand,
-          courseId:body.courseId
+          courseId: body.courseId,
+          date: ""
         };
 
         showSuccessToast("Payment Successfull");
@@ -52,7 +51,7 @@ const StripeBtn: React.FC<StripeBtnProps> = ({ price, title, createdby, courseId
         navigate(userEndpoints.payments, { state: { paymentDetails } });
       })
       .catch((error) => {
-        showErrorToast("Payment Failed",error);
+        showErrorToast(`Payment Failed",${error}`);
       });
   };
   const closePopup = () => {

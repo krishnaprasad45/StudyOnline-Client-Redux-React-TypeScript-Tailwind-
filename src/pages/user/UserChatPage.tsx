@@ -12,10 +12,11 @@ function UserChatPage() {
   const [history, setHistory] = useState<PaymentDetails>();
   let chatId ;
   let mentorEmail = "";
-  if (history) {
-  
+  if (Array.isArray(history) && history.length > 0) {
     chatId = history[0]._id;
     mentorEmail = history[0].createdBy;
+  } else {
+    console.error("Invalid history or empty array");
   }
 
   const dispatch = useDispatch();

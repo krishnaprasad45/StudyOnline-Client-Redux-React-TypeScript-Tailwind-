@@ -107,11 +107,11 @@ function CourseDetails() {
               "You need to finish the current course to purchase this course"
             ) : (
               <StripeBtn
-                price={selectedCourse.fee}
+                price ={selectedCourse.fee}
                 title={selectedCourse.title}
                 createdby={selectedCourse.createdby}
                 courseId={selectedCourse._id}
-                onClick={handleButtonClick}
+                
               />
             )}
           </p>

@@ -1,26 +1,26 @@
-import  mentorSignup  from "../../../Interfaces/mentorInterfaces";
+import  {SignupInterface}  from "../../../Interfaces/mentorInterfaces";
 
 
 
-interface MentorSignupState {
-    mentor: mentorSignup | null;
+interface SignupInterfaceState {
+    mentor: SignupInterface | null;
   }
   
-  interface MentorSignupAction {
+  interface SignupInterfaceAction {
     type: string;
-    mentorPayload: mentorSignup;
+    mentorPayload: SignupInterface;
   }
   
-  const initialState: MentorSignupState = {
+  const initialState: SignupInterfaceState = {
     mentor: null,
   };
 
 
 
-const MentorSignupReducer = (
-  state : MentorSignupState = initialState,
-  action: MentorSignupAction
-): MentorSignupState => {
+const SignupInterfaceReducer = (
+  state : SignupInterfaceState = initialState,
+  action: SignupInterfaceAction
+): SignupInterfaceState => {
   switch (action.type) {
     case "MENTOR_SIGNUP":
       return {
@@ -32,4 +32,4 @@ const MentorSignupReducer = (
   }
 };
 
-export default MentorSignupReducer;
+export default SignupInterfaceReducer;

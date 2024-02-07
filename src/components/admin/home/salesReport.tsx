@@ -21,13 +21,7 @@ function Payments() {
       data.courseTitle &&
       data.courseTitle.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  const options = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-  };
+
   return (
     <div className="ml-60">
       {/* Navbar */}
@@ -112,7 +106,7 @@ function Payments() {
                           <span className="font-medium">
                             {new Date(data.date).toLocaleDateString(
                               undefined,
-                              options
+                             
                             )}
                           </span>
                         </div>

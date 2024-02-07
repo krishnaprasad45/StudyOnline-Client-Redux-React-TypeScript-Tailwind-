@@ -1,5 +1,5 @@
 import { Avatar } from "@material-tailwind/react";
-import ProfileInterface from "../../../Interfaces/mentorInterfaces";
+import {ProfileInterface} from "../../../Interfaces/mentorInterfaces";
 import { useLocation } from "react-router-dom";
 import { FaCheckCircle } from "react-icons/fa";
 import { TbLockSquareRoundedFilled } from "react-icons/tb";
@@ -62,7 +62,7 @@ function MentorDetails() {
             {selectedMentor.firstname} {selectedMentor.lastname}
           </h1>
         </div>
-        <Avatar src={selectedMentor.image} alt="avatar" size="sm" />
+        <Avatar src={selectedMentor.image} alt="avatar" size="sm" placeholder={undefined} />
         <div className="py-4 border-b border-gray-200 flex items-center justify-between">
           <p className="text-base leading-4 text-gray-800">
             Join Date : {selectedMentor.date}

@@ -6,7 +6,8 @@ import { FaUserCog } from "react-icons/fa";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { TbReport } from "react-icons/tb";
 import { IoLogOut } from "react-icons/io5";
-const AdminHome = () => {
+
+function AdminHome()  {
   return (
     <div className="">
       <div className="  p-4 flex flex-col fixed h-full  bg-slate-400">
@@ -57,6 +58,6 @@ const AdminHome = () => {
       </div>
     </div>
   );
-};
+}
 
 export default AdminHome;

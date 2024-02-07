@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./profile.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../Interfaces/common";
-import  ProfileInterface  from "../../../Interfaces/mentorInterfaces";
+import  {ProfileInterface}  from "../../../Interfaces/mentorInterfaces";
 import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
 import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
 

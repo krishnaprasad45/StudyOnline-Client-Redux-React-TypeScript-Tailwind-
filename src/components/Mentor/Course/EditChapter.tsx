@@ -11,7 +11,6 @@ import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
 import { chapterAddSchema } from "../../../utils/chapter";
 import uploadVideo from "../../../services/cloudinary/customeImageUpload";
 import { ChapterInterface } from "../../../Interfaces/chapterInterface";
-import { FaChessPawn } from "react-icons/fa";
 
 const AddCourse: React.FC = () => {
   const [chapterVideo, setchapterVideo] = useState<File>();
@@ -26,6 +25,7 @@ const AddCourse: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);  
+    console.log(inputValue)
   };
 
   useEffect(() => {

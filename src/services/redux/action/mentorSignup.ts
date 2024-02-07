@@ -1,6 +1,6 @@
-import  mentorSignup  from "../../../Interfaces/mentorInterfaces";
+import  {SignupInterface}  from "../../../Interfaces/mentorInterfaces";
 
-export const MentorSignupAction = (mentor:mentorSignup)=>{
+export const MentorSignupAction = (mentor: SignupInterface)=>{
 
     return{
         type:"MENTOR_SIGNUP",

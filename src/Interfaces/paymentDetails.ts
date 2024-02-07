@@ -1,4 +1,5 @@
 export default interface PaymentDetails {
+    date: string | number | Date;
     
     _id?: string | undefined;
     courseAmount: number;

@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ReactPlayer from 'react-player';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-
 import peer from '../../../services/peer';
 import { socket } from '../../../services/socket.io/socketConfig';
 import mentorEndpoints from '../../../Constraints/endpoints/mentorEndpoints';
@@ -29,10 +28,7 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
   };
   const navigate = useNavigate();
  
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const remoteRef = useRef<HTMLDivElement>(null);
   const [remoteSocketId, setRemoteSocketId] = useState<string | undefined>();
-  const mentorToken = localStorage.getItem('mentorToken');
   const [myStream, setMyStream] = useState<MediaStream | null>(null);
   const [remoteStream, setRemoteStream] = useState<MediaStream | undefined>();
   const [callActive, setCallActive] = useState<boolean>(false);
@@ -66,7 +62,7 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
       setMyStream(stream);
       setCallActive(true);
     }
-  }, [ callActive, mentorToken, myStream, navigate, remoteSocketId, socket, value]);
+  }, [callActive, myStream, navigate, remoteSocketId, value]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleIncomingCall = useCallback(async ({ from, offer }: { from: string; offer: any }) => {
@@ -78,7 +74,7 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
     setMyStream(stream);
     const ans = await peer.getAnswer(offer);
     socket.emit('call:accepted', { to: from, ans });
-  }, [socket]);
+  }, []);
 
   const sendStreams = useCallback(() => {
     setAccepted(true);
@@ -104,14 +100,14 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
   const handleNegoNeeded = useCallback(async () => {
     const offer = await peer.getOffer();
     socket.emit('peer:nego:needed', { offer, to: remoteSocketId });
-  }, [remoteSocketId, socket]);
+  }, [remoteSocketId]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleNegoIncoming = useCallback(async ({ from, offer }: { from: string; offer: any }) => {
     console.log("peer:nego:needed",from,offer)
     const ans = await peer.getAnswer(offer);
     socket.emit('peer:nego:done', { to: from, ans });
-  }, [socket]);
+  }, []);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleNegoFinal = useCallback(async ({ ans }: { ans: any }) => {
@@ -152,7 +148,7 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
       socket.off('peer:nego:needed', handleNegoIncoming);
       socket.off('peer:nego:final', handleNegoFinal);
     };
-  }, [socket, handleUserJoined, handleIncomingCall, handleNegoFinal, handleNegoIncoming, handleCallAccepted]);
+  }, [handleUserJoined, handleIncomingCall, handleNegoFinal, handleNegoIncoming, handleCallAccepted]);
 
   return (
     <>

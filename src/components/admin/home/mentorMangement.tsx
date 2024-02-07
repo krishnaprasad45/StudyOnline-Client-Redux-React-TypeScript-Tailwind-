@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { adminAxios } from "../../../Constraints/axiosInterceptors/adminAxiosInterceptors";
-import mentorProfile from "../../../Interfaces/mentorInterfaces";
+import {ProfileInterface} from "../../../Interfaces/mentorInterfaces";
 import { FaEye } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { MdVerified } from "react-icons/md";
@@ -9,7 +9,7 @@ import { IoCloseCircle } from "react-icons/io5";
 import adminEndpoints from "../../../Constraints/endpoints/adminEndpoints";
 
 function MentorManagement() {
-  const [mentors, setMentors] = useState<mentorProfile[]>([]);
+  const [mentors, setMentors] = useState<ProfileInterface[]>([]);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [blockedStatus, setBlockedStatus] = useState(false);

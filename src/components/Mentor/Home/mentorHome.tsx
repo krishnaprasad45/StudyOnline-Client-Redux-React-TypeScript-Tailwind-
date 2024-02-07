@@ -4,7 +4,7 @@ import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
 import "./mentorHome.css";
 import { Link, useNavigate } from "react-router-dom";
 import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
-import  ProfileInterface  from "../../../Interfaces/mentorInterfaces";
+import  {ProfileInterface}  from "../../../Interfaces/mentorInterfaces";
 import { IoBookSharp } from "react-icons/io5";
 import { ImUsers } from "react-icons/im";
 import { MdOutlinePayment } from "react-icons/md";

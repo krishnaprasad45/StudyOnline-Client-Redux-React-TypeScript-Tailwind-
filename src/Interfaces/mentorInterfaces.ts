@@ -8,7 +8,7 @@ export interface SignupInterface {
     confirm_password:string,
     image:string
 }
-export default interface ProfileInterface {
+export interface ProfileInterface {
     _id?:string | undefined,
     firstname:string,
     lastname:string,

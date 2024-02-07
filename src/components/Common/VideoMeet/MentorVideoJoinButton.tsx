@@ -7,6 +7,8 @@ import { setSlot } from '../../../services/redux/reducer/consult';
 
 interface JoinButtonProps {
   videoId: string | undefined;
+  role:string,
+  email:string
 }
 
 const JoinButton: React.FC<JoinButtonProps> = ({ videoId }) => {

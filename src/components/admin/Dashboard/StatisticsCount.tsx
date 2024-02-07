@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import adminEndpoints from "../../../Constraints/endpoints/adminEndpoints";
 import { adminAxios } from "../../../Constraints/axiosInterceptors/adminAxiosInterceptors";
 import { userProfile } from "../../../Interfaces/userInterfaces";
-import mentorProfile from "../../../Interfaces/mentorInterfaces";
+import {ProfileInterface} from "../../../Interfaces/mentorInterfaces";
 import PaymentDetails from "../../../Interfaces/paymentDetails";
 
 const StatisticsCount: React.FC = () => {
     const [users, setUsers] = useState<userProfile[]>([]);
-    const [mentors, setMentors] = useState<mentorProfile[]>([]);
+    const [mentors, setMentors] = useState<ProfileInterface[]>([]);
     const [history, setHistory] = useState<PaymentDetails[]>([]);
   
     useEffect(() => {

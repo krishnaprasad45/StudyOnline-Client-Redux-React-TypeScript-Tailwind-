@@ -1,5 +1,5 @@
 export interface ChapterInterface{
-    _id?: string,
+    _id: string,
     title:string,
     duration:string,
     description:string,
