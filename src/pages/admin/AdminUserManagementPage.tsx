@@ -1,5 +1,6 @@
 import AdminHome from "../../components/admin/home/AdminHome";
-import UserManagement from "../../components/admin/home/UserManagement";
+import UserManagement from "../../components/admin/home/userManagement";
+
 
 function AdminUserManagementPage() {
   return (

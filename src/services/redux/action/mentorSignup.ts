@@ -1,9 +1,10 @@
-export const MentorSignupAction = (field: string,value: string)=>{
+import  {SignupInterface}  from "../../../Interfaces/mentorInterfaces";
+
+export const MentorSignupAction = (mentor: SignupInterface)=>{
 
     return{
         type:"MENTOR_SIGNUP",
-        field,
-        value
+        mentorPayload:mentor,
     }
 
 }

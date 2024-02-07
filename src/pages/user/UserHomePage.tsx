@@ -1,10 +1,12 @@
-import Home from '../../components/User/Home/home'
+import Greeting from '../../components/Common/Greeting/Greeting'
+import Home from '../../components/User/Home/userHome'
   
 
 function UserHomePage() {
   return (
-    <div>
+    <div className='w-30'>
         <Home/>
+        <Greeting />
     </div>
   )
 }

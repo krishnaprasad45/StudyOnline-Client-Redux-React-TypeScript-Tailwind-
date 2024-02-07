@@ -8,15 +8,17 @@ import {
   showSuccessToast,
 } from "../../../services/popups/popups";
 import { ToastContainer } from "react-toastify";
-import MentorApis from "../../../Constraints/apis/MentorApis";
 import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosInterceptors";
+import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
+import { MentorSignupAction } from "../../../services/redux/action/mentorSignup";
+import { useDispatch } from "react-redux";
 
 function Login() {
-//state's
+  //state's
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
-//
+  //
   const queryParams = {
     email,
     password,
@@ -25,13 +27,12 @@ function Login() {
   useEffect(() => {
     const token = localStorage.getItem("mentorToken");
     if (token) {
-      navigate(MentorApis.home);
-    } else {
-      console.log("nothing");
+      navigate(mentorEndpoints.login);
     }
-  });
+  }, []);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   //handle's
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,18 +47,23 @@ function Login() {
   const handleLogin = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
-      const response = await mentorAxios.get(MentorApis.login, {
+      const response = await mentorAxios.get(mentorEndpoints.login, {
         params: queryParams,
       });
-      if (response.data.mentorData && response.data.mentorData.email) {
+      console.log("mentor-block",response.data.mentorData)
+      if (response.data.mentorData.isBlock === true)
+        showErrorToast("You account is blocked by the admin");
+      else if (response.data.mentorData && response.data.mentorData.email) {
         localStorage.setItem("mentorToken", response.data.token);
         localStorage.setItem("mentorEmail", response.data.mentorData.email);
+        // redux store data
+        const mentorPayload = response.data.mentorData;
+        dispatch(MentorSignupAction(mentorPayload));
         showSuccessToast("Login Successfull");
         setTimeout(() => {
-          navigate(MentorApis.profile);
+          navigate(mentorEndpoints.profile);
         }, 2300);
       } else {
-       
         showErrorToast("Please check email & password");
       }
     } catch (error) {
@@ -65,7 +71,7 @@ function Login() {
       alert((error as Error).message);
     }
   };
-//
+  //
   return (
     <section className="bg-gray-50 min-h-screen flex items-center justify-center">
       <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">
@@ -110,9 +116,6 @@ function Login() {
             <button className="bg-[#593E31] rounded-xl text-white py-2 hover:scale-105 duration-300">
               Login
             </button>
-            {/* <button className="bg-[#1c57b4] rounded-xl text-white py-2 hover:scale-105 duration-300">
-              Login with Google
-            </button> */}
           </form>
 
           <div className="mt-5 text-xs border-b border-[#002D74] py-4 text-[#002D74]">
@@ -123,9 +126,8 @@ function Login() {
             <button
               className="py-2 px-5 border rounded-xl hover:scale-110 duration-300"
               style={{ backgroundColor: "#4C3869" }}
-
               onClick={() => {
-                navigate(MentorApis.signup);
+                navigate(mentorEndpoints.signup);
               }}
             >
               Register
@@ -142,6 +144,7 @@ function Login() {
           />
         </div>
       </div>
+      <ToastContainer />
     </section>
   );
 }

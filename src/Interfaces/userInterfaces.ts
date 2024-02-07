@@ -1,4 +1,5 @@
 export interface userSignup {
+    userSignup: any
     firstname:string,
     lastname:string,
     email:string,

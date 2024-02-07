@@ -9,12 +9,12 @@ import {
   showSuccessToast,
 } from "../../../services/popups/popups";
 import { ToastContainer } from "react-toastify";
-import UserApis from "../../../Constraints/apis/UserApis";
 import { userAxios } from "../../../Constraints/axiosInterceptors/userAxiosInterceptors";
+import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
 
 function Profile() {
-  const user = useSelector((state: RootState) => state.UserUpdate);
-  const APIURL = useSelector((state: RootState) => state.APIURL.url);
+  const user = useSelector((state: RootState) => state.userUpdate);
+  const APIURL = useSelector((state: RootState) => state.url);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState<File>();
@@ -23,7 +23,7 @@ function Profile() {
   useEffect(() => {
     const userEmail = localStorage.getItem("userEmail");
     userAxios
-      .get(UserApis.profile, {
+      .get(userEndpoints.profile, {
         params: { email: userEmail },
         headers: {
           Authorization: `Bearer ${localStorage.getItem("usertoken")}`,
@@ -75,14 +75,14 @@ function Profile() {
         Authorization: `Bearer ${localStorage.getItem("usertoken")}`,
         "Content-Type": "multipart/form-data",
       };
-      const response = await userAxios.post(UserApis.profile_update, formData, {
+      const response = await userAxios.post(userEndpoints.profileUpdate, formData, {
         headers,
         params: { userEmail: oldEmail },
       });
       if (response.status === 200) {
         showSuccessToast("Update Successfull");
         setTimeout(() => {
-          navigate(UserApis.profile);
+          navigate(userEndpoints.profile);
         }, 2300);
       } else {
         showErrorToast("Update failed");
@@ -93,8 +93,8 @@ function Profile() {
   };
 
   return (
-    <section className="h-screen">
-      <div className="h-full">
+    <section className="bg-gray-50 min-h-screen flex items-center justify-center ">
+      <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">
         <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
           <div className="shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12">
             <img
@@ -117,11 +117,11 @@ function Profile() {
                 <p className="mx-4 mb-0 text-center font-semibold dark:text-white"></p>
               </div>
 
-              <div className="flex justify-between">
+              <div className="flex justify-between gap-2">
                 <div className="relative mb-6" data-te-input-wrapper-init>
                   <input
                     type="text"
-                    className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                    className="peer block min-h-[auto] mr-5 w-full rounded border-black bg-white px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     name="firstname"
                     placeholder="Enter your first name"
                     required
@@ -136,7 +136,7 @@ function Profile() {
                 <div className="relative mb-6" data-te-input-wrapper-init>
                   <input
                     type="text"
-                    className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                    className="peer block min-h-[auto] mr-5 w-full rounded border-black bg-white px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     name="lastname"
                     placeholder="Enter your last name"
                     required
@@ -150,11 +150,11 @@ function Profile() {
                 </div>
               </div>
 
-              <div className="flex justify-between">
+              <div className="flex justify-between gap-2">
                 <div className="relative mb-6" data-te-input-wrapper-init>
                   <input
                     type="email"
-                    className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                    className="peer block min-h-[auto] mr-5 w-full rounded border-black bg-white px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     name="email"
                     placeholder="Enter your email"
                     required
@@ -169,7 +169,7 @@ function Profile() {
                 <div className="relative mb-6" data-te-input-wrapper-init>
                   <input
                     type="text"
-                    className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                    className="peer block min-h-[auto] mr-5 w-full rounded border-black bg-white px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     name="mobile"
                     placeholder="Enter your number"
                     required
@@ -199,14 +199,14 @@ function Profile() {
                 />
               </div>
               <div>
-                {previewImage ? (
+                {user.image ? (
                   <img
                     style={{
                       width: "auto",
                       height: "50px",
                       margin: "5px 0 15px 0",
                     }}
-                    src={previewImage}
+                    src={user.image}
                     alt="profile-image"
                     className="profile-image"
                   />
@@ -234,7 +234,7 @@ function Profile() {
                   />
                 )}
               </div>
-              <div className="text-center lg:text-left">
+              <div className="text-center lg:text-right">
                 <button
                   className="inline-block rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#3b71ca] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:bg-primary-700 dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
                   style={{ backgroundColor: "#002D74", marginBottom: "1rem" }}

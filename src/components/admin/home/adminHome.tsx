@@ -6,7 +6,8 @@ import { FaUserCog } from "react-icons/fa";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { TbReport } from "react-icons/tb";
 import { IoLogOut } from "react-icons/io5";
-const AdminHome = () => {
+
+function AdminHome()  {
   return (
     <div className="">
       <div className="  p-4 flex flex-col fixed h-full  bg-slate-400">
@@ -24,7 +25,7 @@ const AdminHome = () => {
         >
           <button className="flex items-center gap-2">
             <FaUserCog className="ml-2" style={{ color: "black" }} />
-            UserManagement
+            User Management
           </button>
         </Link>
 
@@ -34,7 +35,7 @@ const AdminHome = () => {
         >
           <button className="flex items-center gap-2">
             <FaChalkboardTeacher className="ml-2" style={{ color: "black" }} />
-            MentorManagement
+            Mentor Management
           </button>
         </Link>
 
@@ -44,11 +45,11 @@ const AdminHome = () => {
         >
           <button className="flex items-center gap-2">
             <TbReport className="ml-2" style={{ color: "black" }} />
-            SalesReport
+            Sales Report
           </button>
         </Link>
 
-        <Link className="mb-12 p-2 rounded buttonStyleAdmin" to={""}>
+        <Link className="mb-12 p-2 rounded buttonStyleAdmin" to={"/admin/login"}>
           <button className="flex items-center gap-2">
             <IoLogOut className="ml-2" style={{ color: "black" }} />
             Logout
@@ -57,6 +58,6 @@ const AdminHome = () => {
       </div>
     </div>
   );
-};
+}
 
 export default AdminHome;

@@ -413,3 +413,11 @@ textarea:focus {
   border-radius: 12px;
   transition: all .3s;
 }
+
+@media (max-width: 768px) {
+  .wrapper {
+    width: 100%;
+  }
+
+  /* Add any other necessary adjustments for smaller screens */
+}

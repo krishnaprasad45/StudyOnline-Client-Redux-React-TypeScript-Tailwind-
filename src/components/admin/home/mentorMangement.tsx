@@ -1,32 +1,38 @@
 import { useEffect, useState } from "react";
 import { adminAxios } from "../../../Constraints/axiosInterceptors/adminAxiosInterceptors";
-import AdminApis from "../../../Constraints/apis/AdminApis";
-import  mentorProfile  from "../../../Interfaces/mentorInterfaces";
+import {ProfileInterface} from "../../../Interfaces/mentorInterfaces";
 import { FaEye } from "react-icons/fa";
-
-
+import { useNavigate } from "react-router-dom";
+import { MdVerified } from "react-icons/md";
+import { FaClockRotateLeft } from "react-icons/fa6";
+import { IoCloseCircle } from "react-icons/io5";
+import adminEndpoints from "../../../Constraints/endpoints/adminEndpoints";
 
 function MentorManagement() {
-  const [mentors, setMentors] = useState<mentorProfile[]>([]);
+  const [mentors, setMentors] = useState<ProfileInterface[]>([]);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [blockedStatus, setBlockedStatus] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
-    adminAxios.get(AdminApis.getMentorsList).then((response) => {
-      console.log("response.data..", response.data);
+    adminAxios.get(adminEndpoints.getMentorsList).then((response) => {
       setMentors(response.data);
     });
   }, [blockedStatus]);
 
+  const handleMentorDetails = (mentorId: string | undefined) => {
+    const selectedMentor = mentors.filter(
+      (mentor) => mentor._id === mentorId
+    )[0];
+
+    navigate("/admin/mentor-details", { state: { selectedMentor } });
+  };
+
   const handleBlock = async (id: string | undefined) => {
     try {
-      console.log("handleBlock fun..")
-      console.log("mentor_id",id)
-      const response = await adminAxios.post(`${AdminApis.blockMentor}?id=${id}`
-      );
-      const mentorData: mentorProfile = response.data; 
-      console.log("mentorblock**", mentorData);
+      await adminAxios.post(`${adminEndpoints.blockMentor}?id=${id}`);
 
-      setBlockedStatus(!blockedStatus); 
+      setBlockedStatus(!blockedStatus);
     } catch (error) {
       console.log(error);
     }
@@ -65,6 +71,7 @@ function MentorManagement() {
                   <th className="py-3 px-6 text-left">Name</th>
                   <th className="py-3 px-6 text-left">Email</th>
                   <th className="py-3 px-6 text-center">Mobile</th>
+                  <th className="py-3 px-6 text-center">Verification</th>
                   <th className="py-3 px-6 text-center">Action</th>
                   <th className="py-3 px-6 text-center">View</th>
                 </tr>
@@ -94,27 +101,62 @@ function MentorManagement() {
                         <span className="font-medium">{mentor.mobile}</span>
                       </div>
                     </td>
+
+                    <td className="py-3 px-6 text-center">
+                      <div className="flex items-center justify-center">
+                        {mentor.verification === "Pending" ? (
+                          <FaClockRotateLeft
+                            style={{ color: "orange", fontSize: "1.5em" }}
+                          />
+                        ) : mentor.verification === "Verify" ? (
+                          <MdVerified
+                            style={{ color: "blue", fontSize: "2em" }}
+                          />
+                        ) : (
+                          <IoCloseCircle
+                            style={{ color: "red", fontSize: "2em" }}
+                          />
+                        )}
+                      </div>
+                    </td>
                     <td className="py-3 px-6 text-center">
                       <div className="flex items-center justify-center">
                         <span className="font-medium">
                           <button
-                           onClick={()=>handleBlock(mentor._id)}
-                          
+                            onClick={() => handleBlock(mentor._id)}
+                            style={{
+                              padding: "8px 12px",
+                              backgroundColor: mentor.isBlock
+                                ? "#ff6347"
+                                : "#4caf50",
+                              color: "#fff",
+                              border: "#fff",
+                              borderRadius: "30px",
+                              cursor: "pointer",
+                            }}
                           >
-                          {mentor.isBlock? <p className="unblocked">Unblock</p> : <p className="blocked">Block</p>}
+                            {mentor.isBlock ? (
+                              <p className="unblocked">Unblock</p>
+                            ) : (
+                              <p className="blocked">Block</p>
+                            )}
                           </button>
-                      </span>
+                        </span>
                       </div>
                     </td>
-                  
+
                     <td className="py-3 px-6 text-center">
                       <div className="flex items-center justify-center">
                         <span className="font-medium">
                           {
-                           <button >
-                           <FaEye />
-                         </button>
-                        
+                            <button
+                              key={mentor._id}
+                              onClick={() => handleMentorDetails(mentor._id)}
+                            >
+                              <FaEye
+                                style={{ color: "grey", fontSize: "1.5em" }}
+                              />
+                            </button>
                           }
                         </span>
                       </div>

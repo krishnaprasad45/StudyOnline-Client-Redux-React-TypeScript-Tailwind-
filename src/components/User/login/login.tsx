@@ -2,7 +2,6 @@ import "./login.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-// import toast from "react-hot-toast";
 import { userAxios } from "../../../Constraints/axiosInterceptors/userAxiosInterceptors";
 import { auth } from "../../../services/firebase/config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,7 +11,9 @@ import {
   showSuccessToast,
 } from "../../../services/popups/popups";
 import { ToastContainer } from "react-toastify";
-import UserApis from "../../../Constraints/apis/UserApis";
+import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
+import { useDispatch } from "react-redux";
+import { UserSignupAction } from "../../../services/redux/action/userSignup";
 
 function Login() {
   //state's
@@ -21,6 +22,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   //
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const queryParams = {
     email,
@@ -29,17 +31,17 @@ function Login() {
 
   useEffect(() => {
     const token = localStorage.getItem("usertoken");
-    console.log("usertoken", token);
 
     if (token) {
-      navigate(UserApis.home);
+      navigate(userEndpoints.dashboard);
     }
-  },[]);
+  }, []);
 
   //handle's
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
+  const handleImageError = () => {};
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
@@ -50,25 +52,31 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await userAxios.get(UserApis.login, {
+      const response = await userAxios.get(userEndpoints.login, {
         params: queryParams,
       });
-      if (response.data.userData && response.data.userData.email) {
+      console.log(response.data.userData.isBlock)
+      if (response.data.userData.isBlock === true)
+        showErrorToast("You account is blocked by the admin");
+      else if (response.data.userData && response.data.userData.email) {
         localStorage.setItem("usertoken", response.data.token);
         localStorage.setItem("userEmail", response.data.userData.email);
+
+        // redux store data
+        const userPayload = response.data.userData;
+        dispatch(UserSignupAction(userPayload));
+
         showSuccessToast("Login Successfull");
         setTimeout(() => {
-          navigate("/home");
+          navigate(userEndpoints.dashboard);
         }, 2300);
       } else {
         showErrorToast("Please check email & password");
       }
     } catch (error) {
-      console.log("error", error);
       alert((error as Error).message);
     }
   };
-  //
 
   //google_signin
 
@@ -86,30 +94,27 @@ function Login() {
         submitSignInWithGoogle(displayName, email);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
   const submitSignInWithGoogle = async (displayName: string, email: string) => {
     try {
       const value = { displayName, email };
-      const response = await userAxios.post(UserApis.gsignin, value);
+      const response = await userAxios.post(userEndpoints.gsignin, value);
       localStorage.setItem("usertoken", response.data.token);
-      console.log("response :", response);
 
       if (response) {
         showSuccessToast("Login Successfull");
         setTimeout(() => {
-          navigate("/home");
+          navigate(userEndpoints.dashboard);
         }, 2300);
-        
       }
     } catch (error) {
       console.log(error);
-      
     }
   };
-//
+
   return (
     <section className="bg-gray-50 min-h-screen flex items-center justify-center">
       <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">
@@ -119,7 +124,7 @@ function Login() {
           <p className="text-xs mt-4 text-[#002D74]">
             If you are already a member, easily log in
           </p>
-         
+
           <form onSubmit={handleLogin} className="flex flex-col gap-4">
             <input
               type="email"
@@ -170,7 +175,7 @@ function Login() {
               className="py-2 px-5 border rounded-xl hover:scale-110 duration-300"
               style={{ backgroundColor: "skyblue" }}
               onClick={() => {
-                navigate("/signup");
+                navigate(userEndpoints.signup);
               }}
             >
               Register
@@ -182,8 +187,9 @@ function Login() {
         <div className="md:block hidden w-1/2">
           <img
             className="rounded-2xl"
-            src="https://img.freepik.com/free-photo/3d-rendering-cartoon-like-man-working-computer_23-2150797574.jpg?t=st=1699953470~exp=1699957070~hmac=706984dfee88657878b759a0dfca27115910e76a15e26dde5fe84b3239380e0d&w=740"
+            src="https://res.cloudinary.com/dc3otxw05/image/upload/v1704359572/User%20Image/glywwzrh0cz3g6fowdhx.jpg"
             alt="Login Image"
+            onError={handleImageError}
           />
         </div>
       </div>

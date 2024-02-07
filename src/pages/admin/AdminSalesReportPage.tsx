@@ -7,6 +7,7 @@ function AdminSalesReportPage() {
     <>
       <AdminHome />
       <SalesReport/>
+      
     </>
   );
 }
