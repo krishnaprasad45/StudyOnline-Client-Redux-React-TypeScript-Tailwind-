@@ -1,13 +1,13 @@
 // Mentor Dashboard.js
 import { Link } from "react-router-dom";
-import "./adminHome.css";
+import "./AdminHomeStyle.css";
 import { GoGraph } from "react-icons/go";
 import { FaUserCog } from "react-icons/fa";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { TbReport } from "react-icons/tb";
 import { IoLogOut } from "react-icons/io5";
 
-function AdminHome()  {
+export default function AdminHome()  {
   return (
     <div className="">
       <div className="  p-4 flex flex-col fixed h-full  bg-slate-400">
@@ -59,5 +59,3 @@ function AdminHome()  {
     </div>
   );
 }
-
-export default AdminHome;

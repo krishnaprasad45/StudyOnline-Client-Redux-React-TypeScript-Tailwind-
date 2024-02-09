@@ -7,7 +7,7 @@ function UserProfileUpdatePage() {
   return (
     <div>
        <Homepage/>
-        <Profile/>
+       <Profile/>
     </div>
   )
 }

@@ -209,7 +209,7 @@ function Signup() {
                         margin: "5px 0 15px 0",
                       }}
                       src={viewImage}
-                      alt="Mentor Profile"
+                   
                       className="profile-image"
                     />
                   )}

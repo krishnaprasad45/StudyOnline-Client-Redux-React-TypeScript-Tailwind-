@@ -1,4 +1,4 @@
-import AdminHome from "../../components/admin/home/AdminHome";
+import AdminHome from "../../components/admin/home/AdminHomee";
 import MentorDetails from "../../components/admin/home/MentorDetails";
 
 function AdminMentorDetailsPage() {

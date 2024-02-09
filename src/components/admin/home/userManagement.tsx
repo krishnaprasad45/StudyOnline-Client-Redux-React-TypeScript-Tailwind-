@@ -11,7 +11,6 @@ function UserManagement() {
   
   useEffect(() => {
     adminAxios.get(adminEndpoints.getUsersList).then((response) => {
-   
       setUsers(response.data);
     });
   }, [blockedStatus]);
@@ -21,20 +20,16 @@ function UserManagement() {
          await adminAxios.patch(
         `${adminEndpoints.blockUser}?id=${id}`
       );
-   
-
       setBlockedStatus(!blockedStatus); 
     } catch (error) {
       console.log(error);
     }
   };
-
   const filteredUsers = users.filter(
     (user) =>
       user.firstname &&
       user.firstname.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
   return (
     <div className="ml-60">
       {/* Navbar */}
@@ -105,7 +100,6 @@ function UserManagement() {
                       </span>
                       </div>
                     </td>
-                  
                   </tr>
                 ))}
               </tbody>
