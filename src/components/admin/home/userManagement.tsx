@@ -11,7 +11,6 @@ function UserManagement() {
   
   useEffect(() => {
     adminAxios.get(adminEndpoints.getUsersList).then((response) => {
-   
       setUsers(response.data);
     });
   }, [blockedStatus]);
