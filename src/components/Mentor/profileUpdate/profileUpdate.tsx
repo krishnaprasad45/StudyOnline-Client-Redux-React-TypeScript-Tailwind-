@@ -22,10 +22,8 @@ function Profile() {
   const [previewAdhaarImage, setPreviewAdhaarImage] = useState<string>();
   const [previewExperienceImage, setPreviewExperienceImage] = useState<string>();
   
-
   useEffect(() => {
     const mentorEmail = localStorage.getItem("mentorEmail");
-    
     mentorAxios
       .get(mentorEndpoints.profile, {
         params: { email: mentorEmail },
