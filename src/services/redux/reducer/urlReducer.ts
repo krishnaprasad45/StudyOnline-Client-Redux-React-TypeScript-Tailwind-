@@ -1,5 +1,5 @@
 const initialstate={
-    url:"http://localhost:5000"
+    url:"http://13.126.248.71"
 }
 
 
