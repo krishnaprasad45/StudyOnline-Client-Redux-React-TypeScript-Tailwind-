@@ -1,5 +1,5 @@
 const initialstate={
-    url:"http://13.126.248.71"
+    url:"https://13.126.248.71"
 }
 
 

@@ -13,7 +13,7 @@ interface SocketProviderProps {
 }
 
 export const SocketProvider: React.FC<SocketProviderProps> = (props) => {
-  const socket = useMemo(() => io('http://13.126.248.71'), []);
+  const socket = useMemo(() => io('https://13.126.248.71'), []);
 
   return (
     <SocketContext.Provider value={socket}>
