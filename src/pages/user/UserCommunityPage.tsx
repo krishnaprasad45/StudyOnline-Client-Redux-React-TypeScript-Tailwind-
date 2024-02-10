@@ -8,9 +8,6 @@ function UserChatPage() {
   const chatId ='100';
   const mentorEmail = localStorage.getItem("userEmail") ?? undefined
 
- 
-  
-
   return (
     <div className="flex flex-col md:flex-row">
       <Homepage />
