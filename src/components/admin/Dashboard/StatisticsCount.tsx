@@ -38,7 +38,7 @@ const StatisticsCount: React.FC = () => {
       <div className="flex items-center bg-white border rounded-sm overflow-hidden shadow">
         <div className="p-4 bg-green-400">
           <svg
-            xmlns="http://www.w3.org/2000/svg"
+            xmlns="https://www.w3.org/2000/svg"
             className="h-12 w-12 text-white"
             fill="none"
             viewBox="0 0 24 24"
@@ -61,7 +61,7 @@ const StatisticsCount: React.FC = () => {
       <div className="flex items-center bg-white border rounded-sm overflow-hidden shadow">
         <div className="p-4 bg-blue-400">
           <svg
-            xmlns="http://www.w3.org/2000/svg"
+            xmlns="https://www.w3.org/2000/svg"
             className="h-12 w-12 text-white"
             fill="none"
             viewBox="0 0 24 24"
@@ -84,7 +84,7 @@ const StatisticsCount: React.FC = () => {
       <div className="flex items-center bg-white border rounded-sm overflow-hidden shadow">
         <div className="p-4 bg-red-400">
           <svg
-            xmlns="http://www.w3.org/2000/svg"
+            xmlns="https://www.w3.org/2000/svg"
             className="h-12 w-12 text-white"
             viewBox="0 0 576 512"
           >
@@ -102,7 +102,7 @@ const StatisticsCount: React.FC = () => {
       <div className="flex items-center bg-white border rounded-sm overflow-hidden shadow">
         <div className="p-4 bg-red-400">
           <svg
-            xmlns="http://www.w3.org/2000/svg"
+            xmlns="https://www.w3.org/2000/svg"
             className="h-12 w-12 text-white"
             viewBox="0 0 320 512"
           >

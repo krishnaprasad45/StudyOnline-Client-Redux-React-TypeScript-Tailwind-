@@ -122,7 +122,7 @@ function Login() {
           <h2 className="font-bold text-2xl text-[#002D74]">Learner Login</h2>
           <ToastContainer />
           <p className="text-xs mt-4 text-[#002D74]">
-            If you are already a member, easily log in
+            If you are already a member, easily login
           </p>
 
           <form onSubmit={handleLogin} className="flex flex-col gap-4">
@@ -147,7 +147,7 @@ function Login() {
               />
               <svg
                 onClick={handleShowPassword}
-                xmlns="http://www.w3.org/2000/svg"
+                xmlns="https://www.w3.org/2000/svg"
                 width="16"
                 height="16"
                 fill="gray"
