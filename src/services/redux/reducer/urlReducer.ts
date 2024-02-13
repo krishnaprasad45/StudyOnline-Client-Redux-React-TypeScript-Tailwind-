@@ -1,5 +1,7 @@
+
+const URL = import.meta.env.VITE_APIURL;
 const initialstate={
-    url:"https://e-courses.online"
+    url:URL
 }
 
 

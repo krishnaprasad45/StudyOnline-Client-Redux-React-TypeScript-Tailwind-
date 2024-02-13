@@ -35,7 +35,7 @@ function Login() {
     if (token) {
       navigate(userEndpoints.dashboard);
     }
-  }, []);
+  }, [navigate]);
 
   //handle's
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,9 +55,12 @@ function Login() {
       const response = await userAxios.get(userEndpoints.login, {
         params: queryParams,
       });
-      console.log(response.data.userData.isBlock)
-      if (response.data.userData.isBlock === true)
+
+      if ( response.data.userData.isBlock === true){
+       
         showErrorToast("You account is blocked by the admin");
+      } 
+        
       else if (response.data.userData && response.data.userData.email) {
         localStorage.setItem("usertoken", response.data.token);
         localStorage.setItem("userEmail", response.data.userData.email);
