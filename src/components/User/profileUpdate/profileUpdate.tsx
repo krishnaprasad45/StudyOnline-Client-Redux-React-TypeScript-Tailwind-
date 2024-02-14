@@ -207,7 +207,6 @@ function Profile() {
                       margin: "5px 0 15px 0",
                     }}
                     src={user.image}
-                    alt="profile-image"
                     className="profile-image"
                   />
                 ) : user && user.image ? (
@@ -218,7 +217,6 @@ function Profile() {
                       margin: "5px 0 15px 0",
                     }}
                     src={`${APIURL}/public/images/${user.image}`}
-                    alt="profile-image"
                     className="profile-image"
                   />
                 ) : (
@@ -229,7 +227,6 @@ function Profile() {
                       margin: "5px 0 15px 0",
                     }}
                     src=""
-                    alt="profile-image"
                     className="profile-image"
                   />
                 )}

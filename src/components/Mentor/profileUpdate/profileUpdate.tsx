@@ -215,7 +215,6 @@ function Profile() {
                       margin: "5px 0 15px 0",
                     }}
                     src={previewMentorImage}
-                    alt="profile-image"
                     className="profile-image"
                   />
                 ) : mentor && mentor.image ? (
@@ -226,7 +225,6 @@ function Profile() {
                       margin: "5px 0 15px 0",
                     }}
                     src={mentor.image}
-                    alt="profile-image"
                     className="profile-image"
                   />
                 ) : (
@@ -237,7 +235,6 @@ function Profile() {
                       margin: "5px 0 15px 0",
                     }}
                     src=""
-                    alt="profile-image"
                     className="profile-image"
                   />
                 )}
@@ -277,7 +274,6 @@ function Profile() {
                       margin: "5px 0 15px 0",
                     }}
                     src={previewAdhaarImage}
-                    alt="aadhar-image"
                     className="profile-image"
                   />
                 ) : mentor && mentor.aadhar_image ? (
@@ -288,7 +284,6 @@ function Profile() {
                       margin: "5px 0 15px 0",
                     }}
                     src={mentor.aadhar_image}
-                    alt="aadhar-image"
                     className="profile-image"
                   />
                 ) : (
@@ -299,7 +294,6 @@ function Profile() {
                       margin: "5px 0 15px 0",
                     }}
                     src={previewAdhaarImage}
-                    alt="aadhar-image"
                     className="profile-image"
                   />
                 )}
@@ -339,7 +333,6 @@ function Profile() {
                       margin: "5px 0 15px 0",
                     }}
                     src={previewExperienceImage}
-                    alt="experience_image"
                     className="profile-image"
                   />
                 ) : mentor && mentor.experience_image ? (
@@ -350,7 +343,6 @@ function Profile() {
                       margin: "5px 0 15px 0",
                     }}
                     src={mentor.experience_image}
-                    alt="experience_image"
                     className="profile-image"
                   />
                 ) : (
@@ -361,7 +353,6 @@ function Profile() {
                       margin: "5px 0 15px 0",
                     }}
                     src={previewExperienceImage}
-                    alt="experience_image"
                     className="profile-image"
                   />
                 )}

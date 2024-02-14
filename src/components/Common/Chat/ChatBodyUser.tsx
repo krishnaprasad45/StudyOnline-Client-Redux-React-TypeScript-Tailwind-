@@ -38,17 +38,14 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
   if (userStore) {
     mentorEmail = userStore?.user?.mentorIncharge;
   }
-  console.log("props*", props);
-  console.log("ch-hist", messages);
 
   useEffect(() => {
     mentorAxios
       .get(`${mentorEndpoints.getChatHistory}?chatId=${chatId}`)
       .then((response) => {
-        console.log("res-data", response.data);
+ 
         setMessages(response.data.messages);
       });
-
     // Scroll to the bottom when messages are updated
     const chatContainer = document.getElementById("chat-container");
     if (chatContainer) {
