@@ -11,9 +11,9 @@ export const useSocket = (): Socket | null => {
 interface SocketProviderProps {
   children: ReactNode;
 }
-
+ const url = import.meta.env.VITE_APIURL
 export const SocketProvider: React.FC<SocketProviderProps> = (props) => {
-  const socket = useMemo(() => io('localhost:4000'), []);
+  const socket = useMemo(() => io(url), []);
 
   return (
     <SocketContext.Provider value={socket}>
