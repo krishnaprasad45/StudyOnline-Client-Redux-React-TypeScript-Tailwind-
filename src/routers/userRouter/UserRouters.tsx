@@ -17,6 +17,9 @@ import UserVideoMeetJoinPage from "../../pages/user/UserVideoMeetJoinPage";
 import UserChapterDetailsPage from "../../pages/user/CoursePages/UserChapterDetailsPage";
 import UserCommunityPage from "../../pages/user/UserCommunityPage";
 import OTPPage from "../../components/Common/Otp/OTPPage";
+import EnterEmail from "../../components/Common/EnterEmail/EnterEmail";
+import OTPforReset from "../../components/Common/Otp/OTPforReset";
+import ResetPassword from "../../components/Common/NewPassword/NewPassword";
 
 const UserRouters: React.FC = () => {
   return (
@@ -25,6 +28,9 @@ const UserRouters: React.FC = () => {
       <Route Component={signupPage} path={userEndpoints.signup} />
       <Route Component={profilePage} path={userEndpoints.profile} />
       <Route Component={OTPPage} path={userEndpoints.getOtp} />
+      <Route Component={OTPforReset} path={userEndpoints.getOtpForReset} />
+      <Route Component={EnterEmail} path={userEndpoints.enterEmail} />
+      <Route Component={ResetPassword} path={userEndpoints.newPassword} />
       <Route Component={profileUpdate} path={userEndpoints.profileUpdate} />
       <Route Component={Home} path={userEndpoints.dashboard} />
       <Route Component={LandingPage} path={userEndpoints.home} />

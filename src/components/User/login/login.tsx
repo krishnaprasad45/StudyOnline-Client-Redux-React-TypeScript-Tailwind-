@@ -164,14 +164,18 @@ function Login() {
             </button>
             <button
               onClick={signIpWithGoogle}
-              className="bg-[#1c57b4] rounded-xl text-white py-2 hover:scale-105 duration-300"
+              // className="bg-[#1c57b4] rounded-xl text-white py-2 hover:scale-105 duration-300"
             >
-              Login with Google
+              {/* Login with Google */}
             </button>
           </form>
 
           <div className="mt-5 text-xs border-b border-[#002D74] py-4 text-[#002D74]">
-            <p>Don't have an account?</p>
+            <button
+             onClick={() => {
+              navigate(userEndpoints.enterEmail);
+            }}
+             className="hover:scale-110 duration-300">Forgot your password?</button>
           </div>
           <div className="mt-3 text-xs flex justify-between items-center text-[#000000]">
             <button

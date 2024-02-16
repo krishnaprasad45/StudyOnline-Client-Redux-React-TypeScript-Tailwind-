@@ -21,8 +21,13 @@ export default{
     myCourse:"/course",
     getChatHistory:"/chat/history",
     getOtp:"/otp",
+    getOtpForReset:"/otp/reset",
     resentOtp:"/resend-otp",
-    sendEmail:"/sent/email"
+    sendEmail:"/sent/email",
+    enterEmail:"/forgot/password",
+    enterEmailPost:"/forgot/password",
+    newPassword:"/newpassword",
+    newPasswordPost:"/newpassword",
     
 }
 
