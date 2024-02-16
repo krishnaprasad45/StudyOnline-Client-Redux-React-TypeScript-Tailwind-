@@ -36,6 +36,7 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
   const [accepted, setAccepted] = useState<boolean>(false);
 
   const handleUserJoined = useCallback(({email, id }: { email: string; id: string }) => {
+    console.log(`${email} joined, id:${id}`);
     setRemoteSocketId(id);
   }, []);
 
@@ -64,6 +65,7 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleIncomingCall = useCallback(async ({ from, offer }: { from: string; offer: any }) => {
+
     setRemoteSocketId(from);
     setCallActive(true);
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
@@ -165,6 +167,7 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
               )}
             </div>
           </div>
+         
           {myStream && !accepted && <button className='bg-green-500 text-white rounded-full px-6 py-2 ms-3' onClick={sendStreams}>Accept Call</button>}
           {myStream && (
             <>
@@ -179,6 +182,7 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
               </button>
             </>
           )}
+          
           {callActive && <button className='bg-red-500 text-white rounded-full ml-4 px-6 py-2' onClick={handleCallUser}>End Call</button>}
           {!callActive ? (value === 'mentor' && (remoteSocketId && <button className='bg-green-500 text-white rounded-full px-6 py-2 mb-4' onClick={handleCallUser}>Call Learner</button>)) : ''}
         </div>
@@ -190,4 +194,6 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
 VideoCall.propTypes = {
   value: PropTypes.string.isRequired,
 };
+
+
 export default VideoCall;
