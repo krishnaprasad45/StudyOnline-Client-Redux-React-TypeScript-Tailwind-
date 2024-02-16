@@ -36,7 +36,6 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
   const [accepted, setAccepted] = useState<boolean>(false);
 
   const handleUserJoined = useCallback(({email, id }: { email: string; id: string }) => {
-    console.log(`${email} joined, id:${id}`);
     setRemoteSocketId(id);
   }, []);
 
@@ -47,7 +46,6 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
       socket.emit('call:end', { to: remoteSocketId });
       setCallActive(false);
       setRemoteStream(undefined);
-      console.log("remoteSocketId-",remoteSocketId)
       socket.emit('socket:disconnect', { socketId: remoteSocketId });
       if (value === 'mentor') {
         navigate(mentorEndpoints.videomeetJoin);
@@ -66,8 +64,6 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleIncomingCall = useCallback(async ({ from, offer }: { from: string; offer: any }) => {
-
-    console.log("Incoming call-",from,offer)
     setRemoteSocketId(from);
     setCallActive(true);
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
@@ -89,7 +85,6 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
   const handleCallAccepted = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async ({ ans }: { ans: any }) => {
-      console.log("call accepted-",ans)
       await peer.setLocalDescription(ans);
       setCallActive(true);
       sendStreams();
@@ -104,15 +99,12 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleNegoIncoming = useCallback(async ({ from, offer }: { from: string; offer: any }) => {
-    console.log("peer:nego:needed",from,offer)
     const ans = await peer.getAnswer(offer);
     socket.emit('peer:nego:done', { to: from, ans });
   }, []);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleNegoFinal = useCallback(async ({ ans }: { ans: any }) => {
-
-    console.log("callNego final",ans)
     await peer.setLocalDescription(ans);
   }, []);
 
@@ -153,7 +145,6 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
   return (
     <>
       <div className="text-center flex justify-center bg-lime-200 h-screen p-2">
-        
         {value === 'user' ? (
           !remoteSocketId && <h5 className="text-orange-600 font-italic">Please wait till the call arrives</h5>
         ) : (
@@ -170,12 +161,10 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
               {remoteStream && accepted && (
                 <>
                 <ReactPlayer style={{ backgroundColor: 'black' }} url={remoteStream} playing muted={muted} className="w-full h-full" />
-              
                </>
               )}
             </div>
           </div>
-         
           {myStream && !accepted && <button className='bg-green-500 text-white rounded-full px-6 py-2 ms-3' onClick={sendStreams}>Accept Call</button>}
           {myStream && (
             <>
@@ -190,7 +179,6 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
               </button>
             </>
           )}
-          
           {callActive && <button className='bg-red-500 text-white rounded-full ml-4 px-6 py-2' onClick={handleCallUser}>End Call</button>}
           {!callActive ? (value === 'mentor' && (remoteSocketId && <button className='bg-green-500 text-white rounded-full px-6 py-2 mb-4' onClick={handleCallUser}>Call Learner</button>)) : ''}
         </div>
@@ -202,6 +190,4 @@ const VideoCall: React.FC<VideoCallProps> = ({ value }) => {
 VideoCall.propTypes = {
   value: PropTypes.string.isRequired,
 };
-
-
 export default VideoCall;

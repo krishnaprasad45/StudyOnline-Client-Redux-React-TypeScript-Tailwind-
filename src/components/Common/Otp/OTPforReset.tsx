@@ -54,7 +54,7 @@ const OTPforReset: React.FC = () => {
         button?.classList.remove("active");
       }
 
-      // Update the state with the entered OTP digit
+      // Updating the state with the entered OTP digit
       const newOtpDigits = [...otpDigits];
       newOtpDigits[index1] = currentInputValue;
       setOtpDigits(newOtpDigits);

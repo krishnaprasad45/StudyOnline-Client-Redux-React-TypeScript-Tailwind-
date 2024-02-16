@@ -39,13 +39,11 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
   if (userStore) {
     mentorEmail = userStore?.user?.mentorIncharge;
   }
-  console.log("props", props);
 
   useEffect(() => {
     mentorAxios
       .get(`${mentorEndpoints.getChatHistory}?chatId=${chatId}`)
       .then((response) => {
-        console.log("res-data", response.data);
         setMessages(response.data.messages);
       });
 
@@ -65,7 +63,6 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
   };
 
   const handleSendMessage = (e: FormEvent) => {
-    console.log("handle sed message 6");
     e.preventDefault();
     if (
       (messages && localStorage.getItem("userEmail")) ||
@@ -77,15 +74,13 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
         to: role == "user" ? "mentor" : "user",
         id: chatId,
       };
-      console.log("message data to serever ", messageData);
       socket.emit("SentMessage", messageData);
 
       socket.on("SentUpdatedMessage", (updatedMessage) => {
-        console.log("SentUpdatedMessage", updatedMessage);
         setMessages(updatedMessage.messages);
-          // Close the image preview after sending the image
-          setViewImage(undefined);
-          setImage(undefined);
+        // Closing the image preview after sending the image
+        setViewImage(undefined);
+        setImage(undefined);
       });
     }
     setNewMessage("");
@@ -139,7 +134,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
                               height: "100px",
                               margin: "5px 0 15px 0",
                             }}
-                            src={data.message} // Assuming the message itself is the URL
+                            src={data.message}
                             alt="Image Preview"
                             className="image-preview"
                           />
@@ -162,7 +157,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
                                 height: "100px",
                                 margin: "5px 0 15px 0",
                               }}
-                              src={data.message} // Assuming the message itself is the URL
+                              src={data.message}
                               alt="Image Preview"
                               className="image-preview"
                             />
@@ -185,7 +180,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
                               height: "100px",
                               margin: "5px 0 15px 0",
                             }}
-                            src={data.message} // Assuming the message itself is the URL
+                            src={data.message}
                             alt="Image Preview"
                             className="image-preview"
                           />
@@ -207,7 +202,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
                               height: "100px",
                               margin: "5px 0 15px 0",
                             }}
-                            src={data.message} // Assuming the message itself is the URL
+                            src={data.message}
                             alt="Image Preview"
                             className="image-preview"
                           />
@@ -245,7 +240,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
                       setViewImage(imageUrl);
                       setLoading(false);
 
-                      // Store the image URL in setNewMessage
+                      // Storing the image URL in setNewMessage
                       setNewMessage(imageUrl);
                     }
                   }}
@@ -261,7 +256,6 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
                         margin: "5px 0 15px 0",
                       }}
                       src={viewImage}
-                 
                       className="profile-image"
                     />
                   )}

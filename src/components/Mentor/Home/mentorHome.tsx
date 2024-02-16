@@ -1,4 +1,3 @@
-// Mentor Dashboard.js
 import { useEffect, useState } from "react";
 import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
 import "./mentorHome.css";

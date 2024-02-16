@@ -35,7 +35,6 @@ function Signup() {
       const email = values.email;
       const Data = { ...values, image };
       const otp: string | undefined = generateOtp();
-      console.log("otp variable",otp)
       await userAxios.post(userEndpoints.sendEmail, { otp, email });
       navigate(userEndpoints.getOtp, { state: { email, Data,otp } });
     } catch (error) {

@@ -66,11 +66,6 @@ const EditCourse: React.FC = () => {
       if (description) formData.append("description", description);
       if (bannerImage) formData.append("banner", bannerImage);
       if(introVideo) formData.append("introvideo", introVideo);
-
-
-      for (const [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
-      }
         const response = await mentorAxios.patch(
           mentorEndpoints.editCoursePost,
           formData, {headers: {

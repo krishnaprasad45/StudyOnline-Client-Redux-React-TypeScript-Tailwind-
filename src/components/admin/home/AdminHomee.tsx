@@ -7,7 +7,7 @@ import { FaChalkboardTeacher } from "react-icons/fa";
 import { TbReport } from "react-icons/tb";
 import { IoLogOut } from "react-icons/io5";
 
-export default function AdminHome()  {
+export default function AdminHome() {
   return (
     <div className="">
       <div className="  p-4 flex flex-col fixed h-full  bg-slate-400">
@@ -49,7 +49,10 @@ export default function AdminHome()  {
           </button>
         </Link>
 
-        <Link className="mb-12 p-2 rounded buttonStyleAdmin" to={"/admin/login"}>
+        <Link
+          className="mb-12 p-2 rounded buttonStyleAdmin"
+          to={"/admin/login"}
+        >
           <button className="flex items-center gap-2">
             <IoLogOut className="ml-2" style={{ color: "black" }} />
             Logout

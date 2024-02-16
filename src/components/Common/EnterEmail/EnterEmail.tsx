@@ -34,8 +34,6 @@ const EnterEmail: React.FC = () => {
       );
 
       if (response.status === 200) {
-        console.log("o.",response.data.otp)
-        
         const generatedOtp = response.data.otp
         showSuccessToast("OTP Sent To your email to reset your password");
         setTimeout(() => {

@@ -16,8 +16,6 @@ const ResetPassword: React.FC = () => {
   const navigate = useNavigate()
 
   const handleResetPassword = async () => {
-    // Add your password reset logic here
-    console.log('Password reset logic goes here',newPassword,email);
     try {
       const response = await userAxios.post(userEndpoints.newPasswordPost,{newPassword,email});
       if (response.status === 201) {

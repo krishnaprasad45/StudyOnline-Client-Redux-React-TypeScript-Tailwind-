@@ -14,6 +14,7 @@ import { ToastContainer } from "react-toastify";
 import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
 import { useDispatch } from "react-redux";
 import { UserSignupAction } from "../../../services/redux/action/userSignup";
+import isEmailValid from "../../../utils/isEmailValid";
 
 function Login() {
   //state's
@@ -52,6 +53,16 @@ function Login() {
     e.preventDefault();
 
     try {
+
+      if (!password || !email) {
+        showErrorToast("Please enter both email password");
+        return;
+      }
+      if (!isEmailValid(email)) {
+        showErrorToast("Please enter a valid email address");
+        return;
+      }
+      
       const response = await userAxios.get(userEndpoints.login, {
         params: queryParams,
       });
@@ -130,11 +141,10 @@ function Login() {
 
           <form onSubmit={handleLogin} className="flex flex-col gap-4">
             <input
-              type="email"
+             
               className="p-2 mt-8 rounded-xl border login"
               name="email"
               placeholder="Enter your email"
-              required
               value={email}
               onChange={handleEmailChange}
             />
@@ -144,7 +154,6 @@ function Login() {
                 className="p-2 rounded-xl border w-full login"
                 name="password"
                 placeholder="Enter your password"
-                required
                 value={password}
                 onChange={handlePasswordChange}
               />

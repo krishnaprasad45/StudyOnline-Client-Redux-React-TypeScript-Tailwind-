@@ -54,7 +54,7 @@ const OTPPage: React.FC = () => {
         button?.classList.remove("active");
       }
 
-      // Update the state with the entered OTP digit
+      // Updating the state with the entered OTP digit
       const newOtpDigits = [...otpDigits];
       newOtpDigits[index1] = currentInputValue;
       setOtpDigits(newOtpDigits);
@@ -88,9 +88,6 @@ const OTPPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const enteredOtp = otpDigits.join("");
-
-    console.log("gENERATED OTP:", otp);
-    console.log("Entered OTP:", enteredOtp);
     if (otp == enteredOtp) {
       try {
         const response = await userAxios.post(userEndpoints.signup, Data);

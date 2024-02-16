@@ -53,10 +53,6 @@ const EditChapter: React.FC = () => {
       if (description) formData.append("description", description);
       if (duration) formData.append("duration", duration);
       if (chaptervideo) formData.append("chaptervideo", chaptervideo);
-
-      for (const [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
-      }
       const response = await mentorAxios.patch(
         mentorEndpoints.editChapter,
         formData,

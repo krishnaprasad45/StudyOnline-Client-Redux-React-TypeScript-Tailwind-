@@ -26,7 +26,6 @@ function UserChatPage() {
     userAxios
       .get(`${userEndpoints.paymentHistory}?email=${email}`)
       .then((response) => {
-        console.log("res-data-", response.data);
         setHistory(response.data);
       });
     userAxios

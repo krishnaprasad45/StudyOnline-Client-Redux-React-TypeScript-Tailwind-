@@ -116,7 +116,7 @@ function CourseDetails() {
 
             {selectedCourse.banner ? (
               <img
-                // className="w-full"
+              
                 width="400"
                 height="200"
                 alt="Banner image"

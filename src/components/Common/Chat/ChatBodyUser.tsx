@@ -79,7 +79,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
       socket.on("SentUpdatedMessage", (updatedMessage) => {
         setMessages(updatedMessage.messages);
 
-        // Close the image preview after sending the image
+        // Closing the image preview after sending the image
         setViewImage(undefined);
         setImage(undefined);
       });
@@ -95,7 +95,6 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
   return (
     <div className="w-full md:ml-80">
       {" "}
-      {/* Use full width for mobile, ml-80 for desktop */}
       {/* ChatBar */}
       {mentorEmail === "not assigned" ? (
         <p className="  text-center text-orange-600 py-4 ">
@@ -136,7 +135,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
                               height: "100px",
                               margin: "5px 0 15px 0",
                             }}
-                            src={data.message} // Assuming the message itself is the URL
+                            src={data.message} 
                             alt="Image Preview"
                             className="image-preview"
                           />
@@ -167,7 +166,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
                               height: "100px",
                               margin: "5px 0 15px 0",
                             }}
-                            src={data.message} // Assuming the message itself is the URL
+                            src={data.message}
                             alt="Image Preview"
                             className="image-preview"
                           />
@@ -189,7 +188,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
                               height: "100px",
                               margin: "5px 0 15px 0",
                             }}
-                            src={data.message} // Assuming the message itself is the URL
+                            src={data.message} 
                             alt="Image Preview"
                             className="image-preview"
                           />
@@ -227,7 +226,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
                       setViewImage(imageUrl);
                       setLoading(false);
 
-                      // Store the image URL in setNewMessage
+                      // Storing the image URL in setNewMessage
                       setNewMessage(imageUrl);
                     }
                   }}

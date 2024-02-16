@@ -15,7 +15,6 @@ function UserVideoMeetJoinPage() {
   const email = localStorage.getItem("userEmail");
 
   useEffect(() => {
-    console.log("join hai..")
     userAxios
       .get(`${userEndpoints.paymentHistory}?email=${email}`)
       .then((response) => {

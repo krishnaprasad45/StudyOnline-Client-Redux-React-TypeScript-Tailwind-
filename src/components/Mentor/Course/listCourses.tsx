@@ -11,7 +11,7 @@ import { GrEdit } from "react-icons/gr";
 import { showErrorToast, showSuccessToast } from "../../../services/popups/popups";
 import { ToastContainer } from "react-toastify";
 
-// .
+
 function ListCourses() {
   const [courses, setCourses] = useState<CourseInterface[]>([]);
   const mentorStore = useSelector((state: RootState) => state.mentor);

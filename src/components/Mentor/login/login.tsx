@@ -14,11 +14,9 @@ import { MentorSignupAction } from "../../../services/redux/action/mentorSignup"
 import { useDispatch } from "react-redux";
 
 function Login() {
-  //state's
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
-  //
   const queryParams = {
     email,
     password,
@@ -33,8 +31,6 @@ function Login() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  //handle's
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
@@ -50,7 +46,6 @@ function Login() {
       const response = await mentorAxios.get(mentorEndpoints.login, {
         params: queryParams,
       });
-      console.log("mentor-block",response.data.mentorData)
       if (response.data.mentorData.isBlock === true)
         showErrorToast("You account is blocked by the admin");
       else if (response.data.mentorData && response.data.mentorData.email) {
@@ -71,7 +66,6 @@ function Login() {
       alert((error as Error).message);
     }
   };
-  //
   return (
     <section className="bg-gray-50 min-h-screen flex items-center justify-center">
       <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">

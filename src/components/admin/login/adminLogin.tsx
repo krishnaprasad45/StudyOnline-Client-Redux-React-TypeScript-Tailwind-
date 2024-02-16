@@ -3,21 +3,22 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import {showErrorToast,showSuccessToast,
+import {
+  showErrorToast,
+  showSuccessToast,
 } from "../../../services/popups/popups";
 import { ToastContainer } from "react-toastify";
 import { adminAxios } from "../../../Constraints/axiosInterceptors/adminAxiosInterceptors";
 import adminEndpoints from "../../../Constraints/endpoints/adminEndpoints";
 
 function Login() {
-
   //state's
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-//handle's
+  //handle's
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
@@ -31,26 +32,25 @@ function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      
       const response = await adminAxios.post(adminEndpoints.login, {
         email,
         password,
       });
       if (response.data && response.data.adminData) {
         localStorage.setItem("token", response.data.adminToken);
-        
+
         showSuccessToast("Login Successfull");
         setTimeout(() => {
           navigate(adminEndpoints.dashboard);
         }, 2300);
       } else {
-       showErrorToast("error")
+        showErrorToast("error");
       }
     } catch (error) {
       console.log(error);
     }
   };
-//
+  //
   return (
     <section className="bg-gray-50 min-h-screen flex items-center justify-center">
       <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center">
@@ -94,7 +94,7 @@ function Login() {
             </button>
           </form>
         </div>
-        
+
         {/* Image */}
         <div className="md:block hidden w-1/2">
           <img
@@ -109,4 +109,3 @@ function Login() {
 }
 
 export default Login;
-

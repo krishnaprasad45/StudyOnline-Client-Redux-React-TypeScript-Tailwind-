@@ -33,19 +33,17 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
   if (userStore) {
     mentorEmail = userStore?.user?.mentorIncharge;
   }
-  console.log("props", props);
 
   useEffect(() => {
     mentorAxios
       .get(`${mentorEndpoints.getChatHistory}?chatId=${chatId}`)
       .then((response) => {
-        console.log("res-data", response.data);
         setMessages(response.data.messages);
       });
   
    
   
-    // Scroll to the bottom when messages are updated
+    // Scrolling to the bottom when messages are updated
     const chatContainer = document.getElementById("chat-container");
     if (chatContainer) {
       chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -61,7 +59,6 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
   };
 
   const handleSendMessage = (e: FormEvent) => {
-    console.log("handle sed message 6");
     e.preventDefault();
     if (
       (messages && localStorage.getItem("userEmail")) ||
@@ -73,11 +70,8 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
         to: role == "user" ? "mentor" : "user",
         id: chatId,
       };
-      console.log("message data to serever ", messageData);
       socket.emit("SentMessage", messageData);
-
       socket.on("SentUpdatedMessage",(updatedMessage)=>{
-        console.log("SentUpdatedMessage",updatedMessage)
         setMessages(updatedMessage.messages)
       })
     }
