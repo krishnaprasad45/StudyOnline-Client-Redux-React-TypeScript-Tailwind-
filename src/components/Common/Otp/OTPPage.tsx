@@ -72,7 +72,7 @@ const OTPPage: React.FC = () => {
    
 
     
-    const response = userAxios.post(userEndpoints.sendEmail, { otp, email });
+   
 
     window.addEventListener("load", () => inputs[0].focus());
 
@@ -83,9 +83,7 @@ const OTPPage: React.FC = () => {
     };
   }, [otpDigits]);
 
-  // const otp: string | undefined = generateOtp();
-  // console.log("otp variable",otp)
-  // setgeneratedOtp(otp);
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -131,18 +129,3 @@ const OTPPage: React.FC = () => {
 
 export default OTPPage;
 
-// function OTPPage() {
-//   const { state } = useLocation();
-//   const email = state.email;
-//   const response = state.Data;
-//   console.log(response)
-//   return (
-//     <>
-//       <div>OTPPage</div>
-//       <div>{email}</div>
-//       <div>{response}</div>
-//     </>
-//   );
-// }
-
-// export default OTPPage;

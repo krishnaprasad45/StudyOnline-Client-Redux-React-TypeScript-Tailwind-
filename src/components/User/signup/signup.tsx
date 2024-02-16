@@ -11,6 +11,7 @@ import { SignupSchema } from "../../../utils/validationSchema";
 import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
 import uploadImage from "../../../services/cloudinary/customeImageUpload";
 import generateOtp from "../../../utils/otpGenerator";
+import { userAxios } from "../../../Constraints/axiosInterceptors/userAxiosInterceptors";
 
 function Signup() {
   const [viewImage, setViewImage] = useState<string>();
@@ -35,7 +36,7 @@ function Signup() {
       const Data = { ...values, image };
       const otp: string | undefined = generateOtp();
       console.log("otp variable",otp)
-      
+      await userAxios.post(userEndpoints.sendEmail, { otp, email });
       navigate(userEndpoints.getOtp, { state: { email, Data,otp } });
     } catch (error) {
       showErrorToast((error as Error).message);
