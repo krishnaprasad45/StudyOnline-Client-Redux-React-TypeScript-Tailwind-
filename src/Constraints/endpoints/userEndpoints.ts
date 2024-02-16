@@ -28,6 +28,7 @@ export default{
     enterEmailPost:"/forgot/password",
     newPassword:"/newpassword",
     newPasswordPost:"/newpassword",
+    notFound:"/*"
     
 }
 

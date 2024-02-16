@@ -20,6 +20,7 @@ import OTPPage from "../../components/Common/Otp/OTPPage";
 import EnterEmail from "../../components/Common/EnterEmail/EnterEmail";
 import OTPforReset from "../../components/Common/Otp/OTPforReset";
 import ResetPassword from "../../components/Common/NewPassword/NewPassword";
+import NotFound from "../../components/Common/PageNotFound/PageNotFound";
 
 const UserRouters: React.FC = () => {
   return (
@@ -45,6 +46,7 @@ const UserRouters: React.FC = () => {
       <Route Component={UserCourseDetailsPage} path={userEndpoints.courseDetails} />
       <Route Component={UserChapterDetailsPage} path={userEndpoints.chapterDetails} />
       <Route Component={UserChapterDetailsPage} path={userEndpoints.chapterDetails} />
+      <Route element={<NotFound role='user'  />} path={userEndpoints.notFound}/>
     </Routes>
   );
 };

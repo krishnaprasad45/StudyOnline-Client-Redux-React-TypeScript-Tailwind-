@@ -7,6 +7,7 @@ import AdminUserManagementPage from '../../pages/admin/AdminUserManagementPage';
 import AdminStatisticsPage from '../../pages/admin/AdminStatisticsPage';
 import AdminSalesReportPage from '../../pages/admin/AdminSalesReportPage';
 import AdminMentorDetailsPage from '../../pages/admin/AdminMentorDetailsPage';
+import NotFound from '../../components/Common/PageNotFound/PageNotFound';
 
 
 
@@ -25,6 +26,8 @@ const AdminRouters:React.FC = ()=> {
        <Route Component={AdminSalesReportPage} path='/sales-report' />
        <Route Component={AdminStatisticsPage} path='/statitics' />
        <Route Component={AdminMentorDetailsPage} path='/mentor-details' />
+       <Route element={<NotFound role='admin'  />} path="/*"/>
+
      
     </Routes>
   )

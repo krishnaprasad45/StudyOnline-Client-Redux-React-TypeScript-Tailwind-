@@ -19,6 +19,7 @@ import MentorLearnersPage from "../../pages/mentor/MentorLearnersPage";
 import MentorEditCoursePage from "../../pages/mentor/CoursePages/MentorEditCoursePage";
 import MentorEditChapterPage from "../../pages/mentor/CoursePages/MentorEditChapterPage";
 import MentorCommunityPage from "../../pages/mentor/MentorCommunityPage";
+import NotFound from "../../components/Common/PageNotFound/PageNotFound";
 
 const MentorRouters: React.FC = () => {
   return (
@@ -46,7 +47,8 @@ const MentorRouters: React.FC = () => {
       <Route Component={MentorVideoMeetPage} path="/videomeet/:room" />
       <Route Component={MentorPaymentsPage} path="/payments"/>
       <Route Component={MentorLearnersPage} path="/learners"/>
-
+      <Route element={<NotFound role='mentor'  />} path="/*"/>
+      
     </Routes>
   );
 };
