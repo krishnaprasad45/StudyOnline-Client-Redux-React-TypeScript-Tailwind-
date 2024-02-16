@@ -8,6 +8,7 @@ import { ChapterInterface } from "../../../Interfaces/chapterInterface";
 import { MdDelete, MdRemoveRedEye } from "react-icons/md";
 import { GrEdit } from "react-icons/gr";
 import { IoEyeOffSharp } from "react-icons/io5";
+import { showErrorToast, showSuccessToast } from "../../../services/popups/popups";
 
 function CourseDetails() {
   const { state } = useLocation();
@@ -36,6 +37,31 @@ function CourseDetails() {
       await mentorAxios.post(`${mentorEndpoints.unlistChapter}?chapterId=${id}`);
 
       setUnlistedStatus(!unlistedStatus);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDelete = async (id: string | undefined) => {
+    try {
+      const confirmDelete = window.confirm("Are you sure you want to delete this course?");
+  
+      if (confirmDelete) {
+        await mentorAxios.delete(`${mentorEndpoints.deleteChapter}?chapterId=${id}`)
+          .then((response) => {
+            if (response.status === 201) {
+              showSuccessToast("Delete Successful");
+              setTimeout(() => {
+                navigate(mentorEndpoints.courses);
+              }, 2300);
+            } else {
+              showErrorToast("Delete failed");
+              alert(response.data.message);
+            }
+          });
+  
+        setUnlistedStatus(!unlistedStatus);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -220,7 +246,7 @@ function CourseDetails() {
                         <div className="flex items-center justify-center">
                           <span className="font-medium">
                             <button
-                              onClick={() => handleEdit(chapter._id)}
+                              onClick={() => handleDelete(chapter._id)}
                               className="rounded-full px-2 py-2 bg-blue-500 text-white focus:outline-none"
                             >
                               <p style={{ fontSize: "1.1rem" }}>

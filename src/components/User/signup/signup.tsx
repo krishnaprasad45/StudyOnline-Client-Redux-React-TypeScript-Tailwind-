@@ -3,14 +3,14 @@ import { useNavigate, Link } from "react-router-dom";
 import "./signup.css";
 import {
   showErrorToast,
-  showSuccessToast,
+
 } from "../../../services/popups/popups";
 import { ToastContainer } from "react-toastify";
-import { userAxios } from "../../../Constraints/axiosInterceptors/userAxiosInterceptors";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { SignupSchema } from "../../../utils/validationSchema";
 import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
 import uploadImage from "../../../services/cloudinary/customeImageUpload";
+import generateOtp from "../../../utils/otpGenerator";
 
 function Signup() {
   const [viewImage, setViewImage] = useState<string>();
@@ -31,17 +31,12 @@ function Signup() {
   const handleSubmit = async (values: typeof initialValues) => {
     try {
       const image = viewImage;
+      const email = values.email;
       const Data = { ...values, image };
-
-      const response = await userAxios.post(userEndpoints.signup, Data);
-      if (response.status === 201) {
-        showSuccessToast("Account Created");
-        setTimeout(() => {
-          navigate(userEndpoints.login);
-        }, 2300);
-      } else {
-        showErrorToast(response?.data?.message);
-      }
+      const otp: string | undefined = generateOtp();
+      console.log("otp variable",otp)
+      
+      navigate(userEndpoints.getOtp, { state: { email, Data,otp } });
     } catch (error) {
       showErrorToast((error as Error).message);
     }
@@ -79,7 +74,7 @@ function Signup() {
                     placeholder="Enter your first name"
                     style={{ "::placeholder": { color: "black" } }}
                   />
-                 
+
                   <ErrorMessage
                     name="firstname"
                     component="div"
@@ -88,14 +83,14 @@ function Signup() {
                 </div>
 
                 <div className="relative mb-6" data-te-input-wrapper-init>
-                <label>Last Name</label>
+                  <label>Last Name</label>
                   <Field
                     type="text"
                     className="peer block min-h-[auto] w-full rounded border-black bg-white px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     name="lastname"
                     placeholder="Enter your last name"
                   />
-                
+
                   <ErrorMessage
                     name="lastname"
                     component="div"
@@ -105,14 +100,14 @@ function Signup() {
               </div>
               <div className="flex justify-between gap-2">
                 <div className="relative mb-6" data-te-input-wrapper-init>
-                <label>Email Address</label>
+                  <label>Email Address</label>
                   <Field
                     type="email"
                     className="peer block min-h-[auto] w-full rounded border-black bg-white px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     name="email"
                     placeholder="Enter your email"
                   />
-                 
+
                   <ErrorMessage
                     name="email"
                     component="div"
@@ -121,14 +116,14 @@ function Signup() {
                 </div>
 
                 <div className="relative mb-6" data-te-input-wrapper-init>
-                <label>Phone Number</label>
+                  <label>Phone Number</label>
                   <Field
                     type="text"
                     className="peer block min-h-[auto] w-full rounded border-black bg-white px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     name="mobile"
                     placeholder="Enter your number"
                   />
-                
+
                   <ErrorMessage
                     name="mobile"
                     component="div"
@@ -138,14 +133,14 @@ function Signup() {
               </div>
               <div className="flex justify-between gap-2">
                 <div className="relative mb-6" data-te-input-wrapper-init>
-                <label>Password</label>
+                  <label>Password</label>
                   <Field
                     type="password"
                     className="peer block min-h-[auto] w-full rounded border-black bg-white px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     name="password"
                     placeholder="Create a password"
                   />
-               
+
                   <ErrorMessage
                     name="password"
                     component="div"
@@ -153,14 +148,14 @@ function Signup() {
                   />
                 </div>
                 <div className="relative mb-6" data-te-input-wrapper-init>
-                <label>Confirm Password</label>
+                  <label>Confirm Password</label>
                   <Field
                     type="password"
                     className="peer block min-h-[auto]  w-full rounded border-black bg-white px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     name="confirm_password"
                     placeholder="Confirm password"
                   />
-                 
+
                   <ErrorMessage
                     name="confirm_password"
                     component="div"
@@ -168,15 +163,15 @@ function Signup() {
                   />
                 </div>
               </div>
-              <div  className="image-selection">
+              <div className="image-selection">
                 <p>Profile picture</p>
-                
+
                 <label htmlFor="image" className="custom-file-upload">
-              {image || viewImage
-                ? "\u00a0  \u00a0  Choose another image"
-                : " \u00a0  \u00a0 Select an image"}
-            </label>
-                
+                  {image || viewImage
+                    ? "\u00a0  \u00a0  Choose another image"
+                    : " \u00a0  \u00a0 Select an image"}
+                </label>
+
                 <Field
                   type="file"
                   name="image"
@@ -187,18 +182,17 @@ function Signup() {
                       const image = imageFileList[0];
                       const foldername = "User Image";
                       setImage(image);
-                      setLoading(true); 
-                      uploadImage(image, foldername).then((url) =>{
+                      setLoading(true);
+                      uploadImage(image, foldername).then((url) => {
                         setViewImage(url);
                         setLoading(false);
-                        
-                       } );
+                      });
                     }
                   }}
                   className="file-input"
                   style={{ display: "none" }}
                 />
-                  {loading && <div>Uploading...</div>}
+                {loading && <div>Uploading...</div>}
                 <div>
                   {image && (
                     <img
@@ -208,7 +202,6 @@ function Signup() {
                         margin: "5px 0 15px 0",
                       }}
                       src={viewImage}
-                      
                       className="profile-image"
                     />
                   )}

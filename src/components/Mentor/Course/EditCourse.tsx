@@ -1,5 +1,4 @@
-import { Formik, Form, Field, ErrorMessage, useFormik } from "formik";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   showErrorToast,
   showSuccessToast,
@@ -11,83 +10,75 @@ import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
 import { RootState } from "../../../Interfaces/common";
 import { useSelector } from "react-redux";
 import { CourseInterface } from "../../../Interfaces/courseInterface";
-import { courseUpdateSchema } from "../../../utils/courseUpdate";
+import { ToastContainer } from 'react-toastify';
 
 const EditCourse: React.FC = () => {
-  const [bannerImage, setBannerImage] = useState<File>();
-  const [introVideo, setIntroVideo] = useState<File>();
-  const [previewBanner, setPreviewBanner] = useState<string>();
-  const [previewVideo, setPreviewVideo] = useState<string>();
   const mentorStore = useSelector((state: RootState) => state.mentor);
   const [bannerLoading, setBannerLoading] = useState<boolean>(false);
   const [videoLoading, setvideoLoading] = useState<boolean>(false);
   const [course, setCourse] = useState<CourseInterface>();
-  const mentorEmail = mentorStore.mentor.email;
+  // const mentorEmail = mentorStore.mentor.email;
   const verificationStatus = mentorStore.mentor.verification;
   const navigate = useNavigate();
   const { state } = useLocation();
   const courseId = state.courseId;
-  const title = course?.title
-  const subtitle = course?.subtitle
-  const duration = course?.duration
-  const fee = course?.fee
-  const createdby = course?.createdby
-  const description = course?.description
-  const banner = course?.banner
-  const introvideo = course?.introvideo
+  
+  const [title, setTitle] = useState<string | undefined>(course?.title);
+  const [subtitle, setSubtitle] = useState<string | undefined>(course?.subtitle);
+  const [duration, setDuration] = useState<string | undefined>(course?.duration);
+  const [fee, setFee] = useState<string | undefined>(course?.subtitle);
+  const [createdby, setCreatedBy] = useState<string | undefined>(course?.createdby);
+  const [description, setDescription] = useState<string | undefined>(course?.description);
+  const [bannerImage, setBannerImage] = useState<File>();
+  const [introVideo, setIntroVideo] = useState<File>();
+  const [previewBanner, setPreviewBanner] = useState<string | undefined>(course?.banner);
+  const [previewVideo, setPreviewVideo] = useState<string | undefined>(course?.introvideo);
 
- 
   useEffect(() => {
     mentorAxios
       .get(`${mentorEndpoints.getCourse}?courseId=${courseId}`)
       .then((response) => {
         setCourse(response.data as CourseInterface);
-        
+        setTitle(response.data.title);
+        setSubtitle(response.data.subtitle);
+        setDuration(response.data.duration);
+        setFee(response.data.fee);
+        setCreatedBy(response.data.createdby);
+        setDescription(response.data.description);
       })
       .catch((error) => alert(error));
   }, [courseId]);
 
-  useEffect(() => {
-    if (course) {
-      formik.setFieldValue('title', title);
-      formik.setFieldValue('subtitle', subtitle);
-      formik.setFieldValue('duration', duration);
-      formik.setFieldValue('fee', fee);
-      formik.setFieldValue('createdby', createdby);
-      formik.setFieldValue('description', description);
-      formik.setFieldValue('banner', banner);
-      formik.setFieldValue('introvideo', introvideo);
-    }
-  }, [course]);
+  
 
-  const initialValues = {
-    title: title,
-    subtitle: course?.subtitle,
-    duration: course?.duration || "",
-    fee: course?.fee || "",
-    createdby: mentorEmail || "",
-    description: course?.description || "",
-    banner: course?.banner || "",
-    introvideo: course?.introvideo || "",
-  };
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
 
-  const handleSubmit = async (values: typeof initialValues) => {
+  
     try {
-      if (bannerImage && introVideo) {
-        // Upload files and get URLs
-        const banner = await uploadFile(bannerImage);
-        const introvideo = await uploadFile(introVideo);
-  
-        // Update course data with new URLs
-        const updatedCourse = { ...values, banner, introvideo };
-  
-        // Perform the update API call
-        const response = await mentorAxios.post(
-          mentorEndpoints.addCoursePost,
-          updatedCourse
+      const formData = new FormData();
+     
+      if (courseId) formData.append("courseId", courseId);
+      if (title) formData.append("title", title);
+      if (subtitle) formData.append("subtitle", subtitle);
+      if (duration) formData.append("duration", duration);
+      if (fee) formData.append("fee", fee);
+      if (description) formData.append("description", description);
+      if (bannerImage) formData.append("banner", bannerImage);
+      if(introVideo) formData.append("introvideo", introVideo);
+
+
+      for (const [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      }
+        const response = await mentorAxios.patch(
+          mentorEndpoints.editCoursePost,
+          formData, {headers: {
+            'Content-Type': 'application/json'
+          }}
         );
   
-        if (response.status === 200) {
+        if (response.status === 201) {
           showSuccessToast("Course Updated");
           setTimeout(() => {
             navigate(mentorEndpoints.courses);
@@ -96,16 +87,11 @@ const EditCourse: React.FC = () => {
           showErrorToast(response?.data?.message);
         }
       }
-    } catch (error) {
+    catch (error) {
       showErrorToast((error as Error).message);
     }
   };
-
-  const formik = useFormik({
-    initialValues,
-    onSubmit: handleSubmit,
-    validationSchema: courseUpdateSchema,
-  });
+  
 
   return (
     <div className="bg-[#2233]  ">
@@ -115,198 +101,184 @@ const EditCourse: React.FC = () => {
         </p>
       ) : (
         <div>
-          <Formik
-            initialValues={initialValues}
-            onSubmit={handleSubmit}
-            validationSchema={courseUpdateSchema}
-          >
-            <Form className="max-w-sm mx-auto ">
-              <h1 className="text-xl mb-5">Edit Course</h1>
-              <div>
-                <label htmlFor="title">Course Title:</label>
-                <Field
-                  type="text"
-                  id="title"
-                  name="title"
-                  value={formik.values.title}
-                  onChange={formik.handleChange}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                />
-                <ErrorMessage name="title" component="div" className="error" />
-              </div>
-              <div>
-                <label htmlFor="subtitle">Course Subtitle </label>
-                <Field
-                  type="text"
-                  id="email"
-                  name="subtitle"
-                  value={formik.values.subtitle}
-                  onChange={formik.handleChange}
-
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                />
-                <ErrorMessage
-                  name="subtitle"
-                  component="div"
-                  className="error"
-                />
-              </div>
-              <div>
-                <label htmlFor="duration">Course Duration </label>
-                <Field
-                 type="text"
-                 id="duration"
-                 name="duration"
-                 value={formik.values.duration}
-                 onChange={formik.handleChange}
-                 
-                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                />
-                <ErrorMessage
-                  name="duration"
-                  component="div"
-                  className="error"
-                />
-              </div>
-              <div>
-                <label htmlFor="fee">Course Fee</label>
-                <Field
-                  type="number"
-                  id="fee"
-                  value={formik.values.fee}
-                  onChange={formik.handleChange}
-
-                  name="fee"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                />
-                <ErrorMessage name="fee" component="div" className="error" />
-              </div>
-              <div>
-                <label htmlFor="createdby">Course Created By</label>
-                <Field
-                  type="text"
-                  id="createdby"
-                  name="createdby"
-                  value={formik.values.createdby}
-                  onChange={formik.handleChange}
-                  
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                />
-                <ErrorMessage
-                  name="createdby"
-                  component="div"
-                  className="error"
-                />
-              </div>
-              <div>
-                <label htmlFor="description">Course Description</label>
-                <Field
-                  type="text"
-                  id="description"
-                  name="description"
-                  value={formik.values.description}
-                  onChange={formik.handleChange}
-
-                  className="bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                />
-                <ErrorMessage
-                  name="description"
-                  component="div"
-                  className="error  mb-4"
-                />
-              </div>
-
-              <div className="image-selection">
-                <label htmlFor="banner" className="custom-file-upload">
-                  {bannerImage || previewBanner
-                    ? "\u00a0  \u00a0  Choose another banner image"
-                    : " \u00a0  \u00a0 Select a banner image"}
-                </label>
-                <Field
-                  type="file"
-                  name="banner"
-                  id="banner"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    const imageFileList = e.target.files;
-                    if (imageFileList && imageFileList.length > 0) {
-                      const image = imageFileList[0];
-                      setBannerImage(image);
-                      setBannerLoading(true);
-                      uploadFile(image).then((url) => {
-                        setPreviewBanner(url);
-                        setBannerLoading(false);
-                      });
-                    }
-                  }}
-                  className="file-input"
-                  style={{ display: "none" }}
-                />
-                {bannerLoading && <div>Uploading...</div>}
-                {previewBanner && (
-                  <img
-                    src={previewBanner}
-                    alt="Displayed Image"
-                    style={{ width: "30%", height: "20%" }}
-                  />
-                )}
-              </div>
-              <ErrorMessage name="banner" component="div" className="error" />
-
-              <div className="image-selection">
-                <label htmlFor="introvideo" className="custom-file-upload">
-                  {introVideo || previewVideo
-                    ? "\u00a0  \u00a0  Choose another introduction video"
-                    : " \u00a0  \u00a0 Select an introduction video"}
-                </label>
-                <Field
-                  type="file"
-                  name="introvideo"
-                  id="introvideo"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    const imageFileList = e.target.files;
-                    if (imageFileList && imageFileList.length > 0) {
-                      const video = imageFileList[0];
-                      setIntroVideo(video);
-                      setvideoLoading(true);
-                      uploadFile(video).then((url) => {
-                        setPreviewVideo(url);
-                        setvideoLoading(false);
-                      });
-                    }
-                  }}
-                  className="file-input"
-                  style={{ display: "none" }}
-                />
-                {videoLoading && <div> Uploading...</div>}
-                {previewVideo && (
-                  <video
-                    autoPlay
-                    muted
-                    loop
-                    controls={false}
-                    width="400"
-                    height="200"
+          <form onSubmit={handleSubmit} className="max-w-sm mx-auto ">
+            <h1 className="text-xl mb-5">Edit Course</h1>
+            <ToastContainer/>
+            <div>
+              <label htmlFor="title">Course Title:</label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                value={title}
+                onChange={(
+                  event: React.ChangeEvent<
+                    HTMLInputElement | HTMLTextAreaElement
                   >
-                    <source src={previewVideo} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                )}
-                <ErrorMessage
-                  name="introvideo"
-                  component="div"
-                  className="error"
+                ) => setTitle(event.target.value)}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label htmlFor="subtitle">Course Subtitle </label>
+              <input
+                type="text"
+                id="email"
+                name="subtitle"
+                value={subtitle}
+                onChange={(
+                  event: React.ChangeEvent<
+                    HTMLInputElement | HTMLTextAreaElement
+                  >
+                ) => setSubtitle(event.target.value)}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label htmlFor="duration">Course Duration </label>
+              <input
+                type="text"
+                id="duration"
+                name="duration"
+                value={duration}
+                onChange={(
+                  event: React.ChangeEvent<
+                    HTMLInputElement | HTMLTextAreaElement
+                  >
+                ) => setDuration(event.target.value)}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label htmlFor="fee">Course Fee</label>
+              <input
+                type="number"
+                id="fee"
+                value={fee}
+                onChange={(
+                  event: React.ChangeEvent<
+                    HTMLInputElement | HTMLTextAreaElement
+                  >
+                ) => setFee(event.target.value)}
+                name="fee"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label htmlFor="createdby">Course Created By</label>
+              <input
+                type="text"
+                id="createdby"
+                name="createdby"
+                value={createdby}
+                onChange={(
+                  event: React.ChangeEvent<
+                    HTMLInputElement | HTMLTextAreaElement
+                  >
+                ) => setCreatedBy(event.target.value)}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label htmlFor="description">Course Description</label>
+              <input
+                type="text"
+                id="description"
+                name="description"
+                value={description}
+                onChange={(
+                  event: React.ChangeEvent<
+                    HTMLInputElement | HTMLTextAreaElement
+                  >
+                ) => setDescription(event.target.value)}
+                className="bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              />
+            </div>
+
+            <div className="image-selection">
+              <label htmlFor="banner" className="custom-file-upload">
+                {bannerImage || previewBanner
+                  ? "\u00a0  \u00a0  Choose another banner image"
+                  : " \u00a0  \u00a0 Select a banner image"}
+              </label>
+              <input
+                type="file"
+                name="banner"
+                id="banner"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  const imageFileList = e.target.files;
+                  if (imageFileList && imageFileList.length > 0) {
+                    const image = imageFileList[0];
+                    setBannerImage(image);
+                    setBannerLoading(true);
+                    uploadFile(image).then((url) => {
+                      setPreviewBanner(url);
+                      setBannerLoading(false);
+                    });
+                  }
+                }}
+                className="file-input"
+                style={{ display: "none" }}
+              />
+              {bannerLoading && <div>Uploading...</div>}
+              {previewBanner && (
+                <img
+                  src={previewBanner}
+                  alt="Displayed Image"
+                  style={{ width: "30%", height: "20%" }}
                 />
-              </div>
-              <div className="flex justify-end">
-                <button
-                  type="submit"
-                  className="bg-green-500 text-white py-2 px-4 rounded mt-4 mb-4"
+              )}
+            </div>
+
+            <div className="image-selection">
+              <label htmlFor="introvideo" className="custom-file-upload">
+                {introVideo || previewVideo
+                  ? "\u00a0  \u00a0  Choose another introduction video"
+                  : " \u00a0  \u00a0 Select an introduction video"}
+              </label>
+              <input
+                type="file"
+                name="introvideo"
+                id="introvideo"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  const imageFileList = e.target.files;
+                  if (imageFileList && imageFileList.length > 0) {
+                    const video = imageFileList[0];
+                    setIntroVideo(video);
+                    setvideoLoading(true);
+                    uploadFile(video).then((url) => {
+                      setPreviewVideo(url);
+                      setvideoLoading(false);
+                    });
+                  }
+                }}
+                className="file-input"
+                style={{ display: "none" }}
+              />
+              {videoLoading && <div> Uploading...</div>}
+              {previewVideo && (
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  controls={false}
+                  width="400"
+                  height="200"
                 >
-                  Submit
-                </button>
-              </div>
-            </Form>
-          </Formik>
+                  <source src={previewVideo} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              )}
+            </div>
+            <div className="flex justify-end">
+              <button
+                type="submit"
+                className="bg-green-500 text-white py-2 px-4 rounded mt-4 mb-4"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
         </div>
       )}
     </div>

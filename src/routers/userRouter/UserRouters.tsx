@@ -16,6 +16,7 @@ import UserCourseFeedPage from "../../pages/user/CoursePages/UserCourseFeedPage"
 import UserVideoMeetJoinPage from "../../pages/user/UserVideoMeetJoinPage";
 import UserChapterDetailsPage from "../../pages/user/CoursePages/UserChapterDetailsPage";
 import UserCommunityPage from "../../pages/user/UserCommunityPage";
+import OTPPage from "../../components/Common/Otp/OTPPage";
 
 const UserRouters: React.FC = () => {
   return (
@@ -23,6 +24,7 @@ const UserRouters: React.FC = () => {
       <Route Component={LoginPage} path={userEndpoints.login} />
       <Route Component={signupPage} path={userEndpoints.signup} />
       <Route Component={profilePage} path={userEndpoints.profile} />
+      <Route Component={OTPPage} path={userEndpoints.getOtp} />
       <Route Component={profileUpdate} path={userEndpoints.profileUpdate} />
       <Route Component={Home} path={userEndpoints.dashboard} />
       <Route Component={LandingPage} path={userEndpoints.home} />
@@ -35,6 +37,7 @@ const UserRouters: React.FC = () => {
       <Route Component={UserListCoursePage} path={userEndpoints.courses} />
       <Route Component={UserCourseFeedPage} path={userEndpoints.myCourse} />
       <Route Component={UserCourseDetailsPage} path={userEndpoints.courseDetails} />
+      <Route Component={UserChapterDetailsPage} path={userEndpoints.chapterDetails} />
       <Route Component={UserChapterDetailsPage} path={userEndpoints.chapterDetails} />
     </Routes>
   );

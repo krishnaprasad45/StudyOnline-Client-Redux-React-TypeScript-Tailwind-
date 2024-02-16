@@ -17,6 +17,7 @@ export default {
     myCourses:"/mentor/mycourses",
     unlistCourse:"/mentor/unlist/course",
     editCourse:"/mentor/edit/course",
+    editCoursePost:"/mentor/edit/course",
     deleteCourse:"/mentor/delete/course",
 
     addChapter:"/mentor/add/chapter",
@@ -27,6 +28,7 @@ export default {
     chaptersList:"/mentor/chapter/list",
     unlistChapter:"/mentor/unlist/chapter",
     editChapter:"/mentor/edit/chapter",
+    editChapterPost:"/mentor/edit/chapter",
     deleteChapter:"/mentor/delete/chapter",
 
     videomeetJoin:"/mentor/join/videomeet",

@@ -19,7 +19,10 @@ export default{
     videomeet:"/videomeet",
     videomeetJoin:"/join/videomeet",
     myCourse:"/course",
-    getChatHistory:"/chat/history"
+    getChatHistory:"/chat/history",
+    getOtp:"/otp",
+    resentOtp:"/resend-otp",
+    sendEmail:"/sent/email"
     
 }
 

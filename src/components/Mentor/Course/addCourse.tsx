@@ -50,11 +50,9 @@ const AddCourse: React.FC = () => {
         );
   
         if (response.status === 201) {
-          showSuccessToast("Course Created"); 
-          console.log("Course Created Successfully");
+          showSuccessToast("Course Added"); 
           setTimeout(() => {
             navigate(mentorEndpoints.courses);
-            console.log("Navigating to Courses");
           }, 3000);
 
         } else {

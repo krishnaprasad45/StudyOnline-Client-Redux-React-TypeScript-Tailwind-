@@ -110,7 +110,7 @@ const ChatBody: React.FC<ChatBodyProps> = (props) => {
                     </div>
                   ) : (
                     <div className="message__chats" key={data.id}>
-                      <p>left{data.from}</p>
+                      <p>{data.from}</p>
 
                       <div className="message__recipient">
                         <p>{data.message}</p>

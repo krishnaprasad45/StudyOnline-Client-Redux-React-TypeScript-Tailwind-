@@ -10,6 +10,7 @@ import { mentorAxios } from "../../../Constraints/axiosInterceptors/mentorAxiosI
 import mentorEndpoints from "../../../Constraints/endpoints/mentorEndpoints";
 import { chapterAddSchema } from "../../../utils/chapter";
 import uploadVideo from "../../../services/cloudinary/customeImageUpload";
+import { ToastContainer } from "react-toastify";
 
 const AddCourse: React.FC = () => {
   const [chapterVideo, setchapterVideo] = useState<File>();
@@ -37,7 +38,7 @@ const AddCourse: React.FC = () => {
           Data
         );
         if (response.status === 201) {
-          showSuccessToast("Chapter Created");
+          showSuccessToast("Chapter Added");
           setTimeout(() => {
             navigate(mentorEndpoints.courses);
           }, 2500);
@@ -59,6 +60,7 @@ const AddCourse: React.FC = () => {
       >
         <Form className="max-w-sm mx-auto ">
           <h1 className="text-xl mb-5">Add Chapter</h1>
+          <ToastContainer/>
           <div>
             <label htmlFor="title">Chapter Name:</label>
             <Field
