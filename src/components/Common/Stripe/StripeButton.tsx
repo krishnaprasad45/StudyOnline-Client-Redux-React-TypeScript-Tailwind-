@@ -4,7 +4,6 @@ import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
 import { userAxios } from "../../../Constraints/axiosInterceptors/userAxiosInterceptors";
 import {
   showErrorToast,
-  showSuccessToast,
 } from "../../../services/popups/popups";
 import { useNavigate } from "react-router-dom";
 import PaymentDetails from "../../../Interfaces/paymentDetails";
@@ -46,7 +45,7 @@ const StripeBtn: React.FC<StripeBtnProps> = ({ price, title, createdby, courseId
           date: ""
         };
 
-        showSuccessToast("Payment Successfull");
+        
         setPaymentSuccess(true);
         navigate(userEndpoints.payments, { state: { paymentDetails } });
       })

@@ -45,7 +45,7 @@ export default function AdminHome() {
         >
           <button className="flex items-center gap-2">
             <TbReport className="ml-2" style={{ color: "black" }} />
-            Sales Report
+            Payments 
           </button>
         </Link>
 

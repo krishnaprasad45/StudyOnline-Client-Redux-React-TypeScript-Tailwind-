@@ -6,7 +6,6 @@ import { RootState } from "../../../Interfaces/common";
 import { useSelector } from "react-redux";
 import { userAxios } from "../../../Constraints/axiosInterceptors/userAxiosInterceptors";
 import userEndpoints from "../../../Constraints/endpoints/userEndpoints";
-import { GrStatusGood } from "react-icons/gr";
 import EmptyCard from "../EmptyCard/EmptyCard";
 
 function CourseFeed() {
@@ -120,7 +119,6 @@ function CourseFeed() {
                           </th>
 
                           <th className="py-3 px-6 text-center">Action</th>
-                          <th className="py-3 px-6 text-center"> </th>
                         </tr>
                       </thead>
                       <tbody className="text-gray-600 text-sm font-light">
@@ -158,16 +156,7 @@ function CourseFeed() {
                                 </span>
                               </div>
                             </td>
-                            <td className="py-3 px-6 text-left">
-                              <div className="flex items-center">
-                                <div className="mr-2"></div>
-                                <span className="font-medium">
-                                  <GrStatusGood
-                                    style={{ color: "green", fontSize: "2em" }}
-                                  />
-                                </span>
-                              </div>
-                            </td>
+                       
                           </tr>
                         ))}
                       </tbody>
